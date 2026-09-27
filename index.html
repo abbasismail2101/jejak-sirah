@@ -90,7 +90,13 @@ h1,h2,h3{font-family:var(--f-display);line-height:1.1;text-wrap:balance;margin:0
 /* topbar */
 .topbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
 .me{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-size:1.3rem;font-weight:800}
-.me .avatar{width:46px;height:46px;font-size:1.5rem}
+.me .avatar{width:46px;height:46px;font-size:1.5rem;flex:none}
+.topbar .me{min-width:0;max-width:100%}
+.me .nm{min-width:0;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.me .pills{display:flex;gap:6px;flex:none}
+.me .pill{font-size:1.05rem}
+.rkp{border:0;color:var(--text);font-family:inherit;cursor:pointer}
+.rkp:active{transform:translateY(1px)}
 .me .avatar::after{display:none}
 .pill{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.08);font-weight:800;font-variant-numeric:tabular-nums}
 .tools{display:flex;gap:8px;flex-wrap:wrap}
@@ -1040,9 +1046,26 @@ function loadBoard(){
   UI.board.data=null;UI.board.err="";
   if(!cloudOk()){UI.board.err="off";if(UI.screen==="board")render();return}
   withTimeout(CLOUD.listAll(),8000).then(list=>{
-    ST.users.forEach(u=>{if(u.cloud){const o={id:u.id,...studentDoc(u,normProg(ST.prog[u.id]))};const i=list.findIndex(x=>x.id===u.id);if(i>=0)list[i]=o;else list.push(o)}});
+    RANK.list=list;RANK.t=Date.now();list=mergeLocal(list);
     UI.board.data=list.filter(x=>!x.hidden);if(UI.screen==="board")render();
   }).catch(()=>{UI.board.err="net";if(UI.screen==="board")render()});
+}
+function mergeLocal(src){
+  const list=src.map(x=>({...x}));
+  ST.users.forEach(u=>{if(u.cloud){const o={id:u.id,...studentDoc(u,normProg(u===USER?D:ST.prog[u.id]))};const i=list.findIndex(x=>x.id===u.id);if(i>=0)list[i]=o;else list.push(o)}});
+  return list;
+}
+function boardSort(a,b){return b.done-a.done||b.stk-a.stk||b.rev-a.rev||a.name.localeCompare(b.name)}
+const RANK={list:null,t:0,busy:false};
+function myRank(){
+  if(!USER||!USER.cloud||USER.hidden||!USER.cls||!RANK.list)return null;
+  const l=mergeLocal(RANK.list).filter(x=>!x.hidden&&x.cls===USER.cls).sort(boardSort);
+  const i=l.findIndex(x=>x.id===USER.id);return i<0?null:{pos:i+1,n:l.length};
+}
+function refreshRank(){
+  if(!USER||!USER.cloud||USER.hidden||!cloudOk()||RANK.busy||Date.now()-RANK.t<60000)return;
+  RANK.busy=true;RANK.t=Date.now();
+  withTimeout(CLOUD.listAll(),8000).then(list=>{const old=JSON.stringify(myRank());RANK.list=list;if(JSON.stringify(myRank())!==old&&["map","book"].includes(UI.screen))render()}).catch(()=>{RANK.t=Date.now()-45000}).finally(()=>{RANK.busy=false});
 }
 function sAvatar(s,cls){const c=COLORS[(s.c||0)%COLORS.length];return `<span class="avatar ${cls||""}" style="background:radial-gradient(circle at 35% 30%,${c[0]},${c[1]});color:${c[2]}">${esc(String(s.name||"?").trim()[0].toUpperCase())}</span>`}
 function mine(id){return ST.users.some(u=>u.id===id)}
@@ -1172,7 +1195,7 @@ function vBoard(){
     return head+filt+`<p class="bnote">Setiap murid berada di set yang sedang dijawab. Kemajuan dikira selepas Ibu/Ayah semak.</p><div class="broad">${rows}</div>`;
   }
   if(B.tab==="ind"){
-    const sorted=[...list].sort((a,b)=>b.done-a.done||b.stk-a.stk||b.rev-a.rev||a.name.localeCompare(b.name));
+    const sorted=[...list].sort(boardSort);
     const rows=sorted.map((s,i)=>`<div class="irow ${s.id===me?"me":""}"><span class="rk">${i+1}</span>${sAvatar(s)}<div class="iinfo"><b>${esc(s.name)} ${s.id===me?'<span class="youtag">Kamu</span>':""}</b><span class="icls">${esc(s.cls)}</span><div class="ibar"><i style="width:${s.done*10}%"></i></div><span class="istat">${s.done===N?"🏆 Tamat semua!":s.done+"/10 set siap"} · 🏅 ${s.stk} sticker${s.rev?" · 📚 "+s.rev:""}</span></div></div>`).join("");
     return head+filt+`<p class="bnote">Disusun ikut bilangan set yang siap, bukan markah. Semua orang boleh sampai ke Piala Johan! 🐪</p><div class="ilist">${rows||'<p class="bmsg">Belum ada murid.</p>'}</div>`;
   }
@@ -1194,8 +1217,9 @@ function vWelcome(){
   </section>`;
 }
 function topbar(){
+  refreshRank();const rk=myRank();
   return `<div class="topbar">
-    <div class="me">${avatar(USER)}${esc(USER.name)} <span class="pill" title="Jumlah bintang">⭐ ${totalStars()}</span></div>
+    <div class="me">${avatar(USER)}<span class="nm">${esc(USER.name)}</span><span class="pills"><span class="pill" title="Jumlah bintang">⭐ ${totalStars()}</span>${rk?`<button class="pill rkp" data-act="board" title="Kedudukan dalam ${esc(USER.cls)}" aria-label="Kedudukan ke-${rk.pos} daripada ${rk.n} dalam ${esc(USER.cls)}">${rk.pos<=3?["🥇","🥈","🥉"][rk.pos-1]:"🏆"} Ke-${rk.pos}</button>`:""}</span></div>
     <div class="tools"><button class="btn ghost small" data-act="book">🏅 Sticker</button>${cloudOk()?'<button class="btn ghost small" data-act="board">🏆 Papan</button>':""}<button class="btn ghost small" data-act="parentPanel">🔒 Ibu/Ayah</button><button class="btn ghost small" data-act="logout">↩ Keluar</button></div>
   </div>`;
 }
