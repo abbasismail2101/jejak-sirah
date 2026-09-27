@@ -13,6 +13,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<script>window.JS_PWA=true;</script>
 <style>html,body{margin:0}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}img{max-width:100%}</style>
 </head>
 <body>
@@ -352,6 +353,20 @@ textarea{width:100%;min-height:120px;margin-top:14px;font:600 1.25rem/1.5 var(--
 .cbig small{font-size:.4em;color:var(--muted)}
 .clbl{color:var(--muted);font-weight:700;font-size:.85rem}
 .ccard ul{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:4px;font-weight:700}
+
+.instcard{display:flex;align-items:center;gap:12px;background:rgba(255,212,94,.12);border:2px solid rgba(255,212,94,.55);border-radius:20px;padding:12px 14px;max-width:560px;width:100%;text-align:left}
+.insticon{font-size:2rem;line-height:1}
+.instcard b{display:block;font-family:var(--f-display);font-size:1.1rem;color:var(--sand)}
+.instcard div span{display:block;color:var(--muted);font-size:.88rem;font-weight:700}
+.instcard>div{flex:1}
+.modalbg{position:fixed;inset:0;background:rgba(10,12,30,.6);z-index:50}
+.modal{position:fixed;left:0;right:0;top:0;bottom:0;margin:auto;height:fit-content;z-index:51;background:var(--paper);color:var(--ink);border-radius:24px;padding:20px 20px 16px;width:min(420px,calc(100% - 32px));max-height:calc(100% - 40px);overflow:auto;box-shadow:0 20px 50px rgba(0,0,0,.5);animation:fadein .25s both}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+.modal h3{font-size:1.4rem;margin-bottom:6px}
+.isteps{padding-left:22px;margin:8px 0 12px;display:grid;gap:8px;font-weight:700;line-height:1.5}
+.kbd{display:inline-block;background:#fff;border:2px solid #D9CDB6;border-radius:8px;padding:0 6px;font-size:.9em}
+.linkbox{display:flex;gap:8px;margin-bottom:10px}
+.linkbox input{flex:1;min-width:0;font:600 .85rem var(--f-body);padding:8px 10px;border-radius:12px;border:2px solid #EADFCB;color:var(--ink);background:#fff}
 
 #fx{position:fixed;inset:0;pointer-events:none;z-index:40;width:100%;height:100%}
 
@@ -1018,6 +1033,34 @@ function loadBoard(){
 function sAvatar(s,cls){const c=COLORS[(s.c||0)%COLORS.length];return `<span class="avatar ${cls||""}" style="background:radial-gradient(circle at 35% 30%,${c[0]},${c[1]});color:${c[2]}">${esc(String(s.name||"?").trim()[0].toUpperCase())}</span>`}
 function mine(id){return ST.users.some(u=>u.id===id)}
 
+/* ---------- install (PWA) ---------- */
+let deferredPrompt=null;
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e;if(UI.screen==="login")render()});
+window.addEventListener("appinstalled",()=>{deferredPrompt=null;UI.installHelp=false;toast("App Jejak Sirah dah dipasang! 🎉");render()});
+function isStandalone(){try{return matchMedia("(display-mode: standalone)").matches||navigator.standalone===true}catch(e){return false}}
+function isIOS(){return /iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1)}
+function inAppBrowser(){return /FBAN|FBAV|Instagram|Line\/|WhatsApp|Telegram|TikTok|MicroMessenger|; wv\)/i.test(navigator.userAgent)}
+function canShowInstall(){return !!window.JS_PWA&&!isStandalone()}
+function installCard(){
+  if(!canShowInstall())return "";
+  return `<div class="instcard"><span class="insticon">📲</span><div><b>Pasang Jejak Sirah</b><span>Letak di skrin utama macam app biasa. Boleh guna tanpa internet.</span></div><button class="btn small" data-act="install">Pasang</button></div>`;
+}
+function installModal(){
+  const link=location.href.split("#")[0];
+  let steps,title="Pasang di skrin utama";
+  if(inAppBrowser()){
+    title="Buka dalam browser dulu";
+    steps=`<li>Link ini sedang dibuka di dalam app (contoh WhatsApp). App tak boleh dipasang dari sini.</li><li>Tekan ikon <b>⋮</b> atau <b>⋯</b> di atas, pilih <b>Buka dalam ${isIOS()?"Safari":"Chrome"}</b>.</li><li>Kalau tiada pilihan itu, salin link di bawah dan tampal dalam ${isIOS()?"Safari":"Chrome"}.</li>`;
+  } else if(isIOS()){
+    steps=`<li>Tekan butang <b>Share</b> <span class="kbd">⬆︎</span> (kotak dengan anak panah ke atas) di bawah atau atas skrin.</li><li>Scroll ke bawah dan pilih <b>Add to Home Screen</b> <span class="kbd">➕</span>.</li><li>Tekan <b>Add</b>. Ikon bulan sabit Jejak Sirah akan muncul di skrin utama.</li>`;
+  } else {
+    steps=`<li>Tekan menu <b>⋮</b> di bucu atas kanan Chrome.</li><li>Pilih <b>Install app</b> atau <b>Add to Home screen</b>.</li><li>Tekan <b>Install</b>. Ikon Jejak Sirah akan muncul di skrin utama.</li>`;
+  }
+  return `<div class="modalbg" data-act="closeInstall"></div><div class="modal" role="dialog" aria-label="${title}"><h3>📲 ${title}</h3><ol class="isteps">${steps}</ol>
+    <div class="linkbox"><input id="instLink" readonly value="${esc(link)}"><button class="btn small" data-act="copyLink">Salin link</button></div>
+    <div class="row-btns"><button class="btn ghost small dark" data-act="closeInstall">Tutup</button></div></div>`;
+}
+
 /* ---------- screens: login / add / other / board ---------- */
 function vLogin(){
   const cards=ST.users.map(u=>`<button class="profile" data-act="pickUser" data-u="${esc(u.id)}">${avatar(u)}<span class="pname">${esc(u.name)}</span><span class="pclass">${u.cls&&u.pinH?esc(u.cls):"Lengkapkan profil"}</span></button>`).join("");
@@ -1038,6 +1081,7 @@ function vLogin(){
     <div class="brand"><div class="moon" aria-hidden="true"></div>
       <h1>Jejak Sirah</h1><div class="bj jawi">جيجق سيرة</div>
       <div class="tag">Latihan Sirah Tahun 2 · 10 set · 2 checkpoint besar</div></div>
+    ${UI.adding?"":installCard()}
     <div class="ask">Siapa yang nak belajar hari ini?</div>
     <div class="profiles">${cards}${add}</div>
     <div class="hint">${ST.users.length?"Tekan gambar kamu dan masukkan kod kamu":"Ibu/Ayah: tekan Tambah untuk daftar anak"}</div>
@@ -1334,7 +1378,7 @@ function vParent(){
 /* ---------- render ---------- */
 function render(){
   const v={login:vLogin,welcome:vWelcome,map:vMap,quiz:vQuiz,confirm:vConfirm,submitted:vSubmitted,pin:vPin,check:vCheck,result:vResult,book:vBook,parent:vParent,review:vReview,other:vOther,board:vBoard}[UI.screen];
-  app.innerHTML=v();
+  app.innerHTML=v()+(UI.installHelp?installModal():"");
   SND.setTheme(themeFor(UI.screen));paintSnd();
   if(UI.screen==="welcome")SND.play("jingle",0,.35);
   if(UI.screen==="welcome")setTimeout(()=>confetti(90),500);
@@ -1418,6 +1462,9 @@ app.addEventListener("click",e=>{
     case "cancelAdd":Object.assign(UI,{adding:false,upgradeId:null,newName:"",newCls:"",newP1:"",newP2:"",addErr:""});render();break;
     case "pickCls":UI.newCls=v;render();break;
     case "toLogin":go("login");break;
+    case "install":if(deferredPrompt){const dp=deferredPrompt;dp.prompt();dp.userChoice.then(c=>{deferredPrompt=null;if(c&&c.outcome==="accepted")toast("Sedang dipasang… 🎉");render()}).catch(()=>{})}else{UI.installHelp=true;render()}break;
+    case "closeInstall":UI.installHelp=false;render();break;
+    case "copyLink":{const l=location.href.split("#")[0];const done=()=>toast("Link disalin ✅");try{navigator.clipboard.writeText(l).then(done).catch(()=>{const i=document.getElementById("instLink");i.select();document.execCommand("copy");done()})}catch(e){const i=document.getElementById("instLink");i.select();try{document.execCommand("copy");done()}catch(_){}}break}
     case "other":UI.other={cls:CLS[0],list:null,err:""};go("other");if(cloudOk())withTimeout(CLOUD.listAll(),8000).then(l=>{UI.other.list=l;if(UI.screen==="other")render()}).catch(()=>{UI.other.err="net";if(UI.screen==="other")render()});else{UI.other.err="off";render()}break;
     case "oCls":UI.other.cls=v;render();break;
     case "otherPick":{const st=(UI.other.list||[]).find(x=>x.id===b.dataset.u);if(!st)break;UI.remote=st;UI.pin="";UI.pinErr="";UI.pinMode="remote";go("pin");break}
