@@ -1,0 +1,1339 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jejak Sirah</title>
+<meta name="description" content="Latihan Sirah Tahun 2 dalam Jawi">
+<meta name="theme-color" content="#141A3A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Jejak Sirah">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>html,body{margin:0}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}img{max-width:100%}</style>
+</head>
+<body>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Noto+Naskh+Arabic:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+:root{
+  color-scheme: dark;
+  --night:#141A3A; --night2:#1F2753; --dusk:#2E3775; --hill:#3A3F7A;
+  --sand:#F2C98A; --dune:#D9955A; --dune2:#B8703F;
+  --gold:#FFD45E; --gold-deep:#E0A92A; --mint:#4FD1A1; --mint-deep:#2E9C75;
+  --coral:#FF7B6B; --sky-blue:#8CC4F0;
+  --paper:#FFF7E8; --paper2:#F6E9CF; --ink:#2B2340; --ink-muted:#76698A;
+  --text:#F6F1FF; --muted:#B9B6DA; --line:rgba(255,255,255,.16);
+  --f-display:'Baloo 2','Nunito',system-ui,sans-serif;
+  --f-body:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-jawi:'Noto Naskh Arabic','Scheherazade New','Amiri','Geeza Pro','Arial',serif;
+}
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{margin:0;background:var(--night);color:var(--text);font-family:var(--f-body);font-size:16px;line-height:1.5;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit}
+button:focus-visible,textarea:focus-visible{outline:3px solid var(--sky-blue);outline-offset:3px}
+.jawi{font-family:var(--f-jawi);direction:rtl}
+
+/* sky */
+#sky{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 120% 70% at 50% -10%,var(--dusk) 0%,var(--night) 62%)}
+#sky .st{position:absolute;border-radius:50%;background:#fff;animation:tw 3.2s ease-in-out infinite alternate}
+#sky svg{position:absolute;left:0;right:0;bottom:0;width:100%;height:22vh;min-height:120px}
+@keyframes tw{from{opacity:.15}to{opacity:.9}}
+
+#app{position:relative;z-index:1;max-width:860px;margin:0 auto;padding-inline:16px;padding-block:18px 110px}
+h1,h2,h3{font-family:var(--f-display);line-height:1.1;text-wrap:balance;margin:0}
+
+/* buttons */
+.btn{font-family:var(--f-display);font-weight:700;font-size:1.15rem;border:0;border-radius:999px;padding:.6em 1.4em;cursor:pointer;background:var(--gold);color:#3A2600;box-shadow:0 5px 0 var(--gold-deep);transition:transform .08s,box-shadow .08s;display:inline-flex;align-items:center;justify-content:center;gap:.4em;min-height:52px}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--gold-deep)}
+.btn.mint{background:var(--mint);color:#053A28;box-shadow:0 5px 0 var(--mint-deep)}
+.btn.ghost{background:rgba(255,255,255,.06);color:var(--text);box-shadow:inset 0 0 0 2px var(--line)}
+.btn.small{font-size:.98rem;min-height:42px;padding:.4em 1em}
+.btn[disabled]{opacity:.4;cursor:not-allowed;transform:none}
+.row-btns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+
+/* login */
+.login{display:flex;flex-direction:column;align-items:center;text-align:center;gap:22px;padding-top:6vh}
+.moon{width:66px;height:66px;border-radius:50%;box-shadow:18px -8px 0 0 var(--gold);transform:rotate(-20deg);margin:0 auto 6px 30px}
+.brand h1{font-size:clamp(2.8rem,9vw,4.4rem);font-weight:800;color:var(--sand);letter-spacing:.5px}
+.brand .bj{font-size:1.7rem;color:var(--gold);margin-top:2px}
+.brand .tag{color:var(--muted);font-weight:700;margin-top:6px}
+.ask{font-size:1.2rem;font-weight:700}
+.profile{background:var(--paper);color:var(--ink);border:0;border-radius:28px;padding:26px 44px 20px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;box-shadow:0 8px 0 var(--paper2),0 20px 40px rgba(0,0,0,.4);transition:transform .15s}
+.profile:hover{transform:translateY(-4px) rotate(-1deg)}
+.avatar{position:relative;width:104px;height:104px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFE9A8,var(--dune));display:grid;place-items:center;font-family:var(--f-display);font-size:3.4rem;font-weight:800;color:#5A2E0C}
+.avatar::after{content:"";position:absolute;inset:-9px;border-radius:50%;border:5px solid transparent}
+.profile.loading .avatar::after{border-top-color:var(--mint);border-right-color:var(--gold);animation:spin .8s linear infinite}
+.pname{font-family:var(--f-display);font-size:1.9rem;font-weight:800;margin-top:6px}
+.pclass{color:var(--ink-muted);font-weight:700}
+.hint{color:var(--muted);font-size:.95rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* welcome */
+.welcome{text-align:center;display:flex;flex-direction:column;align-items:center;gap:22px;padding-top:7vh}
+.welcome .salam{font-family:var(--f-jawi);font-size:2rem;color:var(--gold)}
+.welcome h2{font-size:clamp(2.2rem,7vw,3.6rem);font-weight:800;color:var(--sand)}
+.welcome h2 .l{display:inline-block;animation:pop .55s cubic-bezier(.3,1.6,.5,1) both;animation-delay:calc(var(--i) * 45ms)}
+.quote{background:rgba(255,255,255,.07);border:2px solid var(--line);border-radius:24px;padding:22px 26px;max-width:560px;font-size:1.2rem;font-weight:700;line-height:1.55;position:relative;animation:rise .6s .7s both}
+.quote .qm{font-family:var(--f-display);font-size:3.2rem;color:var(--gold);line-height:.5;display:block;margin-bottom:8px}
+.quote small{display:block;margin-top:8px;color:var(--muted);font-weight:600}
+@keyframes pop{0%{transform:scale(.2) translateY(20px);opacity:0}100%{transform:none;opacity:1}}
+@keyframes rise{from{transform:translateY(18px);opacity:0}to{transform:none;opacity:1}}
+
+/* topbar */
+.topbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.me{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-size:1.3rem;font-weight:800}
+.me .avatar{width:46px;height:46px;font-size:1.5rem}
+.me .avatar::after{display:none}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.08);font-weight:800;font-variant-numeric:tabular-nums}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+
+/* map */
+.banner{text-align:center;font-size:1.15rem;font-weight:700;color:var(--sand);margin:4px auto 6px;max-width:560px}
+.map{display:block;width:100%;max-width:520px;margin:0 auto}
+.map text{font-family:var(--f-display)}
+.node{cursor:pointer}
+.node.locked{cursor:default}
+.node .ring{transform-box:fill-box;transform-origin:center}
+.node.open .ring{animation:pulse 1.6s ease-in-out infinite}
+.camel{animation:bob 1.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.28);opacity:0}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.stations{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:10px}
+.stn{background:rgba(255,255,255,.06);border:2px solid var(--line);border-radius:20px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;text-align:left;cursor:pointer}
+.stn.locked{opacity:.55;cursor:default}
+.stn .t{font-family:var(--f-display);font-size:1.25rem;font-weight:800}
+.stn .p{color:var(--muted);font-weight:700;font-size:.95rem}
+.stn .s{font-weight:800;font-size:.95rem}
+.s.open{color:var(--gold)} .s.wait{color:var(--sky-blue)} .s.done{color:var(--mint)}
+
+/* quiz */
+.qhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.qhead .ttl small.bab{display:block;font-family:var(--f-body);font-size:.8rem;color:var(--muted);font-weight:700}
+.qhead .ttl{font-family:var(--f-display);font-size:1.35rem;font-weight:800;color:var(--sand)}
+.count{font-weight:800;color:var(--muted);font-variant-numeric:tabular-nums}
+.track{position:relative;height:14px;border-radius:99px;background:rgba(255,255,255,.12);margin:34px 6px 14px}
+.track .fill{position:absolute;inset:0 auto 0 0;border-radius:99px;background:linear-gradient(90deg,var(--dune),var(--gold));transition:width .4s}
+.track .cm{position:absolute;top:-32px;font-size:30px;line-height:1;transform:translateX(-50%) scaleX(-1);transition:left .4s}
+.track .flag{position:absolute;right:-6px;top:-30px;font-size:26px}
+.sec{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:8px 2px 12px}
+.sec .sj{font-size:1.5rem;color:var(--gold)}
+.sec .sr{color:var(--muted);font-weight:700}
+.card{background:var(--paper);color:var(--ink);border-radius:26px;padding:22px 22px 24px;box-shadow:0 8px 0 var(--paper2),0 22px 44px rgba(0,0,0,.35);animation:rise .35s both}
+.qnum{display:inline-block;background:var(--ink);color:var(--paper);font-family:var(--f-display);font-weight:800;border-radius:12px;padding:2px 12px;margin-bottom:6px}
+.qtext{font-size:clamp(1.45rem,3.8vw,1.95rem);line-height:2.1;text-align:right}
+.qsub{color:var(--ink-muted);font-weight:700;margin-top:4px}
+.opts{display:grid;gap:12px;margin-top:16px}
+.opt{display:flex;align-items:center;gap:14px;direction:rtl;text-align:right;background:#fff;border:3px solid #EADFCB;border-radius:18px;padding:10px 16px;font-family:var(--f-jawi);font-size:clamp(1.25rem,3.2vw,1.55rem);color:var(--ink);cursor:pointer;min-height:66px;transition:transform .1s}
+.opt:hover{transform:translateY(-2px)}
+.opt .lt{flex:none;width:44px;height:44px;border-radius:50%;background:#F3E6CC;display:grid;place-items:center;font-size:1.35rem;font-weight:700}
+.opt.sel{border-color:var(--gold-deep);background:#FFF1C7;animation:bounce .35s}
+.opt.sel .lt{background:var(--gold)}
+@keyframes bounce{0%{transform:scale(1)}40%{transform:scale(1.04)}100%{transform:scale(1)}}
+.blank{display:inline-block;min-width:4.6em;border-bottom:3px dashed var(--dune2);padding:0 .35em;text-align:center;line-height:1.5}
+.blank.filled{border-bottom-style:solid;background:#FFF1C7;border-radius:10px 10px 0 0}
+.bank{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;direction:rtl;margin-top:18px}
+.chip{font-family:var(--f-jawi);font-size:1.45rem;padding:6px 20px;border-radius:16px;border:3px solid #EADFCB;background:#fff;color:var(--ink);cursor:pointer;min-height:56px}
+.chip.used{opacity:.4}
+.chip.sel{border-color:var(--gold-deep);background:#FFF1C7;opacity:1;animation:bounce .35s}
+.left-item{font-size:clamp(1.6rem,4vw,2.1rem);text-align:center;background:#fff;border-radius:18px;padding:10px;border:3px dashed #EADFCB;margin-top:8px}
+.tf{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+.tfb{display:flex;flex-direction:column;align-items:center;gap:2px;background:#fff;border:3px solid #EADFCB;border-radius:20px;padding:14px 8px;cursor:pointer;color:var(--ink)}
+.tfb .ic{font-size:2.2rem;font-weight:800;font-family:var(--f-display);line-height:1}
+.tfb .jw{font-family:var(--f-jawi);font-size:1.5rem}
+.tfb .rm{color:var(--ink-muted);font-weight:700;font-size:.9rem}
+.tfb.yes .ic{color:var(--mint-deep)} .tfb.no .ic{color:#D2483A}
+.tfb.sel.yes{border-color:var(--mint-deep);background:#DDF7EC;animation:bounce .35s}
+.tfb.sel.no{border-color:#D2483A;background:#FFE3DE;animation:bounce .35s}
+textarea{width:100%;min-height:120px;margin-top:14px;font:600 1.25rem/1.5 var(--f-body);border-radius:16px;border:3px solid #EADFCB;padding:12px 14px;color:var(--ink);background:#fff;resize:vertical}
+.nav{display:flex;justify-content:space-between;gap:12px;margin-top:20px}
+.qgrid{margin-top:26px;display:flex;flex-direction:column;gap:10px}
+.qgrid .grp{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.qgrid .gl{font-family:var(--f-jawi);color:var(--muted);width:40px;text-align:center;font-size:1.2rem}
+.g{width:38px;height:38px;border-radius:11px;border:0;background:rgba(255,255,255,.1);color:var(--muted);font-weight:800;cursor:pointer;font-variant-numeric:tabular-nums}
+.g.done{background:var(--dune);color:#fff}
+.g.cur{box-shadow:0 0 0 3px var(--gold)}
+
+/* toast */
+#toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translate(-50%,140%);background:var(--gold);color:#3A2600;font-family:var(--f-display);font-weight:800;font-size:1.2rem;padding:12px 22px;border-radius:18px;box-shadow:0 6px 0 var(--gold-deep);z-index:30;transition:transform .35s cubic-bezier(.3,1.5,.5,1);max-width:calc(100% - 32px);text-align:center}
+#toast.show{transform:translate(-50%,0)}
+
+/* center panels */
+.panel{max-width:620px;margin:6vh auto 0;text-align:center;display:flex;flex-direction:column;align-items:center;gap:18px}
+.panel h2{font-size:clamp(2rem,6vw,3rem);color:var(--sand)}
+.panel p{font-size:1.15rem;font-weight:700;margin:0;max-width:52ch}
+.big-emoji{font-size:5rem;line-height:1;animation:pop .6s both}
+.unans{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+
+/* pin */
+.pin{background:var(--paper);color:var(--ink);border-radius:28px;padding:26px 22px;max-width:360px;width:100%;box-shadow:0 8px 0 var(--paper2)}
+.pin h3{font-size:1.6rem}
+.dots{display:flex;gap:14px;justify-content:center;margin:18px 0}
+.dot{width:20px;height:20px;border-radius:50%;border:3px solid var(--ink-muted)}
+.dot.f{background:var(--ink);border-color:var(--ink)}
+.keys{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.key{height:62px;border-radius:18px;border:0;background:#fff;color:var(--ink);font-family:var(--f-display);font-size:1.7rem;font-weight:800;box-shadow:0 4px 0 #E4D6BA;cursor:pointer}
+.key:active{transform:translateY(2px);box-shadow:0 2px 0 #E4D6BA}
+.pin .err{color:#C23B2E;font-weight:800;min-height:1.5em;margin:10px 0 0}
+.shake{animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-10px)}40%,80%{transform:translateX(10px)}}
+
+/* parent check */
+.phead h2{font-size:1.8rem;color:var(--sand)}
+.phead p{color:var(--muted);font-weight:700;margin:4px 0 0}
+.psec{font-family:var(--f-jawi);font-size:1.35rem;color:var(--gold);margin:22px 0 8px}
+.rows{display:grid;gap:10px}
+.rw{background:var(--paper);color:var(--ink);border-radius:18px;padding:12px 14px;display:grid;grid-template-columns:36px 1fr;gap:6px 12px}
+.rw .n{font-family:var(--f-display);font-weight:800;font-size:1.2rem;color:var(--ink-muted)}
+.rw .q{font-family:var(--f-jawi);direction:rtl;text-align:right;font-size:1.15rem;line-height:1.9}
+.rw .ans{grid-column:2;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px 14px;align-items:start}
+.lbl{display:block;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-muted)}
+.av{font-weight:700;font-size:1.05rem}
+.av.j{font-family:var(--f-jawi);font-size:1.25rem;direction:rtl;display:inline-block}
+.tag{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:999px;font-weight:800;font-size:.95rem}
+.tag.ok{background:#D6F5E8;color:#0B6B47}
+.tag.bad{background:#FFE0DB;color:#A8332A}
+.mk{display:flex;gap:8px;flex-wrap:wrap}
+.mkb{border:2px solid #D9CDB6;background:#fff;border-radius:999px;padding:6px 14px;font-weight:800;cursor:pointer;color:var(--ink);min-height:40px}
+.mkb.on.ok{background:#D6F5E8;border-color:#0B6B47;color:#0B6B47}
+.mkb.on.bad{background:#FFE0DB;border-color:#A8332A;color:#A8332A}
+.checkbar{position:sticky;bottom:0;margin-top:20px;background:var(--night2);border:2px solid var(--line);border-radius:22px;padding:14px 16px calc(14px + env(safe-area-inset-bottom,0px));display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;z-index:5}
+.checkbar .sc{font-family:var(--f-display);font-size:1.4rem;font-weight:800;font-variant-numeric:tabular-nums}
+.checkbar .sc small{display:block;font-family:var(--f-body);font-size:.9rem;color:var(--muted)}
+
+/* result */
+.result{text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px;padding-top:3vh}
+.result .rt{color:var(--muted);font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:.9rem}
+.score{font-family:var(--f-display);font-size:clamp(4.5rem,16vw,7rem);font-weight:800;color:var(--gold);line-height:1;font-variant-numeric:tabular-nums}
+.score small{font-size:.4em;color:var(--muted)}
+.stars{display:flex;gap:10px;justify-content:center}
+.bs{font-size:3.4rem;line-height:1;color:rgba(255,255,255,.18)}
+.bs.on{color:var(--gold);text-shadow:0 0 18px rgba(255,212,94,.6);animation:starpop .55s cubic-bezier(.3,1.7,.5,1) both;animation-delay:calc(1s + var(--i) * 300ms)}
+@keyframes starpop{0%{transform:scale(0) rotate(-90deg)}100%{transform:none}}
+.msg{font-size:1.25rem;font-weight:800;max-width:48ch}
+.earned{display:flex;flex-wrap:wrap;gap:26px;justify-content:center;margin:10px 0}
+.stk-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;animation:flipin .8s cubic-bezier(.3,1.4,.5,1) both;animation-delay:calc(2s + var(--i,0) * 400ms)}
+@keyframes flipin{0%{transform:perspective(600px) rotateY(90deg) scale(.6);opacity:0}100%{transform:none;opacity:1}}
+.stk{width:136px;height:136px;border-radius:50%;display:grid;place-items:center;font-size:64px;line-height:1;box-shadow:0 0 0 8px #fff,0 14px 26px rgba(0,0,0,.45);transform:rotate(-7deg)}
+.stk.gold{background:radial-gradient(circle at 35% 30%,#FFF1B0,#F2B632)}
+.stk.silver{background:radial-gradient(circle at 35% 30%,#FFFFFF,#AEB8CB)}
+.stk.bronze{background:radial-gradient(circle at 35% 30%,#FFD8B0,#C98548)}
+.stk.spirit{background:radial-gradient(circle at 35% 30%,#DDF1FF,#6FA9DD)}
+.stk.special{background:radial-gradient(circle at 35% 30%,#D9FFF0,#35B889)}
+.stk.trophy{background:radial-gradient(circle at 35% 30%,#FFF3C4,#E29B1B)}
+.stk.lock{background:transparent;box-shadow:none;border:4px dashed var(--line);color:var(--muted);font-family:var(--f-display);font-size:48px;transform:none}
+.stk-name{font-family:var(--f-display);font-weight:800;font-size:1.15rem}
+.stk-tier{color:var(--muted);font-weight:700;font-size:.9rem;margin-top:-8px}
+.learn{width:100%;text-align:left;margin-top:14px}
+.learn summary{cursor:pointer;font-family:var(--f-display);font-weight:800;font-size:1.25rem;color:var(--sand);list-style:none;text-align:center}
+.learn summary::-webkit-details-marker{display:none}
+.learn .rows{margin-top:12px}
+.trophy-banner{background:linear-gradient(135deg,#FFE27A,#F2A93B);color:#4A2A00;border-radius:24px;padding:18px 22px;font-family:var(--f-display);font-size:1.3rem;font-weight:800;display:flex;align-items:center;gap:14px;animation:rise .6s 3s both;max-width:560px;text-align:left}
+.trophy-banner span{font-size:3rem;line-height:1}
+
+/* sticker book */
+.book{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:26px 14px;margin-top:22px;justify-items:center;text-align:center}
+.book .stk-wrap{animation:rise .5s both;animation-delay:calc(var(--i,0) * 90ms)}
+
+/* parent panel */
+.pp{display:grid;gap:12px;margin-top:18px}
+.pp .it{background:var(--paper);color:var(--ink);border-radius:20px;padding:14px 16px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
+.pp .it b{font-family:var(--f-display);font-size:1.2rem}
+.pp .it .st2{color:var(--ink-muted);font-weight:700;display:block}
+.pp .btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 2px #D9CDB6;background:#fff}
+.pp .btn.warn{background:#FFE0DB;color:#A8332A;box-shadow:0 4px 0 #F1B2A8}
+
+
+.profiles{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;max-width:760px}
+.profiles .profile{padding:22px 28px 18px;min-width:170px}
+.avatar.plus{background:transparent!important;border:4px dashed #D9CDB6;color:var(--ink-muted)!important}
+.addp{background:rgba(255,247,232,.9)}
+.addform{background:var(--paper);color:var(--ink);border-radius:28px;padding:20px 22px;display:flex;flex-direction:column;gap:6px;text-align:left;width:min(320px,100%);box-shadow:0 8px 0 var(--paper2)}
+.addform h3{font-size:1.4rem;margin-bottom:4px}
+.addform label,.lbl2{font-weight:800;font-size:.9rem;color:var(--ink-muted)}
+.addform input{font:700 1.15rem var(--f-body);padding:10px 12px;border-radius:14px;border:3px solid #EADFCB;color:var(--ink);background:#fff;width:100%}
+.addform .err{color:#C23B2E;font-weight:800;min-height:1.2em;margin:4px 0}
+.swatches{display:flex;gap:10px}
+.sw{width:38px;height:38px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px #D9CDB6;cursor:pointer}
+.sw.on{box-shadow:0 0 0 4px var(--ink)}
+.btn.dark{color:var(--ink);box-shadow:inset 0 0 0 2px #D9CDB6;background:#fff}
+.listh{font-size:1.3rem;color:var(--sand);margin:26px 0 4px}
+.cpb{font-size:.7rem;background:var(--gold);color:#3A2600;border-radius:99px;padding:2px 8px;vertical-align:middle;letter-spacing:.06em}
+.stn.bigc{border-color:rgba(255,212,94,.55)}
+.sst{color:var(--gold);letter-spacing:2px}
+.stk.big{width:164px;height:164px;font-size:78px}
+.stations{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}
+
+.linkbtn{background:none;border:0;color:var(--ink-muted);font-weight:800;text-decoration:underline;cursor:pointer;margin-top:10px;font-size:1rem}
+.pin input{font:800 1.6rem var(--f-display);padding:8px 12px;border-radius:14px;border:3px solid #EADFCB;color:var(--ink);background:#fff;width:140px;text-align:center}
+.pin .row-btns{margin-top:6px}
+.rvdots{display:flex;gap:6px;flex-wrap:wrap;margin:14px 2px 6px}
+.rvd{width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.15)}
+.rvd.done{background:var(--mint)} .rvd.cur{background:var(--gold);box-shadow:0 0 0 3px rgba(255,212,94,.35)}
+.was{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;background:#FFF0EC;border:2px dashed #F1B2A8;border-radius:16px;padding:10px 14px;margin-top:14px}
+.was .lbl{width:100%}
+.was .av{text-decoration:line-through;text-decoration-color:#D2483A;text-decoration-thickness:2px}
+.tryp{font-weight:800;color:var(--ink);margin:16px 0 0;text-align:center;font-size:1.1rem}
+.opt.bad,.chip.bad,.tfb.bad{border-color:#E9A79D;background:#FFE3DE;opacity:.55;cursor:not-allowed;animation:shake .35s}
+.fact{background:#E3F8EE;border:3px solid var(--mint);border-radius:18px;padding:14px 16px;margin-top:16px;display:flex;flex-direction:column;gap:10px}
+.factline{font-size:clamp(1.25rem,3.4vw,1.55rem);line-height:2.1;text-align:right}
+.factline .hl{color:#0B6B47;background:#C7F0DC;border-radius:8px;padding:0 6px;font-weight:700}
+.yay{font-family:var(--f-display);font-size:1.7rem;font-weight:800;color:var(--mint-deep);text-align:center;margin-top:14px;animation:pop .5s both}
+.pnote{background:#FFF1C7;border-radius:16px;padding:12px 16px;margin-top:14px;font-weight:700;line-height:1.5}
+.rvnav{display:flex;justify-content:center;margin-top:18px}
+.revcall{background:rgba(79,209,161,.12);border:2px solid rgba(79,209,161,.5);border-radius:22px;padding:16px 20px;display:flex;flex-direction:column;align-items:center;gap:12px;max-width:560px}
+.revcall p{margin:0;font-weight:700;font-size:1.1rem}
+.panel .stk-wrap{animation-delay:.5s}
+.revdone{color:var(--mint);font-weight:800;margin:0}
+
+#sndc{position:fixed;left:calc(12px + env(safe-area-inset-left,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));display:flex;gap:8px;z-index:25}
+#sndc button{width:48px;height:48px;border-radius:50%;border:2px solid var(--line);background:rgba(31,39,83,.88);font-size:1.35rem;cursor:pointer;position:relative;display:grid;place-items:center}
+#sndc button.off{opacity:.55}
+#sndc button.off::after{content:"";position:absolute;left:9px;right:9px;top:50%;height:3px;border-radius:2px;background:var(--coral);transform:rotate(-40deg)}
+
+#fx{position:fixed;inset:0;pointer-events:none;z-index:40;width:100%;height:100%}
+
+@media (max-width:480px){
+  .card{padding:18px 16px 20px}
+  .profile{padding:22px 32px 18px}
+  .rw{grid-template-columns:28px 1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+
+<div id="sky" aria-hidden="true"></div>
+<main id="app"><section style="max-width:480px;margin:12vh auto 0;text-align:center;font-family:system-ui,sans-serif;color:#F6F1FF;line-height:1.6">
+<h1 style="font-size:2rem;color:#F2C98A;margin:0 0 12px">Jejak Sirah</h1>
+<p style="font-weight:700">App ini tak dapat berjalan dalam paparan ini.</p>
+<p>Kalau dibuka terus dari WhatsApp, Telegram atau app Files di iPhone, paparan itu hanya "preview" dan tak jalankan app. Buka link app ini dalam <b>Safari</b> atau <b>Chrome</b>.</p>
+</section></main>
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="sndc"><button id="bMus" type="button" aria-label="Muzik latar">🎵</button><button id="bSfx" type="button" aria-label="Bunyi">🔔</button></div>
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<script>
+(function(){
+"use strict";
+/* ---------- data ---------- */
+const LET = ["ا","ب","ج","د","ه"];
+const KEY = "jejakSirahHassan_v1";
+const SEC = {
+  A:{j:"بهاݢين ا: اوبجيکتيف", r:"Pilih jawapan yang betul"},
+  B:{j:"بهاݢين ب: ايسي تمڤت کوسوڠ", r:"Pilih perkataan untuk isi tempat kosong"},
+  C:{j:"بهاݢين ج: ڤادنکن", r:"Pilih padanan yang betul"},
+  D:{j:"بهاݢين د: بتول اتاو ساله", r:"Betul atau salah?"},
+  E:{j:"بهاݢين ه: سوالن ڤندق", r:"Tulis jawapan kamu (Rumi pun boleh)"}
+};
+const SEC_LET = {A:"ا",B:"ب",C:"ج",D:"د",E:"ه"};
+
+const SETS = [
+{ id:1, place:"Khadijah Usahawan", bab:"Bab 1.1–1.2", sticker:{e:"🐪", n:"Unta Kafilah"},
+  A:[
+   ["نام ڤنوه سيدتنا خديجة اياله ...",["خديجة بنت خويلد","خديجة بنت عبدالله","خديجة بنت وهب"],0],
+   ["خديجة بنت خويلد اياله سأورڠ وانيتا يڠ ...",["ميسکين","کاي دان چنتيق","ماليس"],1],
+   ["خديجة براصل درڤد کتورونن ...",["همبا","ڤتاني","بڠساون"],2],
+   ["خديجة منواورکن نبي محمد ﷺ ممباوا بارڠ داݢڠنڽ ک ...",["مصر","شام","يمن"],1],
+   ["کتيک برنياݢ ک شام، نبي محمد ﷺ برعمور ... تاهون.",["24","12","40"],0],
+   ["نبي محمد ﷺ ک شام دتماني اوليه سأورڠ همبا برنام ...",["بلال","زيد","ميسره"],2],
+   ["هاسيل ڤرنياݢاءن نبي محمد ﷺ د شام، کأونتوڠن مريک ...",["برکورڠن","برليڤت ݢندا","هيلڠ"],1],
+   ["نبي محمد ﷺ برکهوين دڠن خديجة کتيک برعمور ... تاهون.",["20","25","30"],1],
+   ["باڤ سودارا خديجة يڠ منريما ڤميناڠن نبي اياله ...",["ابو جهل","عمرو بن اسد","ابو لهب"],1],
+   ["انق نبي محمد ﷺ برسام خديجة برجومله ... اورڠ.",["6","4","2"],0]
+  ],
+  bank:["نفيسة","حمزه","فاطمة","مکه","ابراهيم"],
+  B:[
+   ["خديجة مڽمڤايکن هاسرتڽ اونتوق برکهوين کڤد صحابتڽ، {_}.","نفيسة"],
+   ["نبي محمد ﷺ ممينتا باڤ سوداراڽ، ابو طالب دان {_}، مميناڠ خديجة.","حمزه"],
+   ["{_} اياله ساله سأورڠ انق ڤرمڤوان نبي محمد ﷺ.","فاطمة"],
+   ["سکمباليڽ ک {_}، ميسره منچريتاکن کجوجورن نبي کڤد خديجة.","مکه"],
+   ["انق نبي محمد ﷺ برسام مارية القبطية برنام {_}.","ابراهيم"]
+  ],
+  right:["keuntungan","usahawan","meminang","kecekapan","kejujuran"],
+  C:[["اوسهاون",1],["کأونتوڠن",0],["مميناڠ",2],["کجوجورن",4],["کچکڤن",3]],
+  D:[
+   ["خديجة ممڤوڽاءي بودي ڤکرتي يڠ موليا.",true],
+   ["نبي محمد ﷺ منولق تاورن خديجة اونتوق برنياݢ ک شام.",false],
+   ["ميسره مليهت نبي محمد ﷺ برنياݢ دڠن جوجور.",true],
+   ["سموا انق للاکي نبي محمد ﷺ منيڠݢل دنيا کتيک ماسيه کچيل.",true],
+   ["مهر نبي محمد ﷺ کڤد خديجة اياله 20 ايکور کمبيڠ.",false]
+  ],
+  E:[
+   ["کناڤ خديجة ممليه نبي محمد ﷺ اونتوق ممباوا بارڠ داݢڠنڽ؟","Kerana baginda jujur (dan amanah)"],
+   ["نامکن دوا اورڠ انق للاکي نبي محمد ﷺ برسام خديجة.","Abdullah dan Qasim"],
+   ["براڤ اورڠ انق ڤرمڤوان نبي محمد ﷺ برسام خديجة؟","4 orang (Zainab, Ruqayyah, Ummu Kalthum, Fatimah)"],
+   ["نامکن ساتو صيفت نبي محمد ﷺ کتيک برنياݢ د شام.","Cekap, jujur atau amanah"],
+   ["اڤاکه يڠ بوليه کامو چونتوهي درڤد خديجة؟","Rajin berusaha, budi pekerti mulia, pemurah (jawapan munasabah)"]
+  ]
+},
+{ id:2, place:"Keluarga Nabi", bab:"Bab 1.1–1.2", sticker:{e:"🏡", n:"Rumah Bahagia"},
+  A:[
+   ["سيدتنا خديجة ممڤوڽاءي بودي ڤکرتي يڠ ...",["بوروق","موليا","کاسر"],1],
+   ["سياڤاکه يڠ منواورکن نبي محمد ﷺ ممباوا بارڠ داݢڠن ک شام؟",["ابو طالب","خديجة","ميسره"],1],
+   ["ميسره اياله سأورڠ ... کڤد خديجة.",["همبا","انق","باڤ"],0],
+   ["ميسره مليهت نبي محمد ﷺ برنياݢ دڠن ...",["ماليس","جوجور","سومبوڠ"],1],
+   ["خديجة امت ترتاريق دڠن ... نبي محمد ﷺ.",["هرتا","رومه","کجوجورن دان بودي ڤکرتي"],2],
+   ["خديجة مڽاتاکن هاسرت اونتوق برکهوين کڤد ...",["نفيسة","ميسره","حليمة"],0],
+   ["نبي محمد ﷺ ممينتا باڤ سوداراڽ ... دان ابو طالب مميناڠ خديجة.",["ابو لهب","حمزه","عباس"],1],
+   ["انق نبي محمد ﷺ برسام مارية القبطية برنام ...",["قاسم","عبدالله","ابراهيم"],2],
+   ["انق للاکي نبي محمد ﷺ منيڠݢل دنيا کتيک ...",["سوده تووا","ماسيه کچيل","برکهوين"],1],
+   ["نبي محمد ﷺ دان خديجة تله ممبينا سبواه کلوارݢ يڠ ...",["بهاݢيا","سديه","ميسکين"],0]
+  ],
+  bank:["24","عمرو","زينب","قاسم","20"],
+  B:[
+   ["نبي محمد ﷺ برنياݢ ک شام کتيک برعمور {_} تاهون.","24"],
+   ["باڤ سودارا نبي مميناڠ خديجة ملالوءي باڤ سودارا خديجة، {_} بن اسد.","عمرو"],
+   ["{_}، رقية، ام کلثوم دان فاطمة اياله انق ڤرمڤوان نبي محمد ﷺ.","زينب"],
+   ["عبدالله دان {_} اياله انق للاکي نبي محمد ﷺ برسام خديجة.","قاسم"],
+   ["نبي محمد ﷺ ممبري مهر سباڽق {_} ايکور اونتا کڤد خديجة.","20"]
+  ],
+  right:["mahar","keluarga","bangsawan","membantu","dagangan"],
+  C:[["بڠساون",2],["مهر",0],["داݢڠن",4],["کلوارݢ",1],["ممبنتو",3]],
+  D:[
+   ["خديجة براصل درڤد کتورونن بڠساون.",true],
+   ["نبي محمد ﷺ برنياݢ ک شام برسنديرين تنڤ تمن.",false],
+   ["کأونتوڠن ڤرنياݢاءن د شام برليڤت ݢندا.",true],
+   ["نبي محمد ﷺ منولق اونتوق برکهوين دڠن خديجة.",false],
+   ["فاطمة اياله انق للاکي نبي محمد ﷺ.",false]
+  ],
+  E:[
+   ["سياڤاکه نام باڤ خديجة؟","Khuwailid"],
+   ["اڤاکه يڠ دچريتاکن اوليه ميسره کڤد خديجة؟","Kecekapan dan kejujuran Nabi semasa berniaga"],
+   ["براڤاکه عمور نبي محمد ﷺ کتيک برکهوين دڠن خديجة؟","25 tahun"],
+   ["اڤ مقصود اوسهاون؟","Orang yang menjalankan perniagaan (peniaga)"],
+   ["مڠاڤاکه کيت ڤرلو جوجور سڤرتي نبي محمد ﷺ؟","Supaya orang percaya kepada kita dan Allah suka (jawapan munasabah)"]
+  ]
+},
+{ id:3, place:"Gua Hira'", bab:"Bab 2.1–2.2", sticker:{e:"⛰️", n:"Puncak Jabal Nur"},
+  A:[
+   ["مشارکت عرب جاهلية تيڠݢل د کوت ...",["مدينه","مکه","طائف"],1],
+   ["ݢوا حراء ترلتق د اتس ...",["ݢونوڠ","لاءوت","ڤاسر"],0],
+   ["عرب جاهلية اياله مشارکت سبلوم کداتڠن ...",["راج","اسلام","ڤنجاجه"],1],
+   ["مشارکت عرب جاهلية ترکنل دڠن اخلاق يڠ ...",["باءيق","بوروق","موليا"],1],
+   ["مشارکت جاهلية مڽوروه همبا بکرج تنڤ دبري ...",["ڤوجين","ماکن","هديه"],1],
+   ["کتيک مشارکت ملاکوکن معصية، نبي محمد ﷺ ...",["تورت ملاکوکنڽ","مڠاسيڠکن ديري","ماره دان ممبونوه"],1],
+   ["نبي محمد ﷺ ڤرݢي ک ݢوا حراء کران ...",["ماهو برنياݢ","ماهو برماءين","تيدق سوک ڤربواتن بوروق قومڽ"],2],
+   ["نبي محمد ﷺ تيدق سوک مليهت قومڽ ملاکوکن ...",["معصية","عبادة","ڤکرجاءن"],0],
+   ["القرءان منجلسکن باهاوا نبي محمد ﷺ اياله ... يڠ باءيق.",["ڤنياݢ","چونتوه ايکوتن","راج"],1],
+   ["نبي محمد ﷺ تيدق براوڤاي اونتوق ... ڤربواتن بوروق قومڽ.",["مليهت","منڠر","منچݢه"],2]
+  ],
+  bank:["معصوم","برجودي","مرومڤق","کتناڠن","معصية"],
+  B:[
+   ["نبي محمد ﷺ اياله سأورڠ يڠ {_}، ايايت ترڤليهارا درڤد دوسا.","معصوم"],
+   ["مشارکت عرب جاهلية سوک مينوم ارق دان {_}.","برجودي"],
+   ["مريک جوݢ سوک {_} دان ممبونوه.","مرومڤق"],
+   ["نبي محمد ﷺ ڤرݢي ک ݢوا حراء اونتوق منچاري {_}.","کتناڠن"],
+   ["{_} اياله ڤربواتن دوسا يڠ دلارڠ اوليه الله.","معصية"]
+  ],
+  right:["maksum","mencegah","berhala","masyarakat","maksiat"],
+  C:[["مشارکت",3],["معصوم",0],["معصية",4],["منچݢه",1],["برهالا",2]],
+  D:[
+   ["نبي محمد ﷺ ڤرنه مڽمبه برهالا.",false],
+   ["مشارکت عرب جاهلية ممبونوه انق ڤرمڤوان هيدوڤ٢.",true],
+   ["مشارکت عرب جاهلية مڽمبه برهالا.",true],
+   ["نبي محمد ﷺ تيدق ترڤڠاروه دڠن اخلاق بوروق مشارکت جاهلية.",true],
+   ["مشارکت عرب جاهلية مڠحرمتي ڤرمڤوان دان همبا.",false]
+  ],
+  E:[
+   ["نامکن دوا ڤربواتن بوروق مشارکت عرب جاهلية.","Mana-mana dua: bunuh anak perempuan, tindas perempuan & hamba, minum arak, berjudi, sembah berhala, rompak & bunuh"],
+   ["اڤاکه مقصود معصوم؟","Terpelihara daripada dosa"],
+   ["اڤاکه تجوان نبي محمد ﷺ ک ݢوا حراء؟","Mengasingkan diri untuk beribadat, mencari ketenangan dan petunjuk Allah"],
+   ["سياڤاکه يڠ ممليهارا نبي محمد ﷺ درڤد ملاکوکن معصية؟","Allah SWT"],
+   ["اڤاکه يڠ ڤاتوت کامو بوات جيک کاون اجق ملاکوکن ڤربواتن بوروق؟","Menolak/tidak ikut, nasihat kawan, beritahu guru atau ibu bapa (jawapan munasabah)"]
+  ]
+},
+{ id:4, place:"Idris, Hud & Salih", bab:"Bab 3.1–3.3", sticker:{e:"🖋️", n:"Pena Nabi Idris"},
+  A:[
+   ["نبي ادريس عليه السلام اياله کتورونن نبي ...",["آدم","نوح","ابراهيم"],0],
+   ["نبي ادريس عليه السلام اورڠ ڤرتام يڠ منوليس دڠن ...",["ڤنسل","ڤنا","جاري"],1],
+   ["نبي ادريس عليه السلام جوݢ ڤنداي ... ڤاکاين.",["منجاهيت","مماسق","منجوال"],0],
+   ["نبي هود عليه السلام دأوتوس کڤد قوم ...",["ثمود","عاد","مدين"],1],
+   ["قوم نبي هود ممڤوڽاءي بادن يڠ ...",["کچيل دان لمه","بسر دان کوات","ڤنديق"],1],
+   ["قوم عاد ايڠکر دان مڽمبه ...",["برهالا","الله","ماتاهاري"],0],
+   ["الله منورونکن عذاب کڤد قوم عاد برڤ ...",["اڠين ريبوت يڠ کنچڠ","هوجن باتو","بنجير"],0],
+   ["نبي صالح عليه السلام دأوتوس کڤد قوم ...",["عاد","مدين","ثمود"],2],
+   ["معجزة نبي صالح عليه السلام اياله اونتا بتينا يڠ کلوار دري ...",["لاءوت","باتو","ݢوا"],1],
+   ["قوم ثمود ملاکوکن ڤاکتن سوليت اونتوق ... اونتا ترسبوت.",["منجاݢ","ممبونوه","منجوال"],1]
+  ],
+  bank:["رسول","بينتڠ","باڠونن","اءير","ݢمڤ بومي"],
+  B:[
+   ["نبي ادريس عليه السلام دڤيليه منجادي {_} کران کلبيهنڽ.","رسول"],
+   ["نبي ادريس عليه السلام ڤنداي تنتڠ علمو {_} دان کيرا٢.","بينتڠ"],
+   ["قوم عاد ڤنداي ممبينا {_} يڠ تيڠݢي.","باڠونن"],
+   ["اونتا نبي صالح دان قوم ثمود مينوم {_} سچارا برݢيليرن.","اءير"],
+   ["قوم ثمود دبيناساکن دڠن ڤکيقن يڠ کوات دان {_}.","ݢمڤ بومي"]
+  ],
+  right:["mukjizat","pakatan","azab","ingkar","dakwah"],
+  C:[["عذاب",2],["دعوه",4],["معجزة",0],["ايڠکر",3],["ڤاکتن",1]],
+  D:[
+   ["نبي ادريس عليه السلام تيدق ڤنداي منوليس.",false],
+   ["قوم عاد مڠيکوت اجرن نبي هود عليه السلام.",false],
+   ["نبي هود عليه السلام دان ڤڠيکوتڽ يڠ براعمان دسلامتکن اوليه الله.",true],
+   ["قوم ثمود ڤنداي مماهت ݢونوڠ منجادي رومه.",true],
+   ["عذاب الله کڤد قوم ثمود هاڽ کنا کڤد اورڠ يڠ ممبونوه اونتا سهاج.",false]
+  ],
+  E:[
+   ["نامکن ساتو کلبيهن نبي ادريس عليه السلام.","Pandai menulis dengan pena / menjahit / ilmu bintang & kira-kira"],
+   ["نامکن ساتو چيري٢ قوم عاد.","Badan besar & kuat, bina bangunan tinggi, sombong, sembah berhala"],
+   ["اڤاکه يڠ دسرو اوليه نبي هود کڤد قومڽ؟","Menyembah Allah dan meninggalkan berhala"],
+   ["مڠاڤاکه قوم ثمود ممبونوه اونتا نبي صالح؟","Kerana mereka ingkar dan tidak mahu berkongsi air (jawapan munasabah)"],
+   ["اڤاکه ڤڠاجرن درڤد کيسه قوم عاد دان ثمود؟","Jangan sombong dan ingkar; taat perintah Allah"]
+  ]
+},
+{ id:5, place:"Al-Amin", bab:"Ulang kaji Bab 1, 2, 3.1–3.3", big:true, sticker:{e:"🏅", n:"Pingat Al-Amin"},
+  A:[
+   ["خديجة منچاري ڤکرجا اونتوق ممباوا بارڠ داݢڠنڽ ک ...",["شام","مدينه","نينوى"],0],
+   ["مهر نبي محمد ﷺ کڤد خديجة اياله ...",["20 ايکور کمبيڠ","20 ايکور اونتا","10 ايکور کودا"],1],
+   ["نبي محمد ﷺ دان خديجة دکورنياکن ... اورڠ انق.",["4","6","8"],1],
+   ["سيدتنا خديجة اياله وانيتا يڠ ... دان چنتيق.",["کاي","ميسکين","ماليس"],0],
+   ["نبي محمد ﷺ ڤرݢي ک ݢوا حراء اونتوق ...",["برماءين","برنياݢ","مڠاسيڠکن ديري دان براعبادة"],2],
+   ["نبي محمد ﷺ تيدق ڤرنه ...",["مڽمبه برهالا","براعبادة","ممبنتو اورڠ"],0],
+   ["مشارکت سبلوم کداتڠن اسلام دکنلي سباݢاي ...",["قوم مدين","عرب جاهلية","قوم سدوم"],1],
+   ["نبي ادريس عليه السلام ڤنداي ...",["منجاهيت","برنڠ","برلاري"],0],
+   ["قوم نبي هود ترکنل دڠن ...",["بادن يڠ کچيل","بادن يڠ بسر دان کوات","بادن يڠ لمه"],1],
+   ["اونتا نبي صالح عليه السلام کلوار دري ...",["لاءوت","ݢوا","باتو"],2]
+  ],
+  bank:["ميسره","حمزه","معصوم","عاد","ثمود"],
+  B:[
+   ["{_} مليهت سنديري کجوجورن نبي محمد ﷺ د شام.","ميسره"],
+   ["ابو طالب دان {_} مميناڠ خديجة اونتوق نبي محمد ﷺ.","حمزه"],
+   ["نبي محمد ﷺ سأورڠ يڠ {_}، ترڤليهارا درڤد دوسا.","معصوم"],
+   ["نبي هود عليه السلام دأوتوس کڤد قوم {_}.","عاد"],
+   ["قوم {_} دبيناساکن کران ممبونوه اونتا معجزة.","ثمود"]
+  ],
+  right:["usahawan","keuntungan","meminang","maksiat","mukjizat"],
+  C:[["معجزة",4],["اوسهاون",0],["معصية",3],["مميناڠ",2],["کأونتوڠن",1]],
+  D:[
+   ["نبي محمد ﷺ برعمور 24 تاهون کتيک برنياݢ ک شام.",true],
+   ["انق للاکي نبي محمد ﷺ هيدوڤ سهيڠݢ دواس.",false],
+   ["نبي محمد ﷺ سوک مليهت قومڽ برجودي.",false],
+   ["نبي ادريس عليه السلام دڤيليه منجادي رسول.",true],
+   ["قوم عاد مڽمبه الله دان تيدق سومبوڠ.",false]
+  ],
+  E:[
+   ["نامکن تيݢ اورڠ انق نبي محمد ﷺ.","Mana-mana tiga: Abdullah, Qasim, Zainab, Ruqayyah, Ummu Kalthum, Fatimah, Ibrahim"],
+   ["اڤاکه يڠ مڽببکن خديجة ترتاريق کڤد نبي محمد ﷺ؟","Kejujuran dan budi pekerti baginda"],
+   ["نامکن دوا ڤربواتن بوروق عرب جاهلية.","Mana-mana dua: bunuh anak perempuan, tindas perempuan & hamba, arak, judi, sembah berhala, rompak & bunuh"],
+   ["اڤاکه عذاب الله کڤد قوم عاد؟","Angin ribut yang sangat kencang"],
+   ["اڤاکه ڤڠاجرن درڤد کيسه اونتا نبي صالح؟","Jangan ingkar perintah Allah; azab Allah menimpa semua yang ingkar"]
+  ]
+},
+{ id:6, place:"Lut, Ismail & Ishak", bab:"Bab 3.4–3.6", sticker:{e:"💧", n:"Titisan Zamzam"},
+  A:[
+   ["نبي لوط عليه السلام دأوتوس کڤد قوم ...",["سدوم","عاد","ثمود"],0],
+   ["قوم نبي لوط ملاکوکن ... يڠ دلارڠ اوليه الله.",["عبادة","ڤربواتن کجي","ڤکرجاءن باءيق"],1],
+   ["عذاب الله کڤد قوم سدوم اياله کوت مريک دتربالقکن دان دهوجني ...",["باتو","اءير","ڤاسير"],0],
+   ["باڤ نبي اسماعيل عليه السلام اياله نبي ...",["نوح","ابراهيم","لوط"],1],
+   ["ايبو نبي اسماعيل عليه السلام برنام ...",["سارة","مريم","هاجر"],2],
+   ["نبي اسماعيل عليه السلام دباوا ک ... کتيک ماسيه بايي.",["شام","مکه","مصر"],1],
+   ["سيتي هاجر برلاري انتارا بوکيت صفا دان مروه سباڽق ... کالي.",["3","5","7"],2],
+   ["معجزة يڠ برلاکو کڤد نبي اسماعيل عليه السلام اياله ...",["اءير زمزم","اونتا","بهترا"],0],
+   ["ايبو نبي اسحاق عليه السلام برنام ...",["هاجر","سارة","حواء"],1],
+   ["نبي اسحاق عليه السلام اياله باڤ کڤد نبي ...",["يعقوب","يوسف","يونس"],0]
+  ],
+  bank:["براعمان","کيبس","قربان","تووا","طاعة"],
+  B:[
+   ["استري نبي لوط عليه السلام تيدق {_} دان تورت دبيناساکن.","براعمان"],
+   ["الله مڠݢنتيکن نبي اسماعيل عليه السلام دڠن سئيکور {_} اونتوق دسمبليه.","کيبس"],
+   ["ڤريستيوا ايت منجادي اصل عبادة {_} ڤد هاري راي عيدالاضحى.","قربان"],
+   ["سيتي سارة ماسيه منداڤت انق والاوڤون سوده {_}.","تووا"],
+   ["نبي اسماعيل عليه السلام {_} اڤابيلا الله ممرينتهکن بݢيندا دسمبليه.","طاعة"]
+  ],
+  right:["انق سودارا نبي ابراهيم","ايبو يڠ صبر د لمبه تندوس","ممبينا کعبة برسام باڤڽ","بريتا کلاهيرنڽ دباوا اوليه ملائکة","ترداڤت د کوت مکه"],
+  C:[["نبي اسحاق عليه السلام",3],["سيتي هاجر",1],["نبي لوط عليه السلام",0],["اءير زمزم",4],["نبي اسماعيل عليه السلام",2]],
+  D:[
+   ["قوم سدوم مڠيکوت دعوه نبي لوط عليه السلام.",false],
+   ["سيتي هاجر برلاري منچاري اءير اونتوق انقڽ.",true],
+   ["نبي ابراهيم عليه السلام برميمڤي مڽمبليه انقڽ، اسماعيل.",true],
+   ["نبي اسحاق عليه السلام اياله انق نبي اسماعيل عليه السلام.",false],
+   ["الله ممقبولکن دعا نبي ابراهيم اونتوق منداڤت انق.",true]
+  ],
+  E:[
+   ["باݢايمانکه الله مڽلامتکن نبي لوط عليه السلام؟","Allah perintah Nabi Lut dan pengikutnya keluar dari kota sebelum azab turun"],
+   ["اڤاکه هيکمه ڤريستيوا سيتي هاجر برلاري انتارا صفا دان مروه؟","Menjadi ibadah sa'i dalam haji dan umrah"],
+   ["دري مان اءير زمزم کلوار؟","Dari tanah dekat kaki Nabi Ismail ketika bayi"],
+   ["نامکن ساتو صيفت موليا نبي اسحاق عليه السلام.","Sabar, taat, baik hati (jawapan munasabah)"],
+   ["اڤاکه ڤڠاجرن درڤد کيسه نبي اسماعيل عليه السلام؟","Taat kepada Allah dan ibu bapa"]
+  ]
+},
+{ id:7, place:"Ya'kub, Yusuf & Ayyub", bab:"Bab 3.7–3.9", sticker:{e:"🌙", n:"Mimpi Nabi Yusuf"},
+  A:[
+   ["نبي يعقوب عليه السلام اياله چوچو کڤد نبي ...",["نوح","ابراهيم","ادريس"],1],
+   ["نبي يعقوب عليه السلام جوݢ دݢلر ...",["اسرائيل","الأمين","خليل الله"],0],
+   ["نبي يعقوب عليه السلام ممڤوڽاءي ... اورڠ انق للاکي.",["5","7","12"],2],
+   ["نبي يعقوب عليه السلام سنتياس برصبر دان تيدق ... درڤد رحمة الله.",["برشکور","برڤوتوس اسا","برتوبة"],1],
+   ["ابڠ٢ نبي يوسف عليه السلام منچمڤقکن بݢيندا ک دالم ...",["سوڠاي","لاءوت","تلاݢ"],2],
+   ["نبي يوسف عليه السلام دسلامتکن اوليه سکومڤولن ...",["ڤنياݢ يڠ منچاري اءير","ڤتاني","ڤاهلاون"],0],
+   ["نبي يوسف عليه السلام ممڤوڽاءي کلبيهن ...",["برنڠ","منفسير ميمڤي","مماسق"],1],
+   ["نبي يوسف عليه السلام ممڤوڽاءي وجه يڠ ...",["هودوه","ݢلڤ","کاچق"],2],
+   ["نبي ايوب عليه السلام دأوجي دڠن ڤڽاکيت سلام ... تاهون.",["18","2","100"],0],
+   ["سياڤاکه يڠ ستيا منجاݢ نبي ايوب عليه السلام کتيک ساکيت؟",["ابڠڽ","استريڽ","راج"],1]
+  ],
+  bank:["سريݢالا","بالسن","ابڠ٢ڽ","ابليس","اءير"],
+  B:[
+   ["ابڠ٢ نبي يوسف بربوهوڠ کڤد باڤ مريک باهاوا يوسف دماکن اوليه {_}.","سريݢالا"],
+   ["الله ممبري {_} يڠ باءيق کڤد همباڽ يڠ صبر.","بالسن"],
+   ["نبي يوسف عليه السلام ممعافکن {_} يڠ برلاکو جاهت کڤداڽ.","ابڠ٢ڽ"],
+   ["{_} چوبا مڠݢودا نبي ايوب اݢر تيدق صبر.","ابليس"],
+   ["الله مڽمبوهکن نبي ايوب دڠن {_} يڠ کلوار دري بومي.","اءير"]
+  ],
+  right:["باڤ کڤد نبي يعقوب","ماتاڽ منجادي بوتا کران مناڠيس","ملنتيق يوسف منجادي منتري","هرتا دان کلوارݢڽ دݢنتي برليڤت ݢندا","اديق نبي يوسف"],
+  C:[["نبي ايوب عليه السلام",3],["راج مصر",2],["نبي اسحاق عليه السلام",0],["بنيامين",4],["نبي يعقوب عليه السلام",1]],
+  D:[
+   ["نبي يعقوب عليه السلام تيدق سايڠ کڤد نبي يوسف.",false],
+   ["نبي يوسف عليه السلام دجوال سباݢاي همبا د مصر.",true],
+   ["نبي ايوب عليه السلام ساڠت کاي سبلوم دأوجي.",true],
+   ["نبي ايوب عليه السلام مرڠوت اڤابيلا ساکيت.",false],
+   ["نبي يعقوب عليه السلام مڠاجق انق٢ڽ مڽمبه الله.",true]
+  ],
+  E:[
+   ["نامکن باڤ دان داتوق نبي يعقوب عليه السلام.","Nabi Ishak AS dan Nabi Ibrahim AS"],
+   ["مڠاڤاکه ابڠ٢ نبي يوسف منچمڤقکن بݢيندا ک دالم تلاݢ؟","Kerana cemburu, bapa mereka sangat sayang kepada Yusuf"],
+   ["اڤاکه بالسن الله کڤد نبي ايوب عليه السلام؟","Disembuhkan; harta dan keluarga diganti berlipat ganda"],
+   ["نامکن ساتو کلبيهن نبي يوسف عليه السلام.","Kacak, pandai tafsir mimpi, bijak, pemaaf"],
+   ["اڤاکه ڤڠاجرن درڤد کيسه نبي ايوب عليه السلام؟","Sabar ketika diuji; Allah beri balasan baik kepada orang yang sabar"]
+  ]
+},
+{ id:8, place:"Zulkifli, Syu'aib & Yunus", bab:"Bab 3.10–3.12", sticker:{e:"🐋", n:"Ikan Nun"},
+  A:[
+   ["نبي ذوالکفل عليه السلام اياله سأورڠ ... يڠ عادل.",["ڤتاني","راج","ڤنياݢ"],1],
+   ["نبي ذوالکفل عليه السلام برجنجي اونتوق برڤواسا، برصلاة دان تيدق ...",["ماره","تيدور","ماکن"],0],
+   ["نبي ذوالکفل عليه السلام ممڤوڽاءي اخلاق ... سباݢاي راج.",["ڤماره","امانه دان برتڠݢوڠجواب","ماليس"],1],
+   ["نبي شعيب عليه السلام دأوتوس کڤد قوم ...",["عاد","مدين","سدوم"],1],
+   ["قوم مدين سوک منيڤو دالم ... دان سوکتن.",["تيمبڠن","ڤلاجرن","ڤرماءينن"],0],
+   ["قوم مدين ... سروان نبي شعيب عليه السلام.",["منريما","منولق","مڠيکوت"],1],
+   ["نبي يونس عليه السلام دأوتوس کڤد ڤندودوق ...",["مکه","نينوى","مدين"],1],
+   ["نبي يونس عليه السلام دتلن اوليه ...",["اولر","اونتا","ايکن نون"],2],
+   ["دالم ڤروت ايکن، نبي يونس عليه السلام سنتياس ...",["تيدور","برذکير دان بردعا","مناڠيس سهاج"],1],
+   ["ڤندودوق يڠ دسرو اوليه نبي يونس اخيرڽ ...",["مناري","لاري","برتوبة"],2]
+  ],
+  bank:["برڤيداتو","ݢمڤ بومي","کاڤل","ڤنتاي","لابو"],
+  B:[
+   ["نبي شعيب عليه السلام دݢلر خطيب ڤارا نبي کران ڤنداي {_}.","برڤيداتو"],
+   ["قوم مدين دبيناساکن دڠن {_} يڠ کوات.","ݢمڤ بومي"],
+   ["نبي يونس عليه السلام منيڠݢلکن قومڽ دان ناءيق {_}.","کاڤل"],
+   ["ايکن نون ممونتهکن نبي يونس ک {_}.","ڤنتاي"],
+   ["الله منومبوهکن ڤوکوق {_} اونتوق ملينڠي نبي يونس.","لابو"]
+  ],
+  right:["penduduk","sukatan","taubat","tanggungjawab","adil"],
+  C:[["توبة",2],["ڤندودوق",0],["عادل",4],["سوکتن",1],["تڠݢوڠجواب",3]],
+  D:[
+   ["نبي ذوالکفل عليه السلام منجادي راج يڠ ظالم.",false],
+   ["قوم مدين منيڤو دالم ڤرنياݢاءن.",true],
+   ["نبي شعيب عليه السلام مڽوروه قومڽ برنياݢ دڠن جوجور.",true],
+   ["نبي يونس عليه السلام منيڠݢلکن قومڽ دڠن ايذين الله.",false],
+   ["الله منريما توبة نبي يونس عليه السلام.",true]
+  ],
+  E:[
+   ["نامکن ساتو اخلاق نبي ذوالکفل سباݢاي راج.","Adil, amanah, bertanggungjawab, sabar, tidak marah"],
+   ["اڤاکه يڠ دسرو اوليه نبي شعيب کڤد قوم مدين؟","Sembah Allah dan berniaga dengan jujur, jangan tipu timbangan"],
+   ["اڤاکه دعا نبي يونس دالم ڤروت ايکن؟","La ilaha illa anta subhanaka inni kuntu minaz zalimin"],
+   ["کناڤ نبي يونس دچمڤقکن ک لاءوت؟","Kapal hampir karam; undian jatuh kepada baginda"],
+   ["اڤاکه ڤڠاجرن درڤد کيسه نبي يونس عليه السلام؟","Jangan putus asa; Allah terima taubat; sabar berdakwah"]
+  ]
+},
+{ id:9, place:"Lembah Para Nabi", bab:"Ulang kaji Bab 3", sticker:{e:"📜", n:"Skrol Para Nabi"},
+  A:[
+   ["نبي يڠ ڤرتام منوليس دڠن ڤنا اياله نبي ...",["هود","ادريس","لوط"],1],
+   ["قوم عاد دبيناساکن دڠن ...",["اڠين ريبوت","بنجير","اڤي"],0],
+   ["نبي صالح عليه السلام ممڤوڽاءي معجزة ...",["توڠکت","اونتا بتينا","کاڤل"],1],
+   ["قوم سدوم اياله قوم نبي ...",["لوط","شعيب","يونس"],0],
+   ["اءير زمزم ممنچر کتيک نبي ... ماسيه بايي.",["اسحاق","يوسف","اسماعيل"],2],
+   ["نبي يعقوب عليه السلام اياله انق نبي ...",["اسماعيل","اسحاق","ادريس"],1],
+   ["نبي يڠ دچمڤقکن ک دالم تلاݢ اوليه ابڠ٢ڽ اياله نبي ...",["يوسف","يونس","ايوب"],0],
+   ["نبي يڠ ساڠت صبر دأوجي دڠن ڤڽاکيت اياله نبي ...",["ذوالکفل","ايوب","هود"],1],
+   ["نبي يڠ منجادي راج يڠ عادل اياله نبي ...",["شعيب","صالح","ذوالکفل"],2],
+   ["نبي يڠ دتلن ايکن نون اياله نبي ...",["يونس","لوط","يعقوب"],0]
+  ],
+  bank:["ثمود","هاجر","مدين","نينوى","اسرائيل"],
+  B:[
+   ["نبي صالح عليه السلام دأوتوس کڤد قوم {_}.","ثمود"],
+   ["سيتي {_} اياله ايبو نبي اسماعيل عليه السلام.","هاجر"],
+   ["قوم {_} منيڤو دالم تيمبڠن دان سوکتن.","مدين"],
+   ["نبي يونس عليه السلام دأوتوس کڤد ڤندودوق {_}.","نينوى"],
+   ["نبي يعقوب عليه السلام جوݢ دکنلي دڠن ݢلرن {_}.","اسرائيل"]
+  ],
+  right:["قوم عاد","ڤنداي منجاهيت ڤاکاين","انق نبي ابراهيم دان سارة","برجنجي تيدق ماره","خطيب ڤارا نبي"],
+  C:[["نبي اسحاق عليه السلام",2],["نبي هود عليه السلام",0],["نبي شعيب عليه السلام",4],["نبي ادريس عليه السلام",1],["نبي ذوالکفل عليه السلام",3]],
+  D:[
+   ["قوم ثمود ممبونوه اونتا نبي صالح.",true],
+   ["نبي لوط عليه السلام اياله انق نبي ابراهيم.",false],
+   ["نبي اسماعيل عليه السلام طاعة کڤد ڤرينته الله.",true],
+   ["نبي يوسف عليه السلام ممعافکن ابڠ٢ڽ.",true],
+   ["نبي ايوب عليه السلام مرڠوت کتيک ساکيت.",false]
+  ],
+  E:[
+   ["نامکن ساتو نبي يڠ قومڽ دبيناساکن کران ايڠکر.","Nabi Hud, Salih, Lut atau Syu'aib"],
+   ["نامکن دوا اورڠ انق نبي ابراهيم عليه السلام.","Nabi Ismail AS dan Nabi Ishak AS"],
+   ["اڤاکه کلبيهن نبي يوسف عليه السلام؟","Kacak, pandai tafsir mimpi, pemaaf, bijak"],
+   ["اڤاکه يڠ دلاکوکن اوليه نبي يونس دالم ڤروت ايکن؟","Berdoa, berzikir dan bertaubat kepada Allah"],
+   ["ڤيليه ساتو نبي دان ڽاتاکن ساتو صيفت يڠ کامو ماهو چونتوهي.","Jawapan munasabah, contoh: sabar seperti Nabi Ayyub"]
+  ]
+},
+{ id:10, place:"Bintang Para Nabi", bab:"Ulang kaji semua bab", big:true, sticker:{e:"🌟", n:"Bintang Para Nabi"},
+  A:[
+   ["خديجة بنت خويلد ترکنل سباݢاي سأورڠ ...",["ڤتاني","اوسهاون","ݢورو"],1],
+   ["ميسره منچريتاکن کجوجورن نبي محمد ﷺ کڤد ...",["خديجة","نفيسة","حمزه"],0],
+   ["نفيسة منجادي ... دالم ڤرکهوينن نبي محمد ﷺ دان خديجة.",["ساکسي","اورڠ تڠه","ڤڠنتين"],1],
+   ["انق نبي محمد ﷺ يڠ برنام ابراهيم اياله انق برسام ...",["مارية القبطية","خديجة","نفيسة"],0],
+   ["نبي محمد ﷺ ترڤليهارا درڤد دوسا کران بݢيندا ...",["کاي","معصوم","کوات"],1],
+   ["عذاب کڤد قوم نبي لوط اياله کوت مريک ...",["دتربالقکن","دبنجيري","دباکر"],0],
+   ["نبي اسحاق عليه السلام اياله انق نبي ابراهيم دان ...",["هاجر","مريم","سارة"],2],
+   ["نبي يوسف عليه السلام منجادي منتري د ...",["شام","مصر","مکه"],1],
+   ["نبي شعيب عليه السلام دݢلر ...",["خطيب ڤارا نبي","راج يڠ عادل","باڤ ڤارا نبي"],0],
+   ["نبي يونس عليه السلام بردعا دان برذکير دالم ...",["ݢوا","ڤروت ايکن","تلاݢ"],1]
+  ],
+  bank:["25","حراء","صفا","ذوالکفل","يعقوب"],
+  B:[
+   ["نبي محمد ﷺ برکهوين دڠن خديجة ڤد عمور {_} تاهون.","25"],
+   ["نبي محمد ﷺ مڠاسيڠکن ديري د ݢوا {_}.","حراء"],
+   ["سيتي هاجر برلاري انتارا بوکيت {_} دان مروه.","صفا"],
+   ["نبي {_} عليه السلام اياله راج يڠ عادل.","ذوالکفل"],
+   ["نبي {_} عليه السلام ممڤوڽاءي 12 اورڠ انق للاکي.","يعقوب"]
+  ],
+  right:["قوم ثمود","ڤندودوق نينوى","قوم عاد","قوم سدوم","قوم مدين"],
+  C:[["نبي هود عليه السلام",2],["نبي صالح عليه السلام",0],["نبي لوط عليه السلام",3],["نبي شعيب عليه السلام",4],["نبي يونس عليه السلام",1]],
+  D:[
+   ["خديجة منولق اونتوق برکهوين دڠن نبي محمد ﷺ.",false],
+   ["مشارکت عرب جاهلية ممڤوڽاءي اخلاق يڠ روسق.",true],
+   ["نبي ادريس عليه السلام اياله کتورونن نبي آدم عليه السلام.",true],
+   ["نبي اسماعيل عليه السلام دݢنتيکن دڠن سئيکور کيبس اونتوق دسمبليه.",true],
+   ["نبي ايوب عليه السلام ماره کڤد الله کتيک ساکيت.",false]
+  ],
+  E:[
+   ["کناڤ خديجة ڤرچاي کڤد نبي محمد ﷺ اونتوق برنياݢ؟","Kerana baginda jujur dan amanah"],
+   ["اڤاکه تجوان نبي محمد ﷺ ک ݢوا حراء؟","Mengasingkan diri untuk beribadat, mencari ketenangan dan petunjuk Allah"],
+   ["اڤاکه معجزة نبي صالح عليه السلام؟","Unta betina keluar dari batu"],
+   ["اڤاکه ڤڠاجرن درڤد کيسه نبي يوسف عليه السلام؟","Sabar, pemaaf dan baik hati"],
+   ["نبي مان يڠ ڤاليڠ کامو سوک، دان کناڤ؟","Jawapan munasabah"]
+  ]
+}
+];
+
+const N = SETS.length;
+const FIX = {
+ 1:{D2:"نبي محمد ﷺ منريما تاورن خديجة اونتوق برنياݢ ک شام.",D5:"مهر نبي محمد ﷺ کڤد خديجة اياله 20 ايکور اونتا."},
+ 2:{D2:"نبي محمد ﷺ دتماني اوليه همبا خديجة برنام ميسره.",D4:"نبي محمد ﷺ برستوجو اونتوق برکهوين دڠن خديجة.",D5:"فاطمة اياله انق ڤرمڤوان نبي محمد ﷺ."},
+ 3:{D1:"نبي محمد ﷺ تيدق ڤرنه مڽمبه برهالا.",D5:"مشارکت عرب جاهلية منينداس ڤرمڤوان دان همبا."},
+ 4:{D1:"نبي ادريس عليه السلام ڤنداي منوليس، بݢيندا اورڠ ڤرتام منوليس دڠن ڤنا.",D2:"قوم عاد ايڠکر دان منولق اجرن نبي هود عليه السلام.",D5:"عذاب الله منيمڤا کسلوروهن قوم ثمود يڠ ايڠکر، والاوڤون ڤاکتن ايت دلاکوکن اوليه سݢلينتير اورڠ."},
+ 5:{D2:"سموا انق للاکي نبي محمد ﷺ منيڠݢل دنيا کتيک ماسيه کچيل.",D3:"نبي محمد ﷺ تيدق سوک مليهت قومڽ ملاکوکن معصية.",D5:"قوم عاد سومبوڠ دان مڽمبه برهالا."},
+ 6:{D1:"قوم سدوم ايڠکر دان تيدق مڠيکوت دعوه نبي لوط عليه السلام.",D4:"نبي اسحاق دان نبي اسماعيل اياله ادي براديق، انق نبي ابراهيم عليه السلام."},
+ 7:{D1:"نبي يعقوب عليه السلام ساڠت سايڠ کڤد نبي يوسف.",D4:"نبي ايوب عليه السلام تتڤ صبر دان تيدق ڤرنه مرڠوت."},
+ 8:{D1:"نبي ذوالکفل عليه السلام اياله راج يڠ عادل.",D4:"نبي يونس عليه السلام منيڠݢلکن قومڽ سبلوم منداڤت ايذين الله."},
+ 9:{D2:"نبي لوط عليه السلام اياله انق سودارا نبي ابراهيم عليه السلام.",D5:"نبي ايوب عليه السلام تتڤ صبر دان تيدق مرڠوت."},
+ 10:{D1:"خديجة سنديري مڽاتاکن هاسرت اونتوق برکهوين دڠن نبي محمد ﷺ.",D5:"نبي ايوب عليه السلام تتڤ صبر دان رضا دڠن اوجين الله."}
+};
+function hp(x){let h=2166136261;for(const c of "jejak:"+x){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return (h>>>0).toString(36)}
+SETS.forEach(s=>{
+  s.name="Set "+s.id;
+  const it=[];
+  s.A.forEach((a,i)=>it.push({id:"A"+(i+1),sec:"A",q:a[0],opts:a[1],ans:a[2]}));
+  s.B.forEach((b,i)=>it.push({id:"B"+(i+1),sec:"B",q:b[0],ans:b[1]}));
+  s.C.forEach((c,i)=>it.push({id:"C"+(i+1),sec:"C",q:c[0],opts:s.right,ans:c[1]}));
+  s.D.forEach((d,i)=>it.push({id:"D"+(i+1),sec:"D",q:d[0],ans:d[1]}));
+  s.E.forEach((e,i)=>it.push({id:"E"+(i+1),sec:"E",q:e[0],model:e[1]}));
+  s.items=it;
+});
+
+const QUOTES = [
+  ["Iqra'! Bacalah!","Itulah perkataan pertama wahyu kepada Nabi Muhammad ﷺ. Jom baca dan belajar!"],
+  ["Sesiapa yang menempuh jalan untuk mencari ilmu, Allah mudahkan baginya jalan ke syurga.","Hadis riwayat Muslim"],
+  ["Nabi Muhammad ﷺ digelar Al-Amin, orang yang dipercayai.","Jom jadi jujur dan amanah macam baginda!"],
+  ["Sedikit-sedikit, lama-lama jadi bukit.","Satu soalan demi satu soalan, pasti berjaya."],
+  ["Mulakan dengan Bismillah.","Tenang, baca soalan betul-betul. Kamu boleh!"]
+];
+const STEP_MSG = {5:"Bagus, {n}! 5 soalan dah siap ⭐",10:"Hebat! 10 soalan! Teruskan 🚀",15:"Separuh set dah siap! Rajinnya {n} 💪",20:"20 soalan! Unta pun kagum 🐪",25:"Sikit lagi, {n}! Hampir sampai 🌟",30:"Semua soalan dah dijawab! MasyaAllah 🎉"};
+const TIERS = [{k:"spirit",n:"Sticker Semangat"},{k:"bronze",n:"Sticker Gangsa"},{k:"silver",n:"Sticker Perak"},{k:"gold",n:"Sticker Emas"}];
+const RES_MSG = [
+  "Tak apa, {n}. Setiap pengembara belajar daripada perjalanan. Jom ulang kaji dan cuba lagi!",
+  "Bagus, {n}! Ulang kaji sikit lagi, pasti lebih hebat!",
+  "Syabas, {n}! Sikit lagi nak dapat 3 bintang!",
+  "MasyaAllah, cemerlang! {n} memang bintang Sirah!"
+];
+const COLORS = [["#FFE9A8","#D9955A","#5A2E0C"],["#D9FFF0","#35B889","#063B2A"],["#DDF1FF","#6FA9DD","#0E3257"],["#FFE0F0","#E27AAE","#5A0F37"],["#EDE3FF","#9A7BE0","#2E1A5E"]];
+
+/* ---------- storage (per user) ---------- */
+const KEY2="jejakSirah_v3", OLD="jejakSirah_v2";
+function freshProg(){const a={},e={};for(let i=1;i<=N;i++){a[i]={};e[i]={}}return {answers:a,submitted:{},emarks:e,results:{},best:{},reviewed:{},maxOpen:1}}
+function normProg(p){
+  p=Object.assign(freshProg(),p||{});
+  for(let i=1;i<=N;i++){p.answers[i]=p.answers[i]||{};p.emarks[i]=p.emarks[i]||{}}
+  p.best=p.best||{};p.reviewed=p.reviewed||{};
+  Object.keys(p.results).forEach(s=>{if(!p.best[s]||p.best[s].score<p.results[s].score)p.best[s]=p.results[s]});
+  return p;
+}
+function loadStore(){
+  try{const r=localStorage.getItem(KEY2);if(r){const s=JSON.parse(r);s.users=s.users||[];s.prog=s.prog||{};s.users.forEach(u=>s.prog[u.id]=normProg(s.prog[u.id]));return s}}catch(e){}
+  const s={users:[],prog:{}};
+  try{const o=JSON.parse(localStorage.getItem(OLD)||"null");if(o){s.users=o.users||[];s.pin=o.pin;s.sound=o.sound}}catch(e){}
+  s.users.forEach(u=>s.prog[u.id]=freshProg());return s;
+}
+let ST=loadStore(), USER=null, D=null;
+function save(){try{localStorage.setItem(KEY2,JSON.stringify(ST))}catch(e){}}
+let UI={screen:"login",set:1,q:0,pin:"",after:null,toastSeen:{},confirmReset:null,confirmDel:null,adding:false,newName:"",newCls:"",newC:1,addErr:""};
+/* ---------- sound (Web Audio, synthesised) ---------- */
+const SND=(function(){
+  let ctx=null,master,mus,sfx,noiseBuf,timer=null,theme=null,step=0,nextT=0;
+  const cfg=()=>ST.sound||(ST.sound={music:true,sfx:true});
+  const MV=.14,SV=.55;
+  const mf=m=>440*Math.pow(2,(m-69)/12);
+  function ensure(){
+    if(!ctx){
+      try{
+        const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return false;
+        try{if(navigator.audioSession)navigator.audioSession.type="playback"}catch(e){}
+        ctx=new AC();
+        master=ctx.createGain();master.gain.value=.9;master.connect(ctx.destination);
+        mus=ctx.createGain();mus.gain.value=cfg().music?MV:0;mus.connect(master);
+        sfx=ctx.createGain();sfx.gain.value=cfg().sfx?SV:0;sfx.connect(master);
+        noiseBuf=ctx.createBuffer(1,Math.floor(ctx.sampleRate*.4),ctx.sampleRate);
+        const d=noiseBuf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;
+      }catch(e){ctx=null;return false}
+    }
+    if(ctx.state==="suspended"){try{ctx.resume()}catch(e){}}
+    if(!timer)timer=setInterval(sched,80);
+    return true;
+  }
+  function note(dest,f,t,dur,type,vol,atk,rel){
+    const o=ctx.createOscillator(),g=ctx.createGain();o.type=type||"sine";o.frequency.setValueAtTime(f,t);
+    g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(vol,t+(atk||.01));g.gain.exponentialRampToValueAtTime(.0001,t+dur+(rel||.1));
+    o.connect(g);g.connect(dest);o.start(t);o.stop(t+dur+(rel||.1)+.05);
+  }
+  function sweep(dest,f1,f2,t,dur,type,vol){
+    const o=ctx.createOscillator(),g=ctx.createGain();o.type=type||"sine";o.frequency.setValueAtTime(f1,t);o.frequency.exponentialRampToValueAtTime(f2,t+dur);
+    g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(vol,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+dur+.06);
+    o.connect(g);g.connect(dest);o.start(t);o.stop(t+dur+.1);
+  }
+  function bell(dest,m,t,dur,vol){note(dest,mf(m),t,dur,"sine",vol,.005,.3);note(dest,mf(m)*2,t,dur*.4,"sine",vol*.22,.004,.12);note(dest,mf(m)*3.01,t,dur*.2,"sine",vol*.08,.002,.06)}
+  function mar(dest,m,t,vol){note(dest,mf(m),t,.12,"triangle",vol,.004,.22);note(dest,mf(m)*4,t,.03,"sine",vol*.18,.002,.04)}
+  function noise(dest,t,dur,vol,ftype,f1,f2){
+    const s=ctx.createBufferSource();s.buffer=noiseBuf;const f=ctx.createBiquadFilter();f.type=ftype||"highpass";f.frequency.setValueAtTime(f1||6000,t);if(f2)f.frequency.exponentialRampToValueAtTime(f2,t+dur);
+    const g=ctx.createGain();g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.0001,t+dur);s.connect(f);f.connect(g);g.connect(dest);s.start(t);s.stop(t+dur+.02);
+  }
+  /* music themes: [step, midi, lengthInSteps] */
+  const THEMES={
+    menu:{spb:.3,len:64,perc:true,vol:.5,
+      mel:[[0,76,1],[1,79,1],[2,81,2],[4,79,1],[5,76,1],[6,74,2],[8,72,1],[9,76,1],[10,81,2],[12,79,2],[14,76,2],
+           [16,77,1],[17,81,1],[18,84,2],[20,81,1],[21,79,1],[22,77,2],[24,79,2],[26,74,1],[27,76,1],[28,74,2],[30,71,2],
+           [32,76,1],[33,79,1],[34,84,2],[36,83,1],[37,81,1],[38,79,2],[40,81,1],[41,79,1],[42,76,2],[44,72,1],[45,74,1],[46,76,2],
+           [48,77,2],[50,81,2],[52,79,1],[53,77,1],[54,74,2],[56,72,2],[58,76,1],[59,79,1],[60,84,4]],
+      bass:(function(){const r=[48,45,41,43,48,45,41,48],b=[];r.forEach((m,i)=>{const o=i*8;const root=(i===6)?[[o,41],[o+4,43]]:[[o,m],[o+4,m]];root.forEach(([s,mm])=>{b.push([s,mm,2]);b.push([s+2,mm+12,1])})});return b})()},
+    quiz:{spb:.42,len:32,perc:false,vol:.38,
+      mel:[[0,76,4],[4,79,4],[8,74,4],[12,71,4],[16,72,4],[20,76,2],[22,81,2],[24,81,4],[28,79,4]],
+      bass:[[0,48,8],[8,43,8],[16,45,8],[24,41,8]]}
+  };
+  function sched(){
+    if(!ctx||!theme||!cfg().music)return;
+    const th=THEMES[theme];
+    if(nextT<ctx.currentTime-.05)nextT=ctx.currentTime+.05;
+    while(nextT<ctx.currentTime+.35){
+      const s=step%th.len;
+      for(const n of th.mel)if(n[0]===s)bell(mus,n[1],nextT,n[2]*th.spb,th.vol);
+      for(const n of th.bass)if(n[0]===s)note(mus,mf(n[1]),nextT,n[2]*th.spb*.7,"triangle",th.vol*.55,.01,.15);
+      if(th.perc){if(s%2===1)noise(mus,nextT,.04,.05,"highpass",7000);if(s%8===4)noise(mus,nextT,.07,.07,"bandpass",1800)}
+      step++;nextT+=th.spb;
+    }
+  }
+  function setTheme(t){if(t===theme)return;theme=t;step=0;if(ctx)nextT=ctx.currentTime+.15}
+  const FX={
+    tap:t=>note(sfx,880,t,.03,"sine",.25,.002,.05),
+    pop:t=>sweep(sfx,420,880,t,.08,"sine",.35),
+    select:t=>{sweep(sfx,520,1040,t,.07,"triangle",.3);bell(sfx,84,t+.06,.1,.25)},
+    sparkle:t=>{[84,88,91,96].forEach((m,i)=>bell(sfx,m,t+i*.06,.15,.28))},
+    ding:t=>{bell(sfx,88,t,.2,.35);bell(sfx,93,t+.12,.35,.35)},
+    jingle:t=>{[72,76,79,84].forEach((m,i)=>mar(sfx,m,t+i*.09,.45));bell(sfx,88,t+.4,.5,.3)},
+    fanfare:t=>{[[67,0],[72,.12],[76,.24],[79,.36]].forEach(([m,d])=>{mar(sfx,m,t+d,.45)});[76,79,84].forEach(m=>{note(sfx,mf(m),t+.5,.55,"triangle",.22,.02,.4)});[88,91,96].forEach((m,i)=>bell(sfx,m,t+.6+i*.07,.3,.22))},
+    star:(t,i)=>{bell(sfx,84+[0,4,7][i||0],t,.35,.4);bell(sfx,96+[0,4,7][i||0],t+.05,.2,.15)},
+    count:t=>note(sfx,1320,t,.015,"square",.05,.001,.02),
+    yay:t=>{sweep(sfx,400,1200,t,.15,"triangle",.3);[84,88,91,96].forEach((m,i)=>bell(sfx,m,t+.12+i*.05,.15,.28))},
+    boing:t=>{const o=ctx.createOscillator(),g=ctx.createGain(),l=ctx.createOscillator(),lg=ctx.createGain();o.type="triangle";o.frequency.setValueAtTime(330,t);o.frequency.exponentialRampToValueAtTime(180,t+.3);l.frequency.value=14;lg.gain.value=25;l.connect(lg);lg.connect(o.frequency);g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(.3,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+.35);o.connect(g);g.connect(sfx);o.start(t);l.start(t);o.stop(t+.4);l.stop(t+.4)},
+    bonk:t=>{note(sfx,196,t,.08,"triangle",.35,.003,.1);note(sfx,165,t+.1,.1,"triangle",.3,.003,.12)},
+    unlock:t=>{bell(sfx,79,t,.1,.35);bell(sfx,84,t+.1,.3,.35)},
+    whoosh:t=>noise(sfx,t,.35,.18,"bandpass",400,3000),
+    down:t=>{[84,79,76,72].forEach((m,i)=>mar(sfx,m,t+i*.08,.35))},
+    tick:t=>note(sfx,1500,t,.02,"sine",.18,.001,.03)
+  };
+  function play(name,arg,delay){
+    if(!cfg().sfx||!FX[name])return;
+    if(!ensure())return;
+    try{FX[name](ctx.currentTime+.01+(delay||0),arg)}catch(e){}
+  }
+  function setMusic(on){cfg().music=on;save();if(on)ensure();if(mus)mus.gain.setTargetAtTime(on?MV:0,ctx.currentTime,.15);if(on&&ctx)nextT=ctx.currentTime+.1}
+  function setSfx(on){cfg().sfx=on;save();if(on)ensure();if(sfx)sfx.gain.setTargetAtTime(on?SV:0,ctx.currentTime,.05)}
+  document.addEventListener("visibilitychange",()=>{if(!ctx)return;try{document.hidden?ctx.suspend():ctx.resume()}catch(e){}});
+  return {ensure,setTheme,play,setMusic,setSfx,cfg};
+})();
+function themeFor(sc){return ["quiz","review","check","pin","parent"].includes(sc)?"quiz":"menu"}
+function paintSnd(){
+  const c=SND.cfg(),m=document.getElementById("bMus"),x=document.getElementById("bSfx"),w=document.getElementById("sndc");
+  if(!m)return;m.classList.toggle("off",!c.music);x.classList.toggle("off",!c.sfx);
+  m.setAttribute("aria-pressed",String(c.music));x.setAttribute("aria-pressed",String(c.sfx));
+  w.hidden=UI.screen==="check";
+}
+document.getElementById("sndc").addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;SND.ensure();
+  if(b.id==="bMus"){SND.setMusic(!SND.cfg().music);toast(SND.cfg().music?"Muzik dihidupkan 🎵":"Muzik dimatikan")}
+  else{SND.setSfx(!SND.cfg().sfx);if(SND.cfg().sfx)SND.play("ding");toast(SND.cfg().sfx?"Bunyi dihidupkan 🔔":"Bunyi dimatikan")}
+  paintSnd();
+});
+
+/* ---------- helpers ---------- */
+const app=document.getElementById("app");
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const NM=s=>s.replace(/\{n\}/g,USER?USER.name:"");
+function avatar(u,cls){const c=COLORS[u.c%COLORS.length];return `<span class="avatar ${cls||""}" style="background:radial-gradient(circle at 35% 30%,${c[0]},${c[1]});color:${c[2]}">${esc(u.name.trim()[0].toUpperCase())}</span>`}
+function isAnswered(v){return v!==undefined&&v!==null&&String(v).trim()!==""}
+function answeredCount(s){const a=D.answers[s];return SETS[s-1].items.filter(i=>isAnswered(a[i.id])).length}
+function starsFor(sc){return sc>=27?3:sc>=21?2:sc>=15?1:0}
+function totalStars(){let t=0;for(let s=1;s<=N;s++)t+=D.best[s]?D.best[s].stars:0;return t}
+function allDone(){for(let s=1;s<=N;s++)if(!D.best[s])return false;return true}
+function anyPerfect(){for(let s=1;s<=N;s++)if(D.best[s]&&D.best[s].score===30)return true;return false}
+function status(s){
+  if(D.results[s])return "done";
+  if(D.submitted[s])return "wait";
+  if(s>D.maxOpen)return "locked";
+  return answeredCount(s)>0?"progress":"open";
+}
+function isCorrect(s,it){if(it.sec==="E")return D.emarks[s][it.id]===true;return D.answers[s][it.id]===it.ans}
+function score(s){return SETS[s-1].items.filter(it=>isCorrect(s,it)).length}
+function starStr(n){return "★".repeat(n)+"☆".repeat(3-n)}
+function go(screen,extra){Object.assign(UI,{screen},extra||{});render();if(screen!=="map")window.scrollTo({top:0,behavior:reduced?"auto":"smooth"})}
+let toastT;function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("show"),2600)}
+function needsReview(s){return !!(D.results[s]&&D.results[s].score<30&&!D.reviewed[s])}
+function resetSet(s){D.answers[s]={};D.emarks[s]={};delete D.submitted[s];delete D.results[s];delete D.reviewed[s];Object.keys(UI.toastSeen).forEach(k=>{if(k.startsWith(USER.id+":"+s+":"))delete UI.toastSeen[k]})}
+
+/* ---------- sky ---------- */
+(function(){const sk=document.getElementById("sky");let h="";for(let i=0;i<70;i++){const z=(Math.random()*2+1).toFixed(1);h+=`<span class="st" style="left:${(Math.random()*100).toFixed(1)}%;top:${(Math.random()*70).toFixed(1)}%;width:${z}px;height:${z}px;animation-delay:${(Math.random()*3).toFixed(1)}s"></span>`}
+h+=`<svg viewBox="0 0 400 100" preserveAspectRatio="none"><path d="M0 60 Q 90 20 190 55 T 400 45 L400 100 L0 100Z" fill="#232A5C"/><path d="M0 80 Q 120 50 250 78 T 400 70 L400 100 L0 100Z" fill="#2C2F62"/></svg>`;sk.innerHTML=h})();
+
+/* ---------- confetti ---------- */
+function confetti(n){
+  if(reduced)return;const c=document.getElementById("fx"),x=c.getContext("2d");
+  const W=c.width=innerWidth*devicePixelRatio,H=c.height=innerHeight*devicePixelRatio;
+  const cols=["#FFD45E","#4FD1A1","#FF7B6B","#F2C98A","#8CC4F0","#ffffff"];
+  const P=[];for(let i=0;i<(n||140);i++)P.push({x:W/2+(Math.random()-.5)*W*.3,y:H*.35,vx:(Math.random()-.5)*28,vy:-Math.random()*26-8,r:Math.random()*Math.PI,vr:(Math.random()-.5)*.4,s:(Math.random()*8+6)*devicePixelRatio,c:cols[i%cols.length]});
+  let f=0;(function tick(){x.clearRect(0,0,W,H);P.forEach(p=>{p.vy+=.9;p.vx*=.985;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);x.restore()});if(++f<170)requestAnimationFrame(tick);else x.clearRect(0,0,W,H)})();
+}
+
+/* ---------- screens ---------- */
+function vLogin(){
+  const cards=ST.users.map(u=>`<button class="profile" data-act="login" data-u="${esc(u.id)}">${avatar(u)}<span class="pname">${esc(u.name)}</span><span class="pclass">${u.cls?esc(u.cls):"&nbsp;"}</span></button>`).join("");
+  const add=UI.adding?`<form class="addform" id="addForm" autocomplete="off">
+      <h3>Pengguna baru</h3>
+      <label for="newName">Nama</label><input id="newName" data-input="newName" maxlength="16" value="${esc(UI.newName)}" placeholder="Contoh: Aisyah">
+      <label for="newCls">Kelas (tak wajib)</label><input id="newCls" data-input="newCls" maxlength="20" value="${esc(UI.newCls)}" placeholder="Contoh: 2 Aisyah">
+      <span class="lbl2">Warna</span><div class="swatches">${COLORS.map((c,i)=>`<button type="button" class="sw ${UI.newC===i?"on":""}" data-act="pickC" data-v="${i}" style="background:${c[1]}" aria-label="Warna ${i+1}"></button>`).join("")}</div>
+      <p class="err">${esc(UI.addErr)}</p>
+      <div class="row-btns"><button type="button" class="btn ghost small dark" data-act="cancelAdd">Batal</button><button type="submit" class="btn mint small">Simpan</button></div>
+    </form>`:`<button class="profile addp" data-act="addUser"><span class="avatar plus">+</span><span class="pname">Tambah</span><span class="pclass">Pengguna baru</span></button>`;
+  return `<section class="login">
+    <div class="brand"><div class="moon" aria-hidden="true"></div>
+      <h1>Jejak Sirah</h1><div class="bj jawi">جيجق سيرة</div>
+      <div class="tag">Latihan Sirah Tahun 2 · 10 set · 2 checkpoint besar</div></div>
+    <div class="ask">Siapa yang nak belajar hari ini?</div>
+    <div class="profiles">${cards}${add}</div>
+    <div class="hint">${ST.users.length?"Tekan gambar kamu untuk masuk":"Tekan Tambah untuk cipta profil pertama"}</div>
+  </section>`;
+}
+function vWelcome(){
+  const q=QUOTES[Math.floor(Math.random()*QUOTES.length)],t="Selamat datang, "+USER.name+"!";
+  const letters=[...t].map((ch,i)=>ch===" "?" ":`<span class="l" style="--i:${i}">${esc(ch)}</span>`).join("");
+  const back=Object.keys(D.results).length||Object.keys(D.submitted).length||Object.keys(D.best).length||answeredCount(1);
+  return `<section class="welcome">
+    <div class="salam">السلام عليکم</div>
+    <h2 aria-label="${esc(t)}">${letters}</h2>
+    <div class="quote"><span class="qm">“</span>${esc(q[0])}<small>${esc(q[1])}</small></div>
+    <p class="hint" style="font-size:1.05rem;font-weight:700">${back?"Jom sambung perjalanan kamu!":"Hari ini kita mulakan Jejak Sirah. Ada 10 set dan 2 checkpoint besar menunggu kamu!"}</p>
+    <button class="btn" data-act="map">${back?"Sambung Perjalanan":"Jom Mula Perjalanan"} →</button>
+  </section>`;
+}
+function topbar(){
+  return `<div class="topbar">
+    <div class="me">${avatar(USER)}${esc(USER.name)} <span class="pill" title="Jumlah bintang">⭐ ${totalStars()}</span></div>
+    <div class="tools"><button class="btn ghost small" data-act="book">🏅 Sticker</button><button class="btn ghost small" data-act="parentPanel">🔒 Ibu/Ayah</button><button class="btn ghost small" data-act="logout">↩ Log Keluar</button></div>
+  </div>`;
+}
+function curSet(){for(let s=1;s<=N;s++)if(["open","progress"].includes(status(s)))return s;return null}
+function bannerText(){
+  const c=curSet();
+  if(allDone())return NM("Tahniah! {n} dah tamatkan Jejak Sirah dan menang Piala Johan! 🏆");
+  for(let s=1;s<=N;s++)if(status(s)==="wait")return "Ada set menunggu semakan Ibu/Ayah. Sambil tunggu, teruskan ke set seterusnya!";
+  for(let s=1;s<=N;s++)if(needsReview(s))return `📚 ${SETS[s-1].name} belum diulang kaji. Jom semak soalan yang salah bersama Ibu/Ayah!`;
+  if(c===1&&answeredCount(1)===0)return "Set pertama sedang menunggu. Bismillah, jom mula!";
+  if(c&&SETS[c-1].big)return `🚩 Seterusnya: CHECKPOINT BESAR! Dapatkan ${SETS[c-1].sticker.n}!`;
+  if(c)return `Teruskan ke ${SETS[c-1].name}! Setiap set ada sticker menanti.`;
+  return "Teruskan perjalanan! Semak semula set yang belum dapat 3 bintang.";
+}
+function mapPos(){const xs=[110,290,110,290,200,110,290,110,290,200];const P={};let y=150;for(let s=1;s<=N;s++){if(s>1)y+=SETS[s-1].big?200:(SETS[s-2].big?175:140);P[s]=[xs[(s-1)%xs.length],y]}P.end=[200,y+175];return P}
+function vMap(){
+  const P=mapPos(),H=P.end[1]+110,cur=curSet(),tro=allDone();
+  const pts=[[200,46]].concat([...Array(N)].map((_,i)=>P[i+1])).concat([P.end]);
+  let d=`M${pts[0][0]} ${pts[0][1]}`;for(let i=1;i<pts.length;i++){const [a,b]=pts[i-1],[c,e]=pts[i],m=(b+e)/2;d+=` C ${a} ${m}, ${c} ${m}, ${c} ${e}`}
+  const y=s=>P[s][1];
+  let deco=`<g fill="#3A3F7A"><rect x="250" y="150" width="22" height="22" rx="2"/><rect x="276" y="142" width="18" height="30" rx="2"/><rect x="298" y="154" width="26" height="18" rx="2"/></g><g fill="#FFD45E" opacity=".8"><rect x="257" y="157" width="4" height="4"/><rect x="282" y="150" width="4" height="4"/><rect x="306" y="160" width="4" height="4"/></g>`;
+  deco+=`<text x="190" y="${y(2)+8}" font-size="24" opacity=".8">🏡</text><text x="190" y="${y(4)+8}" font-size="24" opacity=".8">🐫</text><text x="190" y="${y(6)+8}" font-size="22" opacity=".8">💧</text><text x="200" y="${y(7)+8}" font-size="22" opacity=".8">🌙</text>`;
+  deco+=`<polygon points="160,${y(3)+40} 250,${y(3)-70} 350,${y(3)+40}" fill="#2F356C"/><polygon points="226,${y(3)-40} 250,${y(3)-70} 272,${y(3)-42} 258,${y(3)-48} 246,${y(3)-38}" fill="#4A5092"/><ellipse cx="262" cy="${y(3)+2}" rx="10" ry="7" fill="#141A3A"/>`;
+  deco+=`<path d="M170 ${y(8)+10} q 15 -10 30 0 t 30 0 t 30 0 t 30 0" fill="none" stroke="#8CC4F0" stroke-width="3" opacity=".6"/><path d="M180 ${y(8)+24} q 15 -10 30 0 t 30 0 t 30 0" fill="none" stroke="#8CC4F0" stroke-width="3" opacity=".4"/>`;
+  [[40,y(9)-40],[350,y(9)+30],[60,y(10)-70],[340,y(10)-60],[30,y(10)+40],[370,y(9)-60]].forEach(([a,b],i)=>deco+=`<text x="${a}" y="${b}" font-size="${12+i%3*5}" fill="#FFD45E" opacity=".7">✦</text>`);
+  let nodes="";
+  for(let s=1;s<=N;s++){
+    const [x,yy]=P[s],st=status(s),set=SETS[s-1],r=set.big?46:34,best=D.best[s];
+    const fill={locked:"#2B3163",open:"#FFD45E",progress:"#FFD45E",wait:"#8CC4F0",done:"#4FD1A1"}[st];
+    const inner={locked:"🔒",open:String(s),progress:String(s),wait:"⏳",done:needsReview(s)?"📚":"✓"}[st];
+    const small=st==="locked"||st==="wait"||(st==="done"&&needsReview(s)),ink=st==="locked"?"#8C90C0":"#2B2340";
+    const bigLbl=set.big?`<rect x="${x-78}" y="${yy-r-40}" width="156" height="26" rx="13" fill="#FFD45E"/><text x="${x}" y="${yy-r-21}" text-anchor="middle" font-size="13" font-weight="800" fill="#3A2600" letter-spacing="1">🚩 CHECKPOINT BESAR</text>`:"";
+    nodes+=`<g class="node ${st==="progress"?"open":st} ${set.big?"big":""}" data-act="station" data-set="${s}" role="button" tabindex="${st==="locked"?-1:0}" aria-label="${set.name}, ${esc(set.place)}" ${s===cur?'id="here"':""}>
+      ${bigLbl}
+      ${st==="open"||st==="progress"?`<circle class="ring" cx="${x}" cy="${yy}" r="${r}" fill="none" stroke="#FFD45E" stroke-width="4"/>`:""}
+      ${set.big?`<circle cx="${x}" cy="${yy}" r="${r+8}" fill="none" stroke="${st==="locked"?"#4A5090":"#FFD45E"}" stroke-width="3" stroke-dasharray="4 6"/>`:""}
+      <circle cx="${x}" cy="${yy}" r="${r}" fill="${fill}" stroke="${st==="locked"?"#4A5090":"#FFF7E8"}" stroke-width="4"/>
+      <text x="${x}" y="${yy+(small?9:12)}" text-anchor="middle" font-size="${small?24:(set.big?40:34)}" font-weight="800" fill="${ink}">${inner}</text>
+      <text x="${x}" y="${yy+r+22}" text-anchor="middle" font-size="18" font-weight="800" fill="#F6F1FF">${set.name}</text>
+      <text x="${x}" y="${yy+r+40}" text-anchor="middle" font-size="14" font-weight="600" fill="#B9B6DA">${esc(set.place)}</text>
+      ${best?`<text x="${x}" y="${yy+r+60}" text-anchor="middle" font-size="18" fill="#FFD45E" letter-spacing="2">${starStr(best.stars)}</text>`:""}
+    </g>`;
+  }
+  const [tx,ty]=P.end;
+  nodes+=`<g class="node ${tro?"":"locked"}" ${tro?'data-act="book"':""}><circle cx="${tx}" cy="${ty}" r="40" fill="${tro?"#FFD45E":"#2B3163"}" stroke="${tro?"#FFF7E8":"#4A5090"}" stroke-width="4"/><text x="${tx}" y="${ty+14}" text-anchor="middle" font-size="40" ${tro?"":'opacity=".35"'}>🏆</text><text x="${tx}" y="${ty+64}" text-anchor="middle" font-size="18" font-weight="800" fill="#F6F1FF">Piala Johan</text></g>`;
+  nodes+=`<text x="200" y="30" text-anchor="middle" font-size="15" font-weight="800" fill="#F2C98A" letter-spacing="2">MULA</text>`;
+  let camel="";
+  const cp=cur?P[cur]:(tro?P.end:null);
+  if(cp){const cx=cp[0]<200?cp[0]+(cur&&SETS[cur-1].big?74:62):cp[0]-(cur&&SETS[cur-1].big?74:62);camel=`<g transform="scale(-1,1) translate(${-2*cx},0)"><text class="camel" x="${cx}" y="${cp[1]+12}" text-anchor="middle" font-size="34">🐪</text></g>`}
+  const svg=`<svg class="map" viewBox="0 0 400 ${H}" role="img" aria-label="Peta perjalanan Jejak Sirah">${deco}<path d="${d}" fill="none" stroke="#F2C98A" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 14" opacity=".85"/>${nodes}${camel}</svg>`;
+  const cards=[...Array(N)].map((_,i)=>{
+    const s=i+1,st=status(s),set=SETS[s-1],best=D.best[s];
+    const line={locked:`<span class="s">🔒 Siapkan set sebelum ini dulu</span>`,open:`<span class="s open">Sedia untuk dijawab</span>`,progress:`<span class="s open">Sedang dijawab · ${answeredCount(s)}/30</span>`,wait:`<span class="s wait">⏳ Menunggu semakan</span>`,done:D.results[s]?`<span class="s done">Markah ${D.results[s].score}/30</span>${needsReview(s)?`<span class="s wait">📚 Belum ulang kaji</span>`:""}`:""}[st];
+    const bl=best&&st!=="done"?`<span class="s done">Terbaik: ${best.score}/30</span>`:"";
+    return `<button class="stn ${st} ${set.big?"bigc":""}" data-act="station" data-set="${s}" ${st==="locked"?"disabled":""}><span class="t">${set.name}${set.big?' <span class="cpb">CHECKPOINT</span>':""}</span><span class="p">${esc(set.place)} · ${esc(set.bab)}</span>${line}${bl}${best?`<span class="sst">${starStr(best.stars)}</span>`:""}</button>`;
+  }).join("");
+  return topbar()+`<p class="banner">${bannerText()}</p>`+svg+`<h3 class="listh">Semua set</h3><div class="stations">${cards}</div>`;
+}
+function qBody(it,v,set){
+  if(it.sec==="A")return `<div class="qtext jawi">${esc(it.q)}</div><div class="opts">${it.opts.map((o,i)=>`<button class="opt ${v===i?"sel":""}" data-act="pick" data-v="${i}"><span class="lt">${LET[i]}</span><span>${esc(o)}</span></button>`).join("")}</div>`;
+  if(it.sec==="B"){
+    const used=set.items.filter(x=>x.sec==="B"&&x.id!==it.id).map(x=>D.answers[set.id][x.id]).filter(Boolean);
+    const q=esc(it.q).replace("{_}",`<span class="blank ${v?"filled":""}">${v?esc(v):"&nbsp;"}</span>`);
+    return `<div class="qtext jawi">${q}</div><div class="bank">${set.bank.map(w=>`<button class="chip ${v===w?"sel":""} ${used.includes(w)&&v!==w?"used":""}" data-act="word" data-v="${esc(w)}">${esc(w)}</button>`).join("")}</div>`;
+  }
+  if(it.sec==="C")return `<div class="left-item jawi">${esc(it.q)}</div><div class="qsub" style="text-align:center">Padankan dengan jawapan yang betul</div><div class="opts">${it.opts.map((o,i)=>`<button class="opt ${v===i?"sel":""}" data-act="pick" data-v="${i}"><span class="lt">${LET[i]}</span><span>${esc(o)}</span></button>`).join("")}</div>`;
+  if(it.sec==="D")return `<div class="qtext jawi">${esc(it.q)}</div><div class="tf"><button class="tfb yes ${v===true?"sel":""}" data-act="tf" data-v="1"><span class="ic">✓</span><span class="jw">بتول</span><span class="rm">Betul</span></button><button class="tfb no ${v===false?"sel":""}" data-act="tf" data-v="0"><span class="ic">✗</span><span class="jw">ساله</span><span class="rm">Salah</span></button></div>`;
+  return `<div class="qtext jawi">${esc(it.q)}</div><label for="eAns" class="qsub" style="display:block;margin-top:10px">Jawapan kamu:</label><textarea id="eAns" data-input="e" placeholder="Taip jawapan di sini">${esc(v||"")}</textarea>`;
+}
+function vQuiz(){
+  const set=SETS[UI.set-1],it=set.items[UI.q],v=D.answers[set.id][it.id],n=answeredCount(set.id),pct=n/30*100;
+  const groups=["A","B","C","D","E"].map(sec=>`<div class="grp"><span class="gl" aria-hidden="true">${SEC_LET[sec]}</span>${set.items.map((x,i)=>x.sec===sec?`<button class="g ${isAnswered(D.answers[set.id][x.id])?"done":""} ${i===UI.q?"cur":""}" data-act="jump" data-v="${i}" aria-label="Soalan ${i+1}">${i+1}</button>`:"").join("")}</div>`).join("");
+  return `<div class="qhead"><button class="btn ghost small" data-act="map">← Peta</button><span class="ttl">${set.big?"🚩 ":""}${set.name} · ${esc(set.place)}<small class="bab">${esc(set.bab)}</small></span><span class="count">${n}/30 dijawab</span></div>
+    <div class="track" aria-hidden="true"><div class="fill" style="width:${pct}%"></div><span class="cm" style="left:${Math.max(3,pct)}%">🐪</span><span class="flag">🏁</span></div>
+    <div class="sec"><span class="sj jawi">${SEC[it.sec].j}</span><span class="sr">${SEC[it.sec].r}</span></div>
+    <div class="card" id="qcard"><span class="qnum">Soalan ${UI.q+1}</span>${qBody(it,v,set)}</div>
+    <div class="nav"><button class="btn ghost" data-act="prev" ${UI.q===0?"disabled":""}>← Sebelum</button>${UI.q===29?`<button class="btn mint" data-act="confirm">Siap! Semak &amp; Hantar →</button>`:`<button class="btn" data-act="next">Seterusnya →</button>`}</div>
+    <div class="qgrid" aria-label="Senarai soalan">${groups}</div>`;
+}
+function vConfirm(){
+  const set=SETS[UI.set-1],n=answeredCount(set.id),un=set.items.map((x,i)=>isAnswered(D.answers[set.id][x.id])?null:i).filter(x=>x!==null);
+  return `<section class="panel"><div class="big-emoji">${un.length?"🧐":"🎉"}</div><h2>${un.length?"Hampir siap!":"Semua dah dijawab!"}</h2>
+    <p>Kamu dah jawab <b>${n}</b> daripada 30 soalan.${un.length?" Masih ada soalan yang belum dijawab. Tekan nombor untuk jawab:":" Nak hantar sekarang? Selepas hantar, jawapan tak boleh diubah lagi."}</p>
+    ${un.length?`<div class="unans">${un.map(i=>`<button class="g" data-act="jump" data-v="${i}">${i+1}</button>`).join("")}</div>`:""}
+    <div class="row-btns"><button class="btn ghost" data-act="backQuiz">← Semak semula</button><button class="btn mint" data-act="submit">${un.length?"Hantar juga":"Hantar Jawapan"} ✓</button></div></section>`;
+}
+function vSubmitted(){
+  const set=SETS[UI.set-1];
+  return `<section class="panel"><div class="big-emoji">${set.big?"🚩":"🏁"}</div><h2>Syabas, ${esc(USER.name)}!</h2>
+    <p>Kamu dah sampai ke hujung ${set.name}${set.big?", CHECKPOINT BESAR":""}. Sekarang panggil Ibu atau Ayah untuk semak jawapan dan buka hadiah kamu!</p>
+    <div class="row-btns"><button class="btn" data-act="toCheck">🔒 Ibu/Ayah: Semak Jawapan</button><button class="btn ghost" data-act="map">Kembali ke Peta</button></div></section>`;
+}
+function vPin(){
+  const m=UI.pinMode,af=UI.after||{};
+  if(m==="forgot"){
+    return `<section class="panel"><form class="pin" id="mathForm" autocomplete="off"><h3>Lupa kod?</h3><p style="color:var(--ink-muted);font-size:1rem;margin-top:6px">Soalan untuk ibu bapa sahaja. Selepas jawab, boleh cipta kod baru.</p>
+      <p style="font-family:var(--f-display);font-size:2rem;font-weight:800;margin:14px 0 8px">${UI.math.a} × ${UI.math.b} = ?</p>
+      <input id="mathAns" data-input="math" inputmode="numeric" maxlength="4" value="${esc(UI.mathVal||"")}" aria-label="Jawapan">
+      <p class="err">${esc(UI.pinErr||"")}</p>
+      <div class="row-btns"><button type="button" class="btn ghost small dark" data-act="pinCancel">Batal</button><button type="submit" class="btn mint small">Sahkan</button></div></form></section>`;
+  }
+  const dots=[0,1,2,3].map(i=>`<span class="dot ${i<UI.pin.length?"f":""}"></span>`).join("");
+  const keys=[1,2,3,4,5,6,7,8,9].map(k=>`<button class="key" data-act="key" data-v="${k}">${k}</button>`).join("")+`<button class="key" data-act="pinCancel" style="font-size:1rem">Batal</button><button class="key" data-act="key" data-v="0">0</button><button class="key" data-act="del" aria-label="Padam">⌫</button>`;
+  const title={check:"Untuk Ibu &amp; Ayah sahaja",new1:af.change?"Tukar kod Ibu/Ayah":"Cipta kod Ibu/Ayah",new2:"Sahkan kod"}[m];
+  const sub={check:af.why||"Masukkan kod 4 digit",new1:af.change?"Pilih kod baru 4 digit.":"Kali pertama: pilih kod 4 digit yang anak tak tahu. Kod ini untuk semak jawapan, buat semula set dan Ruang Ibu/Ayah.",new2:"Masukkan kod yang sama sekali lagi."}[m];
+  return `<section class="panel"><div class="pin" id="pinbox"><h3>${title}</h3><p style="color:var(--ink-muted);font-size:1rem;margin-top:6px">${esc(sub)}</p><div class="dots">${dots}</div><div class="keys">${keys}</div><p class="err" id="pinerr">${esc(UI.pinErr||"")}</p>${m==="check"?`<button class="linkbtn" data-act="forgot">Lupa kod?</button>`:""}</div></section>`;
+}
+function kidAns(it,v){
+  if(!isAnswered(v))return `<span class="av" style="color:var(--ink-muted)">(tiada jawapan)</span>`;
+  if(it.sec==="A"||it.sec==="C")return `<span class="av j">${LET[v]}. ${esc(it.opts[v])}</span>`;
+  if(it.sec==="B")return `<span class="av j">${esc(v)}</span>`;
+  if(it.sec==="D")return `<span class="av">${v?"✓ Betul":"✗ Salah"}</span>`;
+  return `<span class="av">${esc(v)}</span>`;
+}
+function rightAns(it){
+  if(it.sec==="A"||it.sec==="C")return `<span class="av j">${LET[it.ans]}. ${esc(it.opts[it.ans])}</span>`;
+  if(it.sec==="B")return `<span class="av j">${esc(it.ans)}</span>`;
+  if(it.sec==="D")return `<span class="av">${it.ans?"✓ Betul":"✗ Salah"}</span>`;
+  return `<span class="av">${esc(it.model)}</span>`;
+}
+function rowHTML(s,it,idx,forParent){
+  const v=D.answers[s][it.id];let st;
+  if(it.sec==="E"&&forParent){const m=D.emarks[s][it.id];st=`<div><span class="lbl">Tanda</span><div class="mk"><button class="mkb ok ${m===true?"on":""}" data-act="emark" data-id="${it.id}" data-v="1">✓ Betul</button><button class="mkb bad ${m===false?"on":""}" data-act="emark" data-id="${it.id}" data-v="0">✗ Salah</button></div></div>`}
+  else{const ok=isCorrect(s,it);st=`<div><span class="lbl">Status</span><span class="tag ${ok?"ok":"bad"}">${ok?"✓ Betul":"✗ Salah"}</span></div>`}
+  return `<div class="rw"><span class="n">${idx+1}</span><div class="q">${esc(it.q).replace("{_}","______")}</div><div class="ans"><div><span class="lbl">Jawapan ${esc(USER.name)}</span>${kidAns(it,v)}</div><div><span class="lbl">${it.sec==="E"?"Skema":"Jawapan betul"}</span>${rightAns(it)}</div>${st}</div></div>`;
+}
+function fact(it,s){
+  if(it.sec==="A"){const o=it.opts[it.ans],k=it.q.includes("...")?"...":(it.q.includes("______")?"______":null);if(k){const i=it.q.indexOf(k);return esc(it.q.slice(0,i))+`<b class="hl">${esc(o)}</b>`+esc(it.q.slice(i+k.length))}return esc(it.q)+` <b class="hl">${esc(o)}</b>`}
+  if(it.sec==="B"){const [a,b]=it.q.split("{_}");return esc(a)+`<b class="hl">${esc(it.ans)}</b>`+esc(b)}
+  if(it.sec==="C")return esc(it.q)+" : "+`<b class="hl">${esc(it.opts[it.ans])}</b>`;
+  if(it.sec==="D")return it.ans?esc(it.q):esc((FIX[s]||{})[it.id]||"");
+  return "";
+}
+function startReview(s){const list=SETS[s-1].items.map((it,i)=>isCorrect(s,it)?null:i).filter(x=>x!==null);UI.rv={s,list,i:0,tried:[],gotIt:false,newBadge:false};rvPhase();go("review")}
+function rvPhase(){const rv=UI.rv;if(rv.i<rv.list.length){const it=SETS[rv.s-1].items[rv.list[rv.i]];rv.phase=it.sec==="E"?"reveal":"try";const ov=D.answers[rv.s][it.id];rv.tried=(["A","B","C"].includes(it.sec)&&isAnswered(ov))?[String(ov)]:[];rv.gotIt=false}}
+function vReview(){
+  const rv=UI.rv,s=rv.s,set=SETS[s-1],n=rv.list.length;
+  if(rv.i>=n){
+    return `<section class="panel"><div class="big-emoji">🎓</div><h2>Sesi ulang kaji selesai!</h2>
+      <p>${esc(NM("Syabas, {n}! Kamu dah semak semua "+n+" soalan yang salah dalam "+set.name+" bersama Ibu/Ayah. Ilmu makin bertambah!"))}</p>
+      ${rv.newBadge?`<div class="earned">${stickerHTML("📚","special","Rajin Ulang Kaji","Sticker baru!",0)}</div>`:""}
+      <div class="row-btns"><button class="btn" data-act="map">Kembali ke Peta →</button><button class="btn ghost" data-act="book">🏅 Koleksi Sticker</button></div></section>`;
+  }
+  const idx=rv.list[rv.i],it=set.items[idx],v=D.answers[s][it.id],last=rv.i===n-1;
+  const dots=rv.list.map((_,j)=>`<span class="rvd ${j<rv.i?"done":j===rv.i?"cur":""}"></span>`).join("");
+  const T=x=>rv.tried.includes(String(x));
+  let q;
+  if(it.sec==="C")q=`<div class="left-item jawi">${esc(it.q)}</div>`;
+  else if(it.sec==="B"){const sh=rv.phase==="reveal";q=`<div class="qtext jawi">${esc(it.q).replace("{_}",`<span class="blank ${sh?"filled":""}">${sh?esc(it.ans):"&nbsp;"}</span>`)}</div>`}
+  else q=`<div class="qtext jawi">${esc(it.q)}</div>`;
+  let body=`<div class="was"><span class="lbl">Jawapan kamu tadi</span>${kidAns(it,v)}<span class="tag bad">✗ Salah</span></div>`;
+  if(rv.phase==="try"){
+    let opts="";
+    if(it.sec==="A"||it.sec==="C")opts=`<div class="opts">${it.opts.map((o,i)=>`<button class="opt ${T(i)?"bad":""}" data-act="rvPick" data-v="${i}" ${T(i)?"disabled":""}><span class="lt">${LET[i]}</span><span>${esc(o)}</span></button>`).join("")}</div>`;
+    else if(it.sec==="B")opts=`<div class="bank">${set.bank.map(w=>`<button class="chip ${T(w)?"bad":""}" data-act="rvPick" data-v="${esc(w)}" ${T(w)?"disabled":""}>${esc(w)}</button>`).join("")}</div>`;
+    else if(it.sec==="D")opts=`<div class="tf"><button class="tfb yes ${T(1)?"bad":""}" data-act="rvPick" data-v="1" ${T(1)?"disabled":""}><span class="ic">✓</span><span class="jw">بتول</span><span class="rm">Betul</span></button><button class="tfb no ${T(0)?"bad":""}" data-act="rvPick" data-v="0" ${T(0)?"disabled":""}><span class="ic">✗</span><span class="jw">ساله</span><span class="rm">Salah</span></button></div>`;
+    body+=`<p class="tryp">${rv.tried.length>(["A","B","C"].includes(it.sec)&&isAnswered(v)?1:0)?"Belum tepat. Cuba sekali lagi!":"Cuba fikir semula. Apa jawapan yang betul?"}</p>${opts}<div class="rvnav"><button class="btn ghost small dark" data-act="rvReveal">Tunjuk jawapan betul</button></div>`;
+  } else {
+    const f=fact(it,s);
+    const flab=it.sec==="D"&&!it.ans?"Yang betul":"Fakta";
+    body+=`${rv.gotIt?`<div class="yay">🎉 Betul! Pandai!</div>`:""}
+      <div class="fact"><div><span class="lbl">${it.sec==="E"?"Skema jawapan":"Jawapan betul"}</span>${it.sec==="E"?`<span class="av">${esc(it.model)}</span>`:rightAns(it)}</div>
+      ${f?`<div><span class="lbl">${flab}</span><div class="factline jawi">${f}</div></div>`:""}</div>
+      <div class="pnote">👨‍👩‍👦 <b>Ibu/Ayah:</b> Terangkan kepada ${esc(USER.name)} kenapa ini jawapan yang betul, dan kenapa jawapan tadi salah. Boleh rujuk buku teks Sirah Tahun 2.</div>
+      <div class="rvnav"><button class="btn mint" data-act="rvNext">${last?"Saya dah faham! Selesai ✓":"Saya dah faham! Seterusnya →"}</button></div>`;
+  }
+  return `<div class="qhead"><button class="btn ghost small" data-act="rvExit">← Keluar</button><span class="ttl">📚 Ulang Kaji · ${set.name}</span><span class="count">${rv.i+1} / ${n}</span></div>
+    <div class="rvdots" aria-hidden="true">${dots}</div>
+    <div class="sec"><span class="sj jawi">${SEC[it.sec].j}</span><span class="sr">Soalan ${idx+1}</span></div>
+    <div class="card"><span class="qnum">Soalan ${idx+1}</span>${q}${body}</div>`;
+}
+function vCheck(){
+  const s=UI.set,set=SETS[s-1];
+  set.items.forEach(it=>{if(it.sec==="E"&&!isAnswered(D.answers[s][it.id])&&D.emarks[s][it.id]===undefined)D.emarks[s][it.id]=false});save();
+  let body="";["A","B","C","D","E"].forEach(sec=>{body+=`<div class="psec">${SEC[sec].j}</div><div class="rows">`+set.items.map((it,i)=>it.sec===sec?rowHTML(s,it,i,true):"").join("")+`</div>`});
+  const pending=set.items.filter(it=>it.sec==="E"&&D.emarks[s][it.id]===undefined).length;
+  return `<div class="qhead phead"><div><h2>Semakan ${set.name} · ${esc(USER.name)}</h2><p>Bahagian ا hingga د ditanda automatik. Tandakan 5 soalan pendek di Bahagian ه.</p></div><button class="btn ghost small" data-act="map">Tutup</button></div>
+    ${body}<div class="checkbar"><div class="sc">${score(s)} / 30<small>${pending?pending+" soalan pendek belum ditanda":"Semua soalan dah ditanda"}</small></div><button class="btn mint" data-act="finish" ${pending?"disabled":""}>Tunjuk Keputusan kepada ${esc(USER.name)} 🎁</button></div>`;
+}
+function stickerHTML(e,tier,name,sub,i,big){return `<div class="stk-wrap" style="--i:${i||0}"><div class="stk ${tier} ${big?"big":""}">${e}</div><div class="stk-name">${esc(name)}</div>${sub?`<div class="stk-tier">${esc(sub)}</div>`:""}</div>`}
+function vResult(){
+  const s=UI.set,set=SETS[s-1],r=D.results[s],tier=TIERS[r.stars];
+  const stars=[0,1,2].map(i=>`<span class="bs ${i<r.stars?"on":""}" style="--i:${i}">★</span>`).join("");
+  let earned=stickerHTML(set.sticker.e,tier.k,set.sticker.n,tier.n,0,set.big);
+  if(r.score===30)earned+=stickerHTML("📖","special","Iqra'!","Bonus markah penuh",1);
+  const nW=30-r.score;
+  const nx=s<N&&status(s+1)!=="locked"&&!D.results[s+1];
+  const best=D.best[s];
+  return `<section class="result">
+    <div class="rt">${set.big?"🚩 Checkpoint Besar · ":""}Keputusan ${set.name} · ${esc(set.place)}</div>
+    <div class="score"><span id="cnt">0</span><small> / 30</small></div>
+    <div class="stars" aria-label="${r.stars} bintang">${stars}</div>
+    <p class="msg">${esc(NM(RES_MSG[r.stars]))}</p>
+    ${best&&best.score>r.score?`<p class="hint">Markah terbaik kamu untuk set ini: ${best.score}/30</p>`:""}
+    <div class="earned">${earned}</div>
+    ${set.big&&UI.fresh?`<div class="trophy-banner"><span>🚩</span>Checkpoint Besar berjaya ditawan! ${s===5?"Separuh perjalanan dah selesai!":"Ini checkpoint terakhir!"}</div>`:""}
+    ${allDone()&&UI.fresh?`<div class="trophy-banner"><span>🏆</span>Tahniah! ${esc(USER.name)} dah tamatkan semua 10 set dan menang Piala Johan Jejak Sirah!</div>`:""}
+    ${nW&&!D.reviewed[s]?`<div class="revcall"><p>📚 Ada <b>${nW}</b> soalan yang salah. Duduk bersama Ibu/Ayah dan semak satu per satu.</p><button class="btn mint" data-act="startReview">Mula Sesi Ulang Kaji</button></div>`:""}
+    ${nW&&D.reviewed[s]?`<p class="revdone">✓ Sesi ulang kaji dah dibuat</p>`:""}
+    ${!nW?`<p class="msg" style="color:var(--mint)">Semua jawapan betul! Tiada yang perlu diulang kaji.</p>`:""}
+    <div class="row-btns"><button class="btn ${nW&&!D.reviewed[s]?"ghost":""}" data-act="map">${nx?"Teruskan ke "+SETS[s].name:"Kembali ke Peta"} →</button><button class="btn ghost" data-act="book">🏅 Sticker</button>${nW&&D.reviewed[s]?`<button class="btn ghost" data-act="startReview">📚 Ulang kaji sekali lagi</button>`:""}<button class="btn ghost" data-act="askReset">🔁 Buat Semula Set Ini</button></div>
+  </section>`;
+}
+function vBook(){
+  let h="",i=0;
+  for(let s=1;s<=N;s++){const set=SETS[s-1],b=D.best[s];h+=b?stickerHTML(set.sticker.e,TIERS[b.stars].k,set.sticker.n,TIERS[b.stars].n+" · "+set.name,i++,set.big):stickerHTML("?","lock",set.sticker.n,"Siapkan "+set.name,i++,set.big)}
+  h+=anyPerfect()?stickerHTML("📖","special","Iqra'!","Bonus markah penuh",i++):stickerHTML("?","lock","Iqra'!","Dapatkan 30/30",i++);
+  h+=D.reviewBadge?stickerHTML("📚","special","Rajin Ulang Kaji","Siap sesi ulang kaji",i++):stickerHTML("?","lock","Rajin Ulang Kaji","Siapkan sesi ulang kaji",i++);
+  h+=allDone()?stickerHTML("🏆","trophy","Piala Johan","Tamat semua 10 set",i++,true):stickerHTML("?","lock","Piala Johan","Tamatkan 10 set",i++,true);
+  let got=(anyPerfect()?1:0)+(allDone()?1:0)+(D.reviewBadge?1:0);for(let s=1;s<=N;s++)if(D.best[s])got++;
+  return topbar()+`<div class="panel" style="margin-top:2vh"><h2>Koleksi Sticker ${esc(USER.name)}</h2><p>${got} daripada ${N+3} sticker dikumpul. Dapat lebih banyak bintang untuk sticker Emas!</p></div><div class="book">${h}</div><div class="row-btns" style="margin-top:28px"><button class="btn" data-act="map">← Kembali ke Peta</button></div>`;
+}
+function vParent(){
+  const items=[...Array(N)].map((_,i)=>{
+    const s=i+1,st=status(s),set=SETS[s-1],b=D.best[s];
+    const lab={locked:"Belum dibuka",open:"Belum dijawab",progress:`Sedang dijawab (${answeredCount(s)}/30)`,wait:"Dah dihantar, menunggu semakan",done:D.results[s]?`Markah ${D.results[s].score}/30 · ${starStr(D.results[s].stars)}${needsReview(s)?" · belum ulang kaji":""}`:""}[st]+(b&&st!=="done"?` · Terbaik ${b.score}/30`:"");
+    const act=st==="wait"?`<button class="btn mint small" data-act="pCheck" data-set="${s}">Semak sekarang</button>`:st==="done"?`<button class="btn small" data-act="pResult" data-set="${s}">Lihat keputusan</button>`:"";
+    const conf=UI.confirmReset===s,reset=st!=="locked"&&st!=="open"?`<button class="btn small ${conf?"warn":"ghost"}" data-act="pReset" data-set="${s}">${conf?"Tekan lagi untuk sahkan":"Buat semula"}</button>`:"";
+    return `<div class="it"><div><b>${set.big?"🚩 ":""}${set.name} · ${esc(set.place)}</b><span class="st2">${lab}</span></div><div class="row-btns">${act}${reset}</div></div>`;
+  }).join("");
+  const confAll=UI.confirmReset==="all";
+  const users=ST.users.map(u=>{const c=UI.confirmDel===u.id;return `<div class="it"><div class="me" style="font-size:1.1rem">${avatar(u)}<div><b>${esc(u.name)}</b><span class="st2">${u.cls?esc(u.cls):""}</span></div></div><button class="btn small ${c?"warn":"ghost"}" data-act="delUser" data-u="${esc(u.id)}">${c?"Tekan lagi untuk padam":"Padam pengguna"}</button></div>`}).join("");
+  return `<div class="qhead phead"><div><h2>Ruang Ibu &amp; Ayah · ${esc(USER.name)}</h2><p>Semak jawapan, lihat keputusan, atau buka semula set untuk latihan ulangan. Markah terbaik dan sticker kekal walaupun set dibuat semula.</p></div><button class="btn ghost small" data-act="map">Tutup</button></div>
+    <div class="pp">${items}<div class="it"><div><b>Mula semula dari awal</b><span class="st2">Padam semua jawapan, markah dan sticker ${esc(USER.name)}</span></div><button class="btn small ${confAll?"warn":"ghost"}" data-act="pReset" data-set="all">${confAll?"Tekan lagi untuk sahkan":"Padam semua"}</button></div></div>
+    <h3 class="listh">Pengguna</h3><div class="pp">${users}</div>
+    <h3 class="listh">Kod Ibu/Ayah</h3><div class="pp"><div class="it"><div><b>🔒 Kod 4 digit</b><span class="st2">Satu kod untuk semua pengguna di peranti ini</span></div><button class="btn small ghost" data-act="changePin">Tukar kod</button></div></div>`;
+}
+
+/* ---------- render ---------- */
+function render(){
+  const v={login:vLogin,welcome:vWelcome,map:vMap,quiz:vQuiz,confirm:vConfirm,submitted:vSubmitted,pin:vPin,check:vCheck,result:vResult,book:vBook,parent:vParent,review:vReview}[UI.screen];
+  app.innerHTML=v();
+  SND.setTheme(themeFor(UI.screen));paintSnd();
+  if(UI.screen==="welcome")SND.play("jingle",0,.35);
+  if(UI.screen==="welcome")setTimeout(()=>confetti(90),500);
+  if(UI.screen==="result")runResultFx();
+  if(UI.screen==="map"&&UI.scrollMap){UI.scrollMap=false;const h=document.getElementById("here");if(h&&curSet()>2)h.scrollIntoView({block:"center",behavior:reduced?"auto":"smooth"});else window.scrollTo({top:0})}
+  if(UI.screen==="login"&&UI.adding){const n=document.getElementById("newName");if(n&&!UI.newName)n.focus()}
+}
+function runResultFx(){
+  const r=D.results[UI.set],el=document.getElementById("cnt"),big=SETS[UI.set-1].big;
+  if(reduced||!UI.fresh){el.textContent=r.score;return}
+  let n=0;const step=()=>{el.textContent=n;if(n%2===0&&n>0)SND.play("count");if(n<r.score){n++;setTimeout(step,900/Math.max(r.score,1))}};step();
+  for(let i=0;i<r.stars;i++)setTimeout(()=>SND.play("star",i),1150+i*300);
+  setTimeout(()=>SND.play(r.stars>=1||big?"fanfare":"jingle"),1900);
+  setTimeout(()=>SND.play("sparkle"),2250);
+  setTimeout(()=>confetti(big?260:(r.stars>=2?180:100)),1900);
+  if(big)setTimeout(()=>confetti(200),2700);
+  if(allDone()){setTimeout(()=>confetti(240),3300);setTimeout(()=>SND.play("fanfare"),3300)}
+}
+
+/* ---------- actions ---------- */
+function setAnswer(val){
+  const set=SETS[UI.set-1],it=set.items[UI.q],was=isAnswered(D.answers[set.id][it.id]);
+  D.answers[set.id][it.id]=val;save();
+  const n=answeredCount(set.id),k=USER.id+":"+set.id+":"+n;
+  if(!was&&STEP_MSG[n]&&!UI.toastSeen[k]){UI.toastSeen[k]=1;toast(NM(STEP_MSG[n]));SND.play("ding",0,.18);if(n===15||n===30)confetti(70)}
+  render();
+  if(!was&&it.sec!=="E"&&UI.q<29){const q=UI.q;setTimeout(()=>{if(UI.screen==="quiz"&&UI.q===q){UI.q++;render()}},550)}
+}
+function openStation(s){
+  const st=status(s);if(st==="locked")return;UI.set=s;
+  if(st==="done"){UI.fresh=false;go("result");return}
+  if(st==="wait"){go("submitted");return}
+  const first=SETS[s-1].items.findIndex(x=>!isAnswered(D.answers[s][x.id]));
+  go("quiz",{q:first<0?29:first});
+  if(st==="open")toast(NM(SETS[s-1].big?"🚩 Checkpoint Besar! Bismillah, {n}!":"Bismillah! Selamat menjawab, {n} 🌙"));
+}
+function needPin(after){UI.pin="";UI.pinErr="";UI.after=after;UI.pinMode=ST.pin?"check":"new1";go("pin")}
+function pinOk(){const af=UI.after;if(af.set)UI.set=af.set;if(af.to==="doReset"){resetSet(af.set);save();toast(SETS[af.set-1].name+" dibuka semula. Markah terbaik tetap disimpan.");go("quiz",{q:0})}else go(af.to)}
+function shake(){const bx=document.getElementById("pinbox");if(bx)bx.classList.add("shake")}
+function mathOk(){SND.ensure();if(parseInt(UI.mathVal,10)===UI.math.a*UI.math.b){SND.play("unlock");UI.pinMode="new1";UI.pin="";UI.pinErr="";UI.after.change=true;render()}else{SND.play("bonk");UI.pinErr="Jawapan salah. Cuba lagi.";UI.mathVal="";render()}}
+function login(id){USER=ST.users.find(u=>u.id===id);D=ST.prog[id]=normProg(ST.prog[id]);}
+function saveUser(){
+  const name=UI.newName.trim().replace(/\s+/g," ");
+  if(!name){UI.addErr="Tulis nama dulu.";render();return}
+  if(ST.users.some(u=>u.name.toLowerCase()===name.toLowerCase())){UI.addErr="Nama ini sudah ada.";render();return}
+  const id="u"+Date.now().toString(36);
+  SND.play("sparkle");ST.users.push({id,name,cls:UI.newCls.trim(),c:UI.newC});ST.prog[id]=freshProg();save();
+  Object.assign(UI,{adding:false,newName:"",newCls:"",addErr:""});render();toast("Selamat datang, "+name+"! Tekan gambar untuk masuk.");
+}
+
+app.addEventListener("submit",e=>{e.preventDefault();if(e.target.id==="addForm")saveUser();if(e.target.id==="mathForm")mathOk()});
+app.addEventListener("click",e=>{
+  const b=e.target.closest("[data-act]");if(!b||b.disabled)return;
+  const a=b.dataset.act,v=b.dataset.v;
+  SND.ensure();
+  const SMAP={login:"sparkle",pick:"select",word:"select",tf:"select",submit:"jingle",startReview:"whoosh",rvReveal:"whoosh",logout:"down",book:"sparkle",station:"pop",addUser:"pop",next:"pop",key:"tick",forgot:"pop",changePin:"pop",toCheck:"pop",parentPanel:"pop",askReset:"pop",finish:"pop"};
+  if(a!=="rvPick"&&a!=="rvNext")SND.play(SMAP[a]||"tap");
+  switch(a){
+    case "login":{if(b.classList.contains("loading"))break;b.classList.add("loading");const id=b.dataset.u;setTimeout(()=>{login(id);go("welcome")},reduced?0:900);break}
+    case "addUser":UI.adding=true;UI.addErr="";render();break;
+    case "cancelAdd":Object.assign(UI,{adding:false,newName:"",newCls:"",addErr:""});render();break;
+    case "pickC":UI.newC=+v;render();break;
+    case "logout":USER=null;D=null;Object.assign(UI,{confirmReset:null,confirmDel:null,adding:false});go("login");break;
+    case "map":UI.confirmReset=null;UI.confirmDel=null;UI.scrollMap=true;go("map");break;
+    case "book":go("book");break;
+    case "station":openStation(+b.dataset.set);break;
+    case "pick":setAnswer(+v);break;
+    case "word":setAnswer(v);break;
+    case "tf":setAnswer(v==="1");break;
+    case "prev":if(UI.q>0){UI.q--;render()}break;
+    case "next":if(UI.q<29){UI.q++;render()}break;
+    case "jump":go("quiz",{q:+v});break;
+    case "confirm":go("confirm");break;
+    case "backQuiz":go("quiz");break;
+    case "submit":D.submitted[UI.set]=true;D.maxOpen=Math.max(D.maxOpen,UI.set+1);save();go("submitted");confetti(160);break;
+    case "toCheck":needPin({to:"check",set:UI.set,back:"submitted"});break;
+    case "parentPanel":needPin({to:"parent",back:"map"});break;
+    case "askReset":needPin({to:"doReset",set:UI.set,back:"result",why:"Masukkan kod untuk buat semula "+SETS[UI.set-1].name});break;
+    case "key":{
+      if(UI.pin.length>=4)break;UI.pin+=v;UI.pinErr="";render();
+      if(UI.pin.length<4)break;
+      const pv=UI.pin,m=UI.pinMode;
+      if(m==="check"){if(hp(pv)===ST.pin){SND.play("unlock",0,.1);setTimeout(pinOk,200)}else setTimeout(()=>{SND.play("bonk");UI.pin="";UI.pinErr="Kod salah. Cuba lagi.";render();shake()},250)}
+      else if(m==="new1")setTimeout(()=>{UI.pinNew=pv;UI.pin="";UI.pinMode="new2";render()},200);
+      else if(m==="new2"){if(pv===UI.pinNew){ST.pin=hp(pv);save();SND.play("unlock",0,.1);toast("Kod Ibu/Ayah disimpan 🔒");setTimeout(pinOk,200)}else setTimeout(()=>{SND.play("bonk");UI.pin="";UI.pinMode="new1";UI.pinErr="Kod tak sama. Cuba sekali lagi.";render();shake()},250)}
+      break}
+    case "forgot":UI.math={a:13+Math.floor(Math.random()*17),b:12+Math.floor(Math.random()*8)};UI.mathVal="";UI.pinErr="";UI.pinMode="forgot";render();break;
+    case "changePin":UI.pin="";UI.pinErr="";UI.after={to:"parent",back:"parent",change:true};UI.pinMode="new1";go("pin");break;
+    case "startReview":startReview(UI.set);break;
+    case "rvReveal":UI.rv.phase="reveal";render();break;
+    case "rvPick":{
+      const rv=UI.rv,it=SETS[rv.s-1].items[rv.list[rv.i]];
+      const ok=it.sec==="D"?((v==="1")===it.ans):(it.sec==="B"?v===it.ans:+v===it.ans);
+      if(ok){SND.play("yay");rv.gotIt=true;rv.phase="reveal";render();confetti(60)}else{SND.play("boing");rv.tried.push(v);render()}
+      break}
+    case "rvNext":{
+      const rv=UI.rv;rv.i++;
+      if(rv.i>=rv.list.length){SND.play("fanfare",0,.1);D.reviewed[rv.s]=true;rv.newBadge=!D.reviewBadge;D.reviewBadge=true;save();confetti(160)}else{rvPhase();SND.play("pop")}
+      render();window.scrollTo({top:0,behavior:reduced?"auto":"smooth"});break}
+    case "rvExit":UI.set=UI.rv.s;UI.fresh=false;go("result");break;
+    case "del":UI.pin=UI.pin.slice(0,-1);render();break;
+    case "pinCancel":{if(UI.pinMode==="forgot"){UI.pinMode="check";UI.pinErr="";render();break}const bk=UI.after&&UI.after.back||"map";if(bk==="result")UI.fresh=false;go(bk);break}
+    case "emark":{D.emarks[UI.set][b.dataset.id]=v==="1";save();const y=scrollY;render();window.scrollTo(0,y);break}
+    case "finish":{const s=UI.set,sc=score(s),r={score:sc,stars:starsFor(sc),at:Date.now()};D.results[s]=r;if(!D.best[s]||D.best[s].score<sc)D.best[s]=r;save();UI.fresh=true;go("result");break}
+    case "pCheck":UI.set=+b.dataset.set;go("check");break;
+    case "pResult":UI.set=+b.dataset.set;UI.fresh=false;go("result");break;
+    case "pReset":{
+      const s=b.dataset.set==="all"?"all":+b.dataset.set;
+      if(UI.confirmReset!==s){UI.confirmReset=s;render();break}
+      if(s==="all"){D=ST.prog[USER.id]=freshProg()}else resetSet(s);
+      UI.confirmReset=null;save();render();toast(s==="all"?"Semua kemajuan "+USER.name+" dipadam":SETS[s-1].name+" dibuka semula");break}
+    case "delUser":{
+      const id=b.dataset.u;
+      if(UI.confirmDel!==id){UI.confirmDel=id;render();break}
+      const nm=(ST.users.find(u=>u.id===id)||{}).name;
+      ST.users=ST.users.filter(u=>u.id!==id);delete ST.prog[id];save();UI.confirmDel=null;toast(nm+" dipadam");
+      if(USER&&USER.id===id){USER=null;D=null;go("login")}else render();break}
+  }
+});
+app.addEventListener("input",e=>{
+  const k=e.target.dataset.input;
+  if(k==="newName"){UI.newName=e.target.value;return}
+  if(k==="newCls"){UI.newCls=e.target.value;return}
+  if(k==="math"){UI.mathVal=e.target.value;return}
+  if(k==="e"){
+    const set=SETS[UI.set-1],it=set.items[UI.q],was=isAnswered(D.answers[set.id][it.id]);
+    D.answers[set.id][it.id]=e.target.value;save();
+    const n=answeredCount(set.id),tk=USER.id+":"+set.id+":"+n;
+    if(!was&&STEP_MSG[n]&&!UI.toastSeen[tk]){UI.toastSeen[tk]=1;toast(NM(STEP_MSG[n]))}
+    document.querySelectorAll(".g.cur").forEach(g=>g.classList.toggle("done",isAnswered(e.target.value)));
+    const c=document.querySelector(".count");if(c)c.textContent=n+"/30 dijawab";
+    const f=document.querySelector(".track .fill"),cm=document.querySelector(".track .cm");if(f){f.style.width=(n/30*100)+"%";cm.style.left=Math.max(3,n/30*100)+"%"}
+  }
+});
+app.addEventListener("keydown",e=>{const g=e.target.closest&&e.target.closest("g[data-act]");if(g&&(e.key==="Enter"||e.key===" ")){e.preventDefault();g.dispatchEvent(new MouseEvent("click",{bubbles:true}))}});
+
+render();
+})();
+</script>
+
+<script>
+if ("serviceWorker" in navigator && location.protocol === "https:") {
+  window.addEventListener("load", function(){ navigator.serviceWorker.register("sw.js").catch(function(){}); });
+}
+</script>
+</body>
+</html>
