@@ -373,6 +373,12 @@ textarea{width:100%;min-height:120px;margin-top:14px;font:600 1.25rem/1.5 var(--
 .codebox{background:#fff;border:2px solid #EADFCB;border-radius:16px;padding:10px 12px;display:flex;flex-direction:column;gap:4px;margin-top:6px}
 .codebox>b{font-family:var(--f-display);font-size:1.05rem}
 .codebox>span{font-size:.82rem;color:var(--ink-muted);font-weight:700}
+.welcome h2 .w{display:inline-block;white-space:nowrap}
+.topbar{flex-direction:column;align-items:stretch}
+.topbar .tools{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;width:100%}
+.tb{display:flex;flex-direction:column;align-items:center;gap:2px;background:rgba(255,255,255,.06);border:2px solid var(--line);color:var(--text);border-radius:14px;padding:6px 2px;font:800 .8rem var(--f-display);cursor:pointer;min-height:52px;white-space:nowrap}
+.tb span{font-size:1.25rem;line-height:1}
+.tb:active{transform:translateY(1px)}
 #fx{position:fixed;inset:0;pointer-events:none;z-index:40;width:100%;height:100%}
 
 @media (max-width:480px){
@@ -852,6 +858,8 @@ function loadStore(){
   s.users.forEach(u=>s.prog[u.id]=freshProg());return s;
 }
 let ST=loadStore(), USER=null, D=null;
+const SESS="jejakSirah_sess";
+function saveSess(){try{if(USER)localStorage.setItem(SESS,JSON.stringify({u:USER.id,s:UI.screen,set:UI.set,q:UI.q,b:UI.board?{tab:UI.board.tab,cls:UI.board.cls}:null}));else localStorage.removeItem(SESS)}catch(e){}}
 function save(){if(D)D.ts=Date.now();try{localStorage.setItem(KEY2,JSON.stringify(ST))}catch(e){}if(USER&&USER.cloud&&typeof scheduleSync==="function")scheduleSync()}
 let UI={screen:"login",set:1,q:0,pin:"",after:null,toastSeen:{},confirmReset:null,confirmDel:null,adding:false,newName:"",newCls:"",newC:1,addErr:""};
 /* ---------- sound (Web Audio, synthesised) ---------- */
@@ -1177,7 +1185,7 @@ function vBoard(){
 }
 function vWelcome(){
   const q=QUOTES[Math.floor(Math.random()*QUOTES.length)],t="Selamat datang, "+USER.name+"!";
-  const letters=[...t].map((ch,i)=>ch===" "?" ":`<span class="l" style="--i:${i}">${esc(ch)}</span>`).join("");
+  let li=0;const letters=t.split(" ").map(w=>`<span class="w">${[...w].map(ch=>`<span class="l" style="--i:${li++}">${esc(ch)}</span>`).join("")}</span>`).join(" ");
   const back=Object.keys(D.results).length||Object.keys(D.submitted).length||Object.keys(D.best).length||answeredCount(1);
   return `<section class="welcome">
     <div class="salam">السلام عليکم</div>
@@ -1190,7 +1198,7 @@ function vWelcome(){
 function topbar(){
   return `<div class="topbar">
     <div class="me">${avatar(USER)}${esc(USER.name)} <span class="pill" title="Jumlah bintang">⭐ ${totalStars()}</span></div>
-    <div class="tools"><button class="btn ghost small" data-act="book">🏅 Sticker</button>${cloudOk()?'<button class="btn ghost small" data-act="board">🏆 Papan</button>':""}<button class="btn ghost small" data-act="parentPanel">🔒 Ibu/Ayah</button><button class="btn ghost small" data-act="logout">↩ Log Keluar</button></div>
+    <div class="tools"><button class="tb" data-act="book"><span>🏅</span>Sticker</button>${cloudOk()?'<button class="tb" data-act="board"><span>🏆</span>Papan</button>':""}<button class="tb" data-act="parentPanel"><span>🔒</span>Ibu/Ayah</button><button class="tb" data-act="logout"><span>↩</span>Keluar</button></div>
   </div>`;
 }
 function curSet(){for(let s=1;s<=N;s++)if(["open","progress"].includes(status(s)))return s;return null}
@@ -1426,7 +1434,7 @@ function vParent(){
 function render(){
   const v={login:vLogin,welcome:vWelcome,map:vMap,quiz:vQuiz,confirm:vConfirm,submitted:vSubmitted,pin:vPin,check:vCheck,result:vResult,book:vBook,parent:vParent,review:vReview,other:vOther,board:vBoard,kidcode:vKidCode,kidreset:vKidReset}[UI.screen];
   app.innerHTML=v()+(UI.installHelp?installModal():"");
-  SND.setTheme(themeFor(UI.screen));paintSnd();
+  SND.setTheme(themeFor(UI.screen));paintSnd();saveSess();
   if(UI.screen==="welcome")SND.play("jingle",0,.35);
   if(UI.screen==="welcome")setTimeout(()=>confetti(90),500);
   if(UI.screen==="result")runResultFx();
@@ -1624,8 +1632,25 @@ app.addEventListener("input",e=>{
 });
 app.addEventListener("keydown",e=>{const g=e.target.closest&&e.target.closest("g[data-act]");if(g&&(e.key==="Enter"||e.key===" ")){e.preventDefault();g.dispatchEvent(new MouseEvent("click",{bubbles:true}))}});
 
-window.addEventListener("cloud-ready",()=>{if(["login","map","book"].includes(UI.screen))render()});
-render();
+window.addEventListener("cloud-ready",()=>{if(["login","map","book"].includes(UI.screen))render();if(USER&&USER.cloud)pullNewer()});
+async function pullNewer(){
+  if(!USER||!USER.cloud||!cloudOk())return;
+  const id=USER.id;
+  try{const st=await withTimeout(CLOUD.getState(id),5000);if(st&&USER&&USER.id===id){const c=JSON.parse(st);if((c.ts||0)>(D.ts||0)){D=ST.prog[id]=normProg(c);try{localStorage.setItem(KEY2,JSON.stringify(ST))}catch(e){}if(!["quiz","check","review","pin"].includes(UI.screen))render()}}}catch(e){}
+}
+(function restore(){
+  let ss=null;try{ss=JSON.parse(localStorage.getItem(SESS)||"null")}catch(e){}
+  if(!ss||!ST.users.some(u=>u.id===ss.u)){render();return}
+  login(ss.u);UI.set=ss.set||1;UI.q=ss.q||0;UI.fresh=false;
+  let sc=ss.s;const st=UI.set>=1&&UI.set<=N?status(UI.set):"locked";
+  if(sc==="quiz"&&!["open","progress","redo"].includes(st))sc="map";
+  if(sc==="result"&&!D.results[UI.set])sc="map";
+  if(sc==="submitted"&&st!=="wait")sc="map";
+  if(!["map","quiz","book","board","result","submitted","confirm"].includes(sc))sc="map";
+  if(sc==="board"){UI.board={tab:(ss.b&&ss.b.tab)||"map",cls:(ss.b&&ss.b.cls)||USER.cls||CLS[0],data:null,err:""};UI.screen="board";render();loadBoard()}
+  else{UI.scrollMap=sc==="map";UI.screen=sc;render()}
+  pullNewer();
+})();
 })();
 </script>
 
