@@ -368,6 +368,7 @@ textarea{width:100%;min-height:120px;margin-top:14px;font:600 1.25rem/1.5 var(--
 .linkbox{display:flex;gap:8px;margin-bottom:10px}
 .linkbox input{flex:1;min-width:0;font:600 .85rem var(--f-body);padding:8px 10px;border-radius:12px;border:2px solid #EADFCB;color:var(--ink);background:#fff}
 
+.bigcode{font:800 3.4rem var(--f-display);letter-spacing:.3em;color:var(--gold);background:rgba(255,255,255,.06);border:2px dashed var(--gold);border-radius:20px;padding:6px 18px 6px 28px}
 #fx{position:fixed;inset:0;pointer-events:none;z-index:40;width:100%;height:100%}
 
 @media (max-width:480px){
@@ -1072,7 +1073,8 @@ function vLogin(){
       <span class="lbl2">Warna</span><div class="swatches">${COLORS.map((c,i)=>`<button type="button" class="sw ${UI.newC===i?"on":""}" data-act="pickC" data-v="${i}" style="background:${c[1]}" aria-label="Warna ${i+1}"></button>`).join("")}</div>
       <div class="pinrow"><div><label for="newP1">Kod pelajar (4 digit)</label><input id="newP1" data-input="newP1" type="password" inputmode="numeric" maxlength="4" value="${esc(UI.newP1||"")}" placeholder="••••"></div>
       <div><label for="newP2">Ulang kod</label><input id="newP2" data-input="newP2" type="password" inputmode="numeric" maxlength="4" value="${esc(UI.newP2||"")}" placeholder="••••"></div></div>
-      <p class="small-note">Anak guna kod ini untuk masuk profil sendiri. Ibu/Ayah boleh lihat kod ini di Ruang Ibu/Ayah.</p>
+      <p class="small-note">Kod ini untuk masuk profil dari phone lain. Ibu/Ayah boleh lihat kod ini di Ruang Ibu/Ayah phone ini.</p>
+      <label class="consent"><input type="checkbox" id="newLock" data-input="newLock" ${UI.newLock?"checked":""}> Minta kod setiap kali buka profil di phone ini (sesuai kalau adik-beradik kongsi phone)</label>
       ${cOk?`<label class="consent"><input type="checkbox" id="consent" data-input="consent" ${UI.consent?"checked":""}> Saya ibu/bapa murid ini dan bersetuju nama panggilan, kelas dan kemajuan anak dipaparkan kepada rakan dalam Papan Kelas.</label>`:""}
       <p class="err">${esc(UI.addErr)}</p>
       <div class="row-btns"><button type="button" class="btn ghost small dark" data-act="cancelAdd">Batal</button><button type="submit" class="btn mint small" ${UI.saving?"disabled":""}>${UI.saving?"Menyimpan…":"Simpan"}</button></div>
@@ -1087,6 +1089,13 @@ function vLogin(){
     <div class="hint">${ST.users.length?"Tekan gambar kamu dan masukkan kod kamu":"Ibu/Ayah: tekan Tambah untuk daftar anak"}</div>
     ${cOk&&!UI.adding?`<div class="row-btns"><button class="btn ghost small" data-act="other">🔑 Masuk profil dari phone lain</button><button class="btn ghost small" data-act="board">🏆 Papan Kelas</button></div>`:""}
   </section>`;
+}
+function vKidCode(){
+  const loc=ST.users.find(x=>x.id===UI.kidCode),k=loc||(UI.remote&&UI.remote.id===UI.kidCode?UI.remote:null);
+  if(!k)return `<section class="panel"><p>Profil tidak dijumpai.</p><button class="btn" data-act="toLogin">Kembali</button></section>`;
+  const body=loc&&loc.pin?`<p>Kod pelajar ${esc(k.name)}:</p><div class="bigcode">${esc(loc.pin)}</div><div class="row-btns"><button class="btn mint" data-act="kidGo" data-u="${esc(k.id)}">Masuk sekarang</button><button class="btn ghost" data-act="toLogin">Kembali</button></div>`
+    :`<p>Profil ${esc(k.name)} didaftar di phone lain, jadi kodnya tak disimpan di sini. Buka <b>Ruang Ibu/Ayah</b> di phone asal untuk lihat kod pelajar.</p><div class="row-btns"><button class="btn ghost" data-act="toLogin">Kembali</button></div>`;
+  return `<section class="panel"><div class="pinkid">${sAvatar(k)}</div><h2>Kod Pelajar</h2>${body}</section>`;
 }
 function vOther(){
   const o=UI.other;
@@ -1251,7 +1260,7 @@ function vPin(){
   const keys=[1,2,3,4,5,6,7,8,9].map(k=>`<button class="key" data-act="key" data-v="${k}">${k}</button>`).join("")+`<button class="key" data-act="pinCancel" style="font-size:1rem">Batal</button><button class="key" data-act="key" data-v="0">0</button><button class="key" data-act="del" aria-label="Padam">⌫</button>`;
   const title={check:"Untuk Ibu &amp; Ayah sahaja",new1:af.change?"Tukar kod Ibu/Ayah":"Cipta kod Ibu/Ayah",new2:"Sahkan kod"}[m];
   const sub={check:af.why||"Masukkan kod 4 digit",new1:af.change?"Pilih kod baru 4 digit.":"Kali pertama: pilih kod 4 digit yang anak tak tahu. Kod ini untuk semak jawapan, buat semula set dan Ruang Ibu/Ayah.",new2:"Masukkan kod yang sama sekali lagi."}[m];
-  if(kid)return `<section class="panel"><div class="pin" id="pinbox"><div class="pinkid">${sAvatar(kid)}</div><h3>Kod ${esc(kid.name)}</h3><p style="color:var(--ink-muted);font-size:1rem;margin-top:6px">Masukkan kod rahsia 4 digit kamu</p><div class="dots">${dots}</div><div class="keys">${keys}</div><p class="err" id="pinerr">${esc(UI.pinErr||"")}</p><p class="small-note">Lupa kod? Minta Ibu/Ayah lihat di Ruang Ibu/Ayah.</p></div></section>`;
+  if(kid)return `<section class="panel"><div class="pin" id="pinbox"><div class="pinkid">${sAvatar(kid)}</div><h3>Kod ${esc(kid.name)}</h3><p style="color:var(--ink-muted);font-size:1rem;margin-top:6px">Masukkan kod rahsia 4 digit kamu</p><div class="dots">${dots}</div><div class="keys">${keys}</div><p class="err" id="pinerr">${esc(UI.pinErr||"")}</p><button class="linkbtn" data-act="kidForgot">Lupa kod?</button></div></section>`;
   return `<section class="panel"><div class="pin" id="pinbox"><h3>${title}</h3><p style="color:var(--ink-muted);font-size:1rem;margin-top:6px">${esc(sub)}</p><div class="dots">${dots}</div><div class="keys">${keys}</div><p class="err" id="pinerr">${esc(UI.pinErr||"")}</p>${m==="check"?`<button class="linkbtn" data-act="forgot">Lupa kod?</button>`:""}</div></section>`;
 }
 function kidAns(it,v){
@@ -1368,7 +1377,7 @@ function vParent(){
     return `<div class="it"><div><b>${set.big?"🚩 ":""}${set.name} · ${esc(set.place)}</b><span class="st2">${lab}</span></div><div class="row-btns">${act}${reset}</div></div>`;
   }).join("");
   const confAll=UI.confirmReset==="all";
-  const users=ST.users.map(u=>{const c=UI.confirmDel===u.id;return `<div class="it"><div class="me" style="font-size:1.1rem">${avatar(u)}<div><b>${esc(u.name)}</b><span class="st2">${u.cls?esc(u.cls):""}${u.pin?" · Kod pelajar: "+esc(u.pin):""}${u.cloud?(u.hidden?" · disorok dari Papan":" · dalam Papan Kelas"):" · phone ini sahaja"}</span></div></div><div class="row-btns">${u.cloud?`<button class="btn small ghost" data-act="hideUser" data-u="${esc(u.id)}">${u.hidden?"Papar di Papan":"Sorok dari Papan"}</button>`:""}<button class="btn small ${c?"warn":"ghost"}" data-act="delUser" data-u="${esc(u.id)}">${c?"Tekan lagi untuk buang":"Buang dari phone ini"}</button></div></div>`}).join("");
+  const users=ST.users.map(u=>{const c=UI.confirmDel===u.id;return `<div class="it"><div class="me" style="font-size:1.1rem">${avatar(u)}<div><b>${esc(u.name)}</b><span class="st2">${u.cls?esc(u.cls):""}${u.pin?" · Kod pelajar: "+esc(u.pin):""}${u.cloud?(u.hidden?" · disorok dari Papan":" · dalam Papan Kelas"):" · phone ini sahaja"}</span></div></div><div class="row-btns">${u.pinH?`<button class="btn small ghost" data-act="toggleLock" data-u="${esc(u.id)}">${u.lock?"🔒 Kod: diminta":"🔓 Kod: tidak diminta"}</button>`:""}${u.cloud?`<button class="btn small ghost" data-act="hideUser" data-u="${esc(u.id)}">${u.hidden?"Papar di Papan":"Sorok dari Papan"}</button>`:""}<button class="btn small ${c?"warn":"ghost"}" data-act="delUser" data-u="${esc(u.id)}">${c?"Tekan lagi untuk buang":"Buang dari phone ini"}</button></div></div>`}).join("");
   return `<div class="qhead phead"><div><h2>Ruang Ibu &amp; Ayah · ${esc(USER.name)}</h2><p>Semak jawapan, lihat keputusan, atau buka semula set untuk latihan ulangan. Markah terbaik dan sticker kekal walaupun set dibuat semula.</p></div><button class="btn ghost small" data-act="map">Tutup</button></div>
     <div class="pp">${items}<div class="it"><div><b>Mula semula dari awal</b><span class="st2">Padam semua jawapan, markah dan sticker ${esc(USER.name)}</span></div><button class="btn small ${confAll?"warn":"ghost"}" data-act="pReset" data-set="all">${confAll?"Tekan lagi untuk sahkan":"Padam semua"}</button></div></div>
     <h3 class="listh">Pengguna</h3><div class="pp">${users}</div>
@@ -1377,7 +1386,7 @@ function vParent(){
 
 /* ---------- render ---------- */
 function render(){
-  const v={login:vLogin,welcome:vWelcome,map:vMap,quiz:vQuiz,confirm:vConfirm,submitted:vSubmitted,pin:vPin,check:vCheck,result:vResult,book:vBook,parent:vParent,review:vReview,other:vOther,board:vBoard}[UI.screen];
+  const v={login:vLogin,welcome:vWelcome,map:vMap,quiz:vQuiz,confirm:vConfirm,submitted:vSubmitted,pin:vPin,check:vCheck,result:vResult,book:vBook,parent:vParent,review:vReview,other:vOther,board:vBoard,kidcode:vKidCode}[UI.screen];
   app.innerHTML=v()+(UI.installHelp?installModal():"");
   SND.setTheme(themeFor(UI.screen));paintSnd();
   if(UI.screen==="welcome")SND.play("jingle",0,.35);
@@ -1416,7 +1425,8 @@ function openStation(s){
   if(st==="open")toast(NM(SETS[s-1].big?"🚩 Checkpoint Besar! Bismillah, {n}!":"Bismillah! Selamat menjawab, {n} 🌙"));
 }
 function needPin(after){UI.pin="";UI.pinErr="";UI.after=after;UI.pinMode=ST.pin?"check":"new1";go("pin")}
-function pinOk(){const af=UI.after;if(af.to==="addForm"){const up=af.upgrade?ST.users.find(u=>u.id===af.upgrade):null;Object.assign(UI,{adding:true,upgradeId:up?up.id:null,newName:up?up.name:"",newCls:up&&CLS.includes(up.cls)?up.cls:"",newC:up?up.c||0:1,newP1:"",newP2:"",consent:false,addErr:"",saving:false});go("login");return}if(af.set)UI.set=af.set;if(af.to==="doReset"){resetSet(af.set);save();toast(SETS[af.set-1].name+" dibuka semula. Markah terbaik tetap disimpan.");go("quiz",{q:0})}else go(af.to)}
+function pinOk(){const af=UI.after;if(af.to==="addForm"){const up=af.upgrade?ST.users.find(u=>u.id===af.upgrade):null;Object.assign(UI,{adding:true,upgradeId:up?up.id:null,newName:up?up.name:"",newCls:up&&CLS.includes(up.cls)?up.cls:"",newC:up?up.c||0:1,newP1:"",newP2:"",consent:false,newLock:up?!!up.lock:false,addErr:"",saving:false});go("login");return}
+  if(af.to==="kidCode"){UI.kidCode=af.kid;go("kidcode");return}if(af.set)UI.set=af.set;if(af.to==="doReset"){resetSet(af.set);save();toast(SETS[af.set-1].name+" dibuka semula. Markah terbaik tetap disimpan.");go("quiz",{q:0})}else go(af.to)}
 function shake(){const bx=document.getElementById("pinbox");if(bx)bx.classList.add("shake")}
 function mathOk(){SND.ensure();if(parseInt(UI.mathVal,10)===UI.math.a*UI.math.b){SND.play("unlock");UI.pinMode="new1";UI.pin="";UI.pinErr="";UI.after.change=true;render()}else{SND.play("bonk");UI.pinErr="Jawapan salah. Cuba lagi.";UI.mathVal="";render()}}
 function login(id){USER=ST.users.find(u=>u.id===id);D=ST.prog[id]=normProg(ST.prog[id]);}
@@ -1431,9 +1441,10 @@ async function saveUser(){
   const cOk=cloudOk();
   if(cOk&&!UI.consent)return err("Sila tandakan persetujuan ibu/bapa.");
   if(ST.users.some(u=>u.id!==UI.upgradeId&&u.name.toLowerCase()===name.toLowerCase()&&u.cls===UI.newCls))return err("Nama ini sudah ada dalam phone ini.");
-  const id=UI.upgradeId||newId();
-  const u={id,name,cls:UI.newCls,c:UI.newC,pinH:hp(id+":"+UI.newP1),pin:UI.newP1,cloud:cOk};
-  const prog=normProg(ST.prog[id]);
+  const old=UI.upgradeId,oldU=old?ST.users.find(x=>x.id===old):null;
+  const id=(oldU&&oldU.cloud)?old:newId();
+  const u={id,name,cls:UI.newCls,c:UI.newC,pinH:hp(id+":"+UI.newP1),pin:UI.newP1,cloud:cOk,lock:!!UI.newLock};
+  const prog=normProg(ST.prog[old||id]);
   if(cOk){
     UI.saving=true;UI.addErr="";render();
     try{
@@ -1444,7 +1455,9 @@ async function saveUser(){
     }catch(e){UI.saving=false;return err("Tak dapat simpan ke internet. Semak sambungan dan cuba lagi.")}
     UI.saving=false;
   }
-  const i=ST.users.findIndex(x=>x.id===id);if(i>=0)ST.users[i]=u;else ST.users.push(u);
+  const oi=old?ST.users.findIndex(x=>x.id===old):-1;
+  if(oi>=0)ST.users[oi]=u;else{const i=ST.users.findIndex(x=>x.id===id);if(i>=0)ST.users[i]=u;else ST.users.push(u)}
+  if(old&&old!==id)delete ST.prog[old];
   ST.prog[id]=prog;save();SND.play("sparkle");
   Object.assign(UI,{adding:false,upgradeId:null,newName:"",newCls:"",newP1:"",newP2:"",consent:false,addErr:""});render();toast("Selamat datang, "+name+"! Tekan gambar untuk masuk.");
 }
@@ -1457,11 +1470,14 @@ app.addEventListener("click",e=>{
   const SMAP={pickUser:"pop",other:"pop",otherPick:"pop",board:"sparkle",bTab:"tap",pick:"select",word:"select",tf:"select",submit:"jingle",startReview:"whoosh",rvReveal:"whoosh",logout:"down",book:"sparkle",station:"pop",addUser:"pop",next:"pop",key:"tick",forgot:"pop",changePin:"pop",toCheck:"pop",parentPanel:"pop",askReset:"pop",finish:"pop"};
   if(a!=="rvPick"&&a!=="rvNext")SND.play(SMAP[a]||"tap");
   switch(a){
-    case "pickUser":{const u=ST.users.find(x=>x.id===b.dataset.u);if(!u)break;if(!u.cls||!u.pinH){needPin({to:"addForm",upgrade:u.id,back:"login",why:"Ibu/Ayah: masukkan kod untuk lengkapkan profil "+u.name});break}UI.loginId=u.id;UI.pin="";UI.pinErr="";UI.pinMode="student";go("pin");break}
+    case "pickUser":{const u=ST.users.find(x=>x.id===b.dataset.u);if(!u)break;if(!u.cls||!u.pinH){needPin({to:"addForm",upgrade:u.id,back:"login",why:"Ibu/Ayah: masukkan kod untuk lengkapkan profil "+u.name});break}if(u.lock){UI.loginId=u.id;UI.pin="";UI.pinErr="";UI.pinMode="student";go("pin");break}if(b.classList.contains("loading"))break;b.classList.add("loading");setTimeout(()=>doLogin(u.id),reduced?0:700);break}
     case "addUser":needPin({to:"addForm",back:"login",why:"Ibu/Ayah: masukkan kod untuk daftar pelajar"});break;
     case "cancelAdd":Object.assign(UI,{adding:false,upgradeId:null,newName:"",newCls:"",newP1:"",newP2:"",addErr:""});render();break;
     case "pickCls":UI.newCls=v;render();break;
     case "toLogin":go("login");break;
+    case "kidForgot":{const kid=UI.pinMode==="remote"?UI.remote&&UI.remote.id:UI.loginId;needPin({to:"kidCode",kid,back:"login",why:"Ibu/Ayah: masukkan kod untuk lihat kod pelajar"});break}
+    case "kidGo":doLogin(b.dataset.u);break;
+    case "toggleLock":{const u=ST.users.find(x=>x.id===b.dataset.u);if(!u)break;if(!u.pinH){toast("Lengkapkan profil dulu");break}u.lock=!u.lock;save();toast(u.lock?u.name+": kod diminta setiap kali buka":u.name+": terus masuk tanpa kod di phone ini");render();break}
     case "install":if(deferredPrompt){const dp=deferredPrompt;dp.prompt();dp.userChoice.then(c=>{deferredPrompt=null;if(c&&c.outcome==="accepted")toast("Sedang dipasang… 🎉");render()}).catch(()=>{})}else{UI.installHelp=true;render()}break;
     case "closeInstall":UI.installHelp=false;render();break;
     case "copyLink":{const l=location.href.split("#")[0];const done=()=>toast("Link disalin ✅");try{navigator.clipboard.writeText(l).then(done).catch(()=>{const i=document.getElementById("instLink");i.select();document.execCommand("copy");done()})}catch(e){const i=document.getElementById("instLink");i.select();try{document.execCommand("copy");done()}catch(_){}}break}
@@ -1542,6 +1558,7 @@ app.addEventListener("input",e=>{
   if(k==="newP1"){UI.newP1=e.target.value.replace(/\D/g,"").slice(0,4);return}
   if(k==="newP2"){UI.newP2=e.target.value.replace(/\D/g,"").slice(0,4);return}
   if(k==="consent"){UI.consent=e.target.checked;return}
+  if(k==="newLock"){UI.newLock=e.target.checked;return}
   if(k==="math"){UI.mathVal=e.target.value;return}
   if(k==="e"){
     const set=SETS[UI.set-1],it=set.items[UI.q],was=isAnswered(D.answers[set.id][it.id]);
