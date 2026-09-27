@@ -354,7 +354,8 @@ textarea{width:100%;min-height:120px;margin-top:14px;font:600 1.25rem/1.5 var(--
 .clbl{color:var(--muted);font-weight:700;font-size:.85rem}
 .ccard ul{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:4px;font-weight:700}
 
-.instcard{display:flex;align-items:center;gap:12px;background:rgba(255,212,94,.12);border:2px solid rgba(255,212,94,.55);border-radius:20px;padding:12px 14px;max-width:560px;width:100%;text-align:left}
+.topbar+.instcard,.instcard+.instcard{margin-bottom:10px}
+.instcard{margin-inline:auto;display:flex;align-items:center;gap:12px;background:rgba(255,212,94,.12);border:2px solid rgba(255,212,94,.55);border-radius:20px;padding:12px 14px;max-width:560px;width:100%;text-align:left}
 .insticon{font-size:2rem;line-height:1}
 .instcard b{display:block;font-family:var(--f-display);font-size:1.1rem;color:var(--sand)}
 .instcard div span{display:block;color:var(--muted);font-size:.88rem;font-weight:700}
@@ -974,6 +975,7 @@ function anyPerfect(){for(let s=1;s<=N;s++)if(D.best[s]&&D.best[s].score===30)re
 function status(s){
   if(D.results[s])return "done";
   if(D.submitted[s])return "wait";
+  if(D.best[s])return "redo";
   if(s>D.maxOpen)return "locked";
   return answeredCount(s)>0?"progress":"open";
 }
@@ -1002,6 +1004,8 @@ function confetti(n){
 /* ---------- cloud (Firebase) helpers ---------- */
 const CLS=["2 Aisyah","2 Hafsah"];
 function cloudOk(){return !!(window.CLOUD&&window.CLOUD.ok)}
+function isCloudBuild(){return !!window.FIREBASE_CONFIG}
+function waitCloud(ms){return new Promise(res=>{if(cloudOk())return res(true);const t0=Date.now();const iv=setInterval(()=>{if(cloudOk()||Date.now()-t0>ms){clearInterval(iv);res(cloudOk())}},200)})}
 function withTimeout(p,ms){return Promise.race([p,new Promise((_,r)=>setTimeout(()=>r(new Error("timeout")),ms))])}
 function newId(){return "u"+Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
 function summary(p){
@@ -1016,7 +1020,7 @@ let syncT=null;
 function scheduleSync(){clearTimeout(syncT);const u=USER,p=D;syncT=setTimeout(()=>pushUser(u,p),1500)}
 async function pushUser(u,p){
   if(!cloudOk()||!u||!u.cloud||!p)return;
-  try{await CLOUD.putStudent(u.id,studentDoc(u,p));await CLOUD.putState(u.id,JSON.stringify(p))}catch(e){console.warn("sync",e)}
+  try{await CLOUD.putStudent(u.id,studentDoc(u,p));await CLOUD.putState(u.id,JSON.stringify(p));if(UI.syncErr){UI.syncErr=false;if(UI.screen==="map")render()}}catch(e){console.warn("sync",e);UI.syncErr=true;if(UI.screen==="map")render()}
 }
 async function doLogin(id){
   login(id);
@@ -1082,7 +1086,7 @@ function vLogin(){
       <div class="pinrow"><div><label for="newPP1">Kod Ibu/Ayah (4 digit)</label><input id="newPP1" data-input="newPP1" type="password" inputmode="numeric" maxlength="4" value="${esc(UI.newPP1||"")}" placeholder="••••"></div>
       <div><label for="newPP2">Ulang kod</label><input id="newPP2" data-input="newPP2" type="password" inputmode="numeric" maxlength="4" value="${esc(UI.newPP2||"")}" placeholder="••••"></div></div></div>`}
       <label class="consent"><input type="checkbox" id="newLock" data-input="newLock" ${UI.newLock?"checked":""}> Minta kod setiap kali buka profil di phone ini (sesuai kalau adik-beradik kongsi phone)</label>
-      ${cOk?`<label class="consent"><input type="checkbox" id="consent" data-input="consent" ${UI.consent?"checked":""}> Saya ibu/bapa murid ini dan bersetuju nama panggilan, kelas dan kemajuan anak dipaparkan kepada rakan dalam Papan Kelas.</label>`:""}
+      ${(cOk||isCloudBuild())?`<label class="consent"><input type="checkbox" id="consent" data-input="consent" ${UI.consent?"checked":""}> Saya ibu/bapa murid ini dan bersetuju nama panggilan, kelas dan kemajuan anak dipaparkan kepada rakan dalam Papan Kelas.</label>`:""}
       <p class="err">${esc(UI.addErr)}</p>
       <div class="row-btns"><button type="button" class="btn ghost small dark" data-act="cancelAdd">Batal</button><button type="submit" class="btn mint small" ${UI.saving?"disabled":""}>${UI.saving?"Menyimpan…":"Simpan"}</button></div>
     </form>`:`<button class="profile addp" data-act="addUser"><span class="avatar plus">+</span><span class="pname">Tambah</span><span class="pclass">Pelajar baru</span></button>`;
@@ -1214,8 +1218,8 @@ function vMap(){
   let nodes="";
   for(let s=1;s<=N;s++){
     const [x,yy]=P[s],st=status(s),set=SETS[s-1],r=set.big?46:34,best=D.best[s];
-    const fill={locked:"#2B3163",open:"#FFD45E",progress:"#FFD45E",wait:"#8CC4F0",done:"#4FD1A1"}[st];
-    const inner={locked:"🔒",open:String(s),progress:String(s),wait:"⏳",done:needsReview(s)?"📚":"✓"}[st];
+    const fill={locked:"#2B3163",open:"#FFD45E",progress:"#FFD45E",wait:"#8CC4F0",done:"#4FD1A1",redo:"#4FD1A1"}[st];
+    const inner={locked:"🔒",open:String(s),progress:String(s),wait:"⏳",done:needsReview(s)?"📚":"✓",redo:"✓"}[st];
     const small=st==="locked"||st==="wait"||(st==="done"&&needsReview(s)),ink=st==="locked"?"#8C90C0":"#2B2340";
     const bigLbl=set.big?`<rect x="${x-78}" y="${yy-r-40}" width="156" height="26" rx="13" fill="#FFD45E"/><text x="${x}" y="${yy-r-21}" text-anchor="middle" font-size="13" font-weight="800" fill="#3A2600" letter-spacing="1">🚩 CHECKPOINT BESAR</text>`:"";
     nodes+=`<g class="node ${st==="progress"?"open":st} ${set.big?"big":""}" data-act="station" data-set="${s}" role="button" tabindex="${st==="locked"?-1:0}" aria-label="${set.name}, ${esc(set.place)}" ${s===cur?'id="here"':""}>
@@ -1238,11 +1242,13 @@ function vMap(){
   const svg=`<svg class="map" viewBox="0 0 400 ${H}" role="img" aria-label="Peta perjalanan Jejak Sirah">${deco}<path d="${d}" fill="none" stroke="#F2C98A" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 14" opacity=".85"/>${nodes}${camel}</svg>`;
   const cards=[...Array(N)].map((_,i)=>{
     const s=i+1,st=status(s),set=SETS[s-1],best=D.best[s];
-    const line={locked:`<span class="s">🔒 Siapkan set sebelum ini dulu</span>`,open:`<span class="s open">Sedia untuk dijawab</span>`,progress:`<span class="s open">Sedang dijawab · ${answeredCount(s)}/30</span>`,wait:`<span class="s wait">⏳ Menunggu semakan</span>`,done:D.results[s]?`<span class="s done">Markah ${D.results[s].score}/30</span>${needsReview(s)?`<span class="s wait">📚 Belum ulang kaji</span>`:""}`:""}[st];
+    const line={locked:`<span class="s">🔒 Siapkan set sebelum ini dulu</span>`,open:`<span class="s open">Sedia untuk dijawab</span>`,progress:`<span class="s open">Sedang dijawab · ${answeredCount(s)}/30</span>`,wait:`<span class="s wait">⏳ Menunggu semakan</span>`,redo:`<span class="s done">✓ Dah siap</span><span class="s open">🔁 Sedang ulang${answeredCount(s)?" · "+answeredCount(s)+"/30":""}</span>`,done:D.results[s]?`<span class="s done">Markah ${D.results[s].score}/30</span>${needsReview(s)?`<span class="s wait">📚 Belum ulang kaji</span>`:""}`:""}[st];
     const bl=best&&st!=="done"?`<span class="s done">Terbaik: ${best.score}/30</span>`:"";
     return `<button class="stn ${st} ${set.big?"bigc":""}" data-act="station" data-set="${s}" ${st==="locked"?"disabled":""}><span class="t">${set.name}${set.big?' <span class="cpb">CHECKPOINT</span>':""}</span><span class="p">${esc(set.place)} · ${esc(set.bab)}</span>${line}${bl}${best?`<span class="sst">${starStr(best.stars)}</span>`:""}</button>`;
   }).join("");
-  return topbar()+`<p class="banner">${bannerText()}</p>`+svg+`<h3 class="listh">Semua set</h3><div class="stations">${cards}</div>`;
+  const joinCard=isCloudBuild()&&USER&&!USER.cloud?`<div class="instcard"><span class="insticon">🏆</span><div><b>${esc(USER.name)} belum masuk Papan Kelas</b><span>Ibu/Ayah: sertakan supaya kemajuan tersimpan dan boleh dilihat kawan sekelas.</span></div><button class="btn small" data-act="joinBoard">Sertai</button></div>`:"";
+  const syncCard=USER&&USER.cloud&&UI.syncErr?`<div class="instcard"><span class="insticon">⚠️</span><div><b>Kemajuan belum dihantar ke Papan Kelas</b><span>Semak sambungan internet.</span></div><button class="btn small" data-act="syncNow">Cuba lagi</button></div>`:"";
+  return topbar()+joinCard+syncCard+`<p class="banner">${bannerText()}</p>`+svg+`<h3 class="listh">Semua set</h3><div class="stations">${cards}</div>`;
 }
 function qBody(it,v,set){
   if(it.sec==="A")return `<div class="qtext jawi">${esc(it.q)}</div><div class="opts">${it.opts.map((o,i)=>`<button class="opt ${v===i?"sel":""}" data-act="pick" data-v="${i}"><span class="lt">${LET[i]}</span><span>${esc(o)}</span></button>`).join("")}</div>`;
@@ -1403,7 +1409,7 @@ function vBook(){
 function vParent(){
   const items=[...Array(N)].map((_,i)=>{
     const s=i+1,st=status(s),set=SETS[s-1],b=D.best[s];
-    const lab={locked:"Belum dibuka",open:"Belum dijawab",progress:`Sedang dijawab (${answeredCount(s)}/30)`,wait:"Dah dihantar, menunggu semakan",done:D.results[s]?`Markah ${D.results[s].score}/30 · ${starStr(D.results[s].stars)}${needsReview(s)?" · belum ulang kaji":""}`:""}[st]+(b&&st!=="done"?` · Terbaik ${b.score}/30`:"");
+    const lab={redo:`Dah siap · sedang diulang (${answeredCount(s)}/30)`,locked:"Belum dibuka",open:"Belum dijawab",progress:`Sedang dijawab (${answeredCount(s)}/30)`,wait:"Dah dihantar, menunggu semakan",done:D.results[s]?`Markah ${D.results[s].score}/30 · ${starStr(D.results[s].stars)}${needsReview(s)?" · belum ulang kaji":""}`:""}[st]+(b&&st!=="done"?` · Terbaik ${b.score}/30`:"");
     const act=st==="wait"?`<button class="btn mint small" data-act="pCheck" data-set="${s}">Semak sekarang</button>`:st==="done"?`<button class="btn small" data-act="pResult" data-set="${s}">Lihat keputusan</button>`:"";
     const conf=UI.confirmReset===s,reset=st!=="locked"&&st!=="open"?`<button class="btn small ${conf?"warn":"ghost"}" data-act="pReset" data-set="${s}">${conf?"Tekan lagi untuk sahkan":"Buat semula"}</button>`:"";
     return `<div class="it"><div><b>${set.big?"🚩 ":""}${set.name} · ${esc(set.place)}</b><span class="st2">${lab}</span></div><div class="row-btns">${act}${reset}</div></div>`;
@@ -1454,6 +1460,7 @@ function openStation(s){
   if(st==="wait"){go("submitted");return}
   const first=SETS[s-1].items.findIndex(x=>!isAnswered(D.answers[s][x.id]));
   go("quiz",{q:first<0?29:first});
+  if(st==="redo")toast(NM("🔁 Cuba lagi, {n}! Markah terbaik kamu tetap disimpan."));
   if(st==="open")toast(NM(SETS[s-1].big?"🚩 Checkpoint Besar! Bismillah, {n}!":"Bismillah! Selamat menjawab, {n} 🌙"));
 }
 function needPin(after){UI.pin="";UI.pinErr="";UI.after=after;UI.pinMode=ST.pin?"check":"new1";go("pin")}
@@ -1472,6 +1479,8 @@ async function saveUser(){
   if(!/^\d{4}$/.test(UI.newP1||""))return err("Kod anak mesti 4 nombor.");
   if(UI.newP1!==UI.newP2)return err("Kod anak tak sama. Taip semula.");
   if(!ST.pin){if(!/^\d{4}$/.test(UI.newPP1||""))return err("Kod Ibu/Ayah mesti 4 nombor.");if(UI.newPP1!==UI.newPP2)return err("Kod Ibu/Ayah tak sama. Taip semula.");if(UI.newPP1===UI.newP1)return err("Guna kod Ibu/Ayah yang berbeza daripada kod anak.")}
+  if(isCloudBuild()&&!UI.consent)return err("Sila tandakan persetujuan ibu/bapa.");
+  if(isCloudBuild()&&!cloudOk()){UI.saving=true;UI.addErr="Menyambung ke internet…";render();const okc=await waitCloud(10000);UI.saving=false;if(!okc)return err("Tak dapat sambung ke internet. Semak sambungan dan cuba lagi.")}
   const cOk=cloudOk();
   if(cOk&&!UI.consent)return err("Sila tandakan persetujuan ibu/bapa.");
   if(ST.users.some(u=>u.id!==UI.upgradeId&&u.name.toLowerCase()===name.toLowerCase()&&u.cls===UI.newCls))return err("Nama ini sudah ada dalam phone ini.");
@@ -1512,6 +1521,8 @@ app.addEventListener("click",e=>{
     case "toLogin":go("login");break;
     case "kidForgot":{const kid=UI.pinMode==="remote"?UI.remote&&UI.remote.id:UI.loginId;needPin({to:"kidCode",kid,back:"login",why:"Ibu/Ayah: masukkan kod untuk lihat kod pelajar"});break}
     case "kidGo":doLogin(b.dataset.u);break;
+    case "joinBoard":{const u=USER;USER=null;D=null;openAddForm(u);break}
+    case "syncNow":pushUser(USER,D);toast("Menghantar…");break;
     case "kidReset":UI.kr={id:b.dataset.u,p1:"",p2:"",err:"",saving:false,back:UI.screen==="parent"?"parent":"login"};go("kidreset");break;
     case "krCancel":go(UI.kr&&UI.kr.back||"login");break;
     case "toggleLock":{const u=ST.users.find(x=>x.id===b.dataset.u);if(!u)break;if(!u.pinH){toast("Lengkapkan profil dulu");break}u.lock=!u.lock;save();toast(u.lock?u.name+": kod diminta setiap kali buka":u.name+": terus masuk tanpa kod di phone ini");render();break}
