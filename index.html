@@ -297,6 +297,62 @@ textarea{width:100%;min-height:120px;margin-top:14px;font:600 1.25rem/1.5 var(--
 #sndc button.off{opacity:.55}
 #sndc button.off::after{content:"";position:absolute;left:9px;right:9px;top:50%;height:3px;border-radius:2px;background:var(--coral);transform:rotate(-40deg)}
 
+.clsbtns{display:flex;gap:8px}
+.clsb{flex:1;border:3px solid #EADFCB;background:#fff;color:var(--ink);border-radius:14px;padding:10px;font:800 1.05rem var(--f-display);cursor:pointer}
+.clsb.on{border-color:var(--gold-deep);background:#FFF1C7}
+.pinrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pinrow label{display:block;font-weight:800;font-size:.85rem;color:var(--ink-muted)}
+.small-note{font-size:.85rem;color:var(--ink-muted);margin:4px 0;font-weight:600}
+.consent{display:flex;gap:8px;align-items:flex-start;font-size:.85rem;font-weight:700;color:var(--ink);line-height:1.4}
+.consent input{width:22px;height:22px;flex:none;margin-top:2px}
+.pinkid{display:flex;justify-content:center;margin-bottom:6px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 10px}
+.tab{border:2px solid var(--line);background:rgba(255,255,255,.06);color:var(--text);border-radius:999px;padding:8px 14px;font:800 .98rem var(--f-display);cursor:pointer}
+.tab.on{background:var(--gold);color:#3A2600;border-color:var(--gold)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.chipc{border:2px solid var(--line);background:transparent;color:var(--muted);border-radius:999px;padding:4px 12px;font-weight:800;cursor:pointer}
+.chipc.on{color:var(--text);border-color:var(--sky-blue);background:rgba(140,196,240,.15)}
+.bnote{color:var(--muted);font-weight:700;font-size:.92rem;margin:6px 0 12px}
+.bmsg{text-align:center;color:var(--muted);font-weight:700;margin:40px 0;display:flex;flex-direction:column;align-items:center;gap:12px}
+.broad{position:relative;display:flex;flex-direction:column;gap:10px;padding-left:4px}
+.broad::before{content:"";position:absolute;left:27px;top:20px;bottom:20px;border-left:4px dotted rgba(242,201,138,.6)}
+.brow{position:relative;display:flex;gap:12px;align-items:flex-start}
+.bnode{flex:none;width:48px;height:48px;border-radius:50%;background:var(--night2);border:3px solid var(--gold);display:grid;place-items:center;font:800 1.2rem var(--f-display);color:var(--gold);z-index:1}
+.brow.big .bnode{background:var(--gold);color:#3A2600;box-shadow:0 0 0 4px rgba(255,212,94,.3)}
+.brow.fin .bnode{background:var(--gold);font-size:1.5rem}
+.binfo{flex:1;background:rgba(255,255,255,.05);border:2px solid var(--line);border-radius:16px;padding:8px 12px;min-width:0}
+.binfo b{font-family:var(--f-display);font-size:1.05rem}
+.binfo>span{display:block;color:var(--muted);font-size:.85rem;font-weight:700}
+.kids{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.kid{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.1);border-radius:999px;padding:2px 10px 2px 2px;font-weight:800;font-size:.9rem}
+.kid small{color:var(--muted);font-size:.72rem}
+.kid.me{background:var(--gold);color:#3A2600}
+.kid .avatar.xs,.avatar.xs{width:26px;height:26px;font-size:.85rem}
+.avatar.xs::after{display:none}
+.none{color:var(--muted);opacity:.5}
+.ilist{display:flex;flex-direction:column;gap:8px}
+.irow{display:flex;gap:10px;align-items:center;background:rgba(255,255,255,.05);border:2px solid var(--line);border-radius:16px;padding:8px 12px}
+.irow.me{border-color:var(--gold);background:rgba(255,212,94,.1)}
+.irow .avatar{width:44px;height:44px;font-size:1.3rem;flex:none}
+.irow .avatar::after{display:none}
+.rk{font:800 1.1rem var(--f-display);color:var(--muted);width:24px;text-align:center;flex:none}
+.iinfo{flex:1;min-width:0}
+.iinfo b{font-family:var(--f-display);font-size:1.05rem}
+.youtag{background:var(--gold);color:#3A2600;border-radius:999px;padding:0 8px;font-size:.75rem;margin-left:4px}
+.icls{color:var(--muted);font-size:.8rem;font-weight:700;margin-left:6px}
+.ibar{height:10px;border-radius:99px;background:rgba(255,255,255,.12);margin:5px 0;overflow:hidden}
+.ibar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--dune),var(--gold))}
+.istat{font-size:.85rem;font-weight:700;color:var(--muted)}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.ccard{position:relative;background:rgba(255,255,255,.06);border:2px solid var(--line);border-radius:22px;padding:18px}
+.ccard.lead{border-color:var(--gold);background:rgba(255,212,94,.08)}
+.crown{position:absolute;top:-12px;right:14px;background:var(--gold);color:#3A2600;border-radius:999px;padding:2px 10px;font-weight:800;font-size:.85rem}
+.ccard h3{font-size:1.5rem;color:var(--sand)}
+.cbig{font:800 3rem var(--f-display);color:var(--gold);line-height:1.1}
+.cbig small{font-size:.4em;color:var(--muted)}
+.clbl{color:var(--muted);font-weight:700;font-size:.85rem}
+.ccard ul{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:4px;font-weight:700}
+
 #fx{position:fixed;inset:0;pointer-events:none;z-index:40;width:100%;height:100%}
 
 @media (max-width:480px){
@@ -776,7 +832,7 @@ function loadStore(){
   s.users.forEach(u=>s.prog[u.id]=freshProg());return s;
 }
 let ST=loadStore(), USER=null, D=null;
-function save(){try{localStorage.setItem(KEY2,JSON.stringify(ST))}catch(e){}}
+function save(){if(D)D.ts=Date.now();try{localStorage.setItem(KEY2,JSON.stringify(ST))}catch(e){}if(USER&&USER.cloud&&typeof scheduleSync==="function")scheduleSync()}
 let UI={screen:"login",set:1,q:0,pin:"",after:null,toastSeen:{},confirmReset:null,confirmDel:null,adding:false,newName:"",newCls:"",newC:1,addErr:""};
 /* ---------- sound (Web Audio, synthesised) ---------- */
 const SND=(function(){
@@ -924,24 +980,111 @@ function confetti(n){
 }
 
 /* ---------- screens ---------- */
+/* ---------- cloud (Firebase) helpers ---------- */
+const CLS=["2 Aisyah","2 Hafsah"];
+function cloudOk(){return !!(window.CLOUD&&window.CLOUD.ok)}
+function withTimeout(p,ms){return Promise.race([p,new Promise((_,r)=>setTimeout(()=>r(new Error("timeout")),ms))])}
+function newId(){return "u"+Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function summary(p){
+  let done=0,stars=0,perfect=false,cur=N+1;
+  for(let s=1;s<=N;s++){const b=p.best&&p.best[s];if(b){done++;stars+=b.stars;if(b.score===30)perfect=true}else if(cur===N+1)cur=s}
+  const rev=Math.min(Object.keys(p.reviewed||{}).length,10);
+  const stk=done+(perfect?1:0)+(p.reviewBadge?1:0)+(done===N?1:0);
+  return {done,stars:Math.min(stars,30),stk:Math.min(stk,20),rev,cur};
+}
+function studentDoc(u,p){const s=summary(p);return {name:u.name,cls:u.cls,c:u.c||0,pinH:u.pinH,done:s.done,stars:s.stars,stk:s.stk,rev:s.rev,cur:s.cur,hidden:!!u.hidden}}
+let syncT=null;
+function scheduleSync(){clearTimeout(syncT);const u=USER,p=D;syncT=setTimeout(()=>pushUser(u,p),1500)}
+async function pushUser(u,p){
+  if(!cloudOk()||!u||!u.cloud||!p)return;
+  try{await CLOUD.putStudent(u.id,studentDoc(u,p));await CLOUD.putState(u.id,JSON.stringify(p))}catch(e){console.warn("sync",e)}
+}
+async function doLogin(id){
+  login(id);
+  if(USER.cloud&&cloudOk()){
+    try{const st=await withTimeout(CLOUD.getState(id),5000);if(st){const c=JSON.parse(st);if((c.ts||0)>(D.ts||0)){D=ST.prog[id]=normProg(c);save()}}}catch(e){}
+    pushUser(USER,D);
+  }
+  go("welcome");
+}
+function loadBoard(){
+  UI.board.data=null;UI.board.err="";
+  if(!cloudOk()){UI.board.err="off";if(UI.screen==="board")render();return}
+  withTimeout(CLOUD.listAll(),8000).then(list=>{
+    ST.users.forEach(u=>{if(u.cloud){const o={id:u.id,...studentDoc(u,normProg(ST.prog[u.id]))};const i=list.findIndex(x=>x.id===u.id);if(i>=0)list[i]=o;else list.push(o)}});
+    UI.board.data=list.filter(x=>!x.hidden);if(UI.screen==="board")render();
+  }).catch(()=>{UI.board.err="net";if(UI.screen==="board")render()});
+}
+function sAvatar(s,cls){const c=COLORS[(s.c||0)%COLORS.length];return `<span class="avatar ${cls||""}" style="background:radial-gradient(circle at 35% 30%,${c[0]},${c[1]});color:${c[2]}">${esc(String(s.name||"?").trim()[0].toUpperCase())}</span>`}
+function mine(id){return ST.users.some(u=>u.id===id)}
+
+/* ---------- screens: login / add / other / board ---------- */
 function vLogin(){
-  const cards=ST.users.map(u=>`<button class="profile" data-act="login" data-u="${esc(u.id)}">${avatar(u)}<span class="pname">${esc(u.name)}</span><span class="pclass">${u.cls?esc(u.cls):"&nbsp;"}</span></button>`).join("");
+  const cards=ST.users.map(u=>`<button class="profile" data-act="pickUser" data-u="${esc(u.id)}">${avatar(u)}<span class="pname">${esc(u.name)}</span><span class="pclass">${u.cls&&u.pinH?esc(u.cls):"Lengkapkan profil"}</span></button>`).join("");
+  const cOk=cloudOk();
   const add=UI.adding?`<form class="addform" id="addForm" autocomplete="off">
-      <h3>Pengguna baru</h3>
-      <label for="newName">Nama</label><input id="newName" data-input="newName" maxlength="16" value="${esc(UI.newName)}" placeholder="Contoh: Aisyah">
-      <label for="newCls">Kelas (tak wajib)</label><input id="newCls" data-input="newCls" maxlength="20" value="${esc(UI.newCls)}" placeholder="Contoh: 2 Aisyah">
+      <h3>${UI.upgradeId?"Lengkapkan profil":"Pelajar baru"}</h3>
+      <label for="newName">Nama panggilan</label><input id="newName" data-input="newName" maxlength="16" value="${esc(UI.newName)}" placeholder="Contoh: Hassan">
+      <span class="lbl2">Kelas</span><div class="clsbtns">${CLS.map(c=>`<button type="button" class="clsb ${UI.newCls===c?"on":""}" data-act="pickCls" data-v="${c}">${c}</button>`).join("")}</div>
       <span class="lbl2">Warna</span><div class="swatches">${COLORS.map((c,i)=>`<button type="button" class="sw ${UI.newC===i?"on":""}" data-act="pickC" data-v="${i}" style="background:${c[1]}" aria-label="Warna ${i+1}"></button>`).join("")}</div>
+      <div class="pinrow"><div><label for="newP1">Kod pelajar (4 digit)</label><input id="newP1" data-input="newP1" type="password" inputmode="numeric" maxlength="4" value="${esc(UI.newP1||"")}" placeholder="••••"></div>
+      <div><label for="newP2">Ulang kod</label><input id="newP2" data-input="newP2" type="password" inputmode="numeric" maxlength="4" value="${esc(UI.newP2||"")}" placeholder="••••"></div></div>
+      <p class="small-note">Anak guna kod ini untuk masuk profil sendiri. Ibu/Ayah boleh lihat kod ini di Ruang Ibu/Ayah.</p>
+      ${cOk?`<label class="consent"><input type="checkbox" id="consent" data-input="consent" ${UI.consent?"checked":""}> Saya ibu/bapa murid ini dan bersetuju nama panggilan, kelas dan kemajuan anak dipaparkan kepada rakan dalam Papan Kelas.</label>`:""}
       <p class="err">${esc(UI.addErr)}</p>
-      <div class="row-btns"><button type="button" class="btn ghost small dark" data-act="cancelAdd">Batal</button><button type="submit" class="btn mint small">Simpan</button></div>
-    </form>`:`<button class="profile addp" data-act="addUser"><span class="avatar plus">+</span><span class="pname">Tambah</span><span class="pclass">Pengguna baru</span></button>`;
+      <div class="row-btns"><button type="button" class="btn ghost small dark" data-act="cancelAdd">Batal</button><button type="submit" class="btn mint small" ${UI.saving?"disabled":""}>${UI.saving?"Menyimpan…":"Simpan"}</button></div>
+    </form>`:`<button class="profile addp" data-act="addUser"><span class="avatar plus">+</span><span class="pname">Tambah</span><span class="pclass">Pelajar baru</span></button>`;
   return `<section class="login">
     <div class="brand"><div class="moon" aria-hidden="true"></div>
       <h1>Jejak Sirah</h1><div class="bj jawi">جيجق سيرة</div>
       <div class="tag">Latihan Sirah Tahun 2 · 10 set · 2 checkpoint besar</div></div>
     <div class="ask">Siapa yang nak belajar hari ini?</div>
     <div class="profiles">${cards}${add}</div>
-    <div class="hint">${ST.users.length?"Tekan gambar kamu untuk masuk":"Tekan Tambah untuk cipta profil pertama"}</div>
+    <div class="hint">${ST.users.length?"Tekan gambar kamu dan masukkan kod kamu":"Ibu/Ayah: tekan Tambah untuk daftar anak"}</div>
+    ${cOk&&!UI.adding?`<div class="row-btns"><button class="btn ghost small" data-act="other">🔑 Masuk profil dari phone lain</button><button class="btn ghost small" data-act="board">🏆 Papan Kelas</button></div>`:""}
   </section>`;
+}
+function vOther(){
+  const o=UI.other;
+  let body;
+  if(o.err)body=`<p class="bmsg">Tak dapat sambung ke internet. <button class="btn ghost small" data-act="other">Cuba lagi</button></p>`;
+  else if(!o.list)body=`<p class="bmsg">Memuatkan senarai… ⏳</p>`;
+  else{
+    const l=o.list.filter(s=>s.cls===o.cls&&!s.hidden&&!mine(s.id)).sort((a,b)=>a.name.localeCompare(b.name));
+    body=l.length?`<div class="profiles">${l.map(s=>`<button class="profile" data-act="otherPick" data-u="${esc(s.id)}">${sAvatar(s)}<span class="pname">${esc(s.name)}</span><span class="pclass">${esc(s.cls)}</span></button>`).join("")}</div>`:`<p class="bmsg">Tiada profil lain dalam ${esc(o.cls)}.</p>`;
+  }
+  return `<div class="qhead"><button class="btn ghost small" data-act="toLogin">← Kembali</button><span class="ttl">🔑 Masuk profil dari phone lain</span><span></span></div>
+    <p class="banner">Pilih kelas dan nama kamu. Kamu perlukan kod pelajar kamu.</p>
+    <div class="tabs">${CLS.map(c=>`<button class="tab ${o.cls===c?"on":""}" data-act="oCls" data-v="${c}">${c}</button>`).join("")}</div>
+    ${body}`;
+}
+function vBoard(){
+  const B=UI.board,me=USER?USER.id:null;
+  const tabs=[["map","🗺️ Peta Kelas"],["ind","🧒 Individu"],["cls","🏫 Antara Kelas"]].map(([k,t])=>`<button class="tab ${B.tab===k?"on":""}" data-act="bTab" data-v="${k}">${t}</button>`).join("");
+  const head=`<div class="qhead"><button class="btn ghost small" data-act="${USER?"map":"toLogin"}">← ${USER?"Peta":"Kembali"}</button><span class="ttl">🏆 Papan Kelas</span><button class="btn ghost small" data-act="bRetry">↻</button></div><div class="tabs">${tabs}</div>`;
+  if(B.err)return head+`<p class="bmsg">${B.err==="off"?"Papan Kelas perlukan sambungan internet.":"Tak dapat sambung ke internet."} <button class="btn ghost small" data-act="bRetry">Cuba lagi</button></p>`;
+  if(!B.data)return head+`<p class="bmsg">Memuatkan papan… ⏳</p>`;
+  const all=B.data;
+  const filt=`<div class="chips">${[...CLS,"Semua"].map(c=>`<button class="chipc ${B.cls===c?"on":""}" data-act="bCls" data-v="${c}">${c}</button>`).join("")}</div>`;
+  const list=B.cls==="Semua"?all:all.filter(s=>s.cls===B.cls);
+  const chip=s=>`<span class="kid ${s.id===me?"me":""}">${sAvatar(s,"xs")}${esc(s.name)}${B.cls==="Semua"?`<small>${esc(s.cls.replace("2 ",""))}</small>`:""}</span>`;
+  if(B.tab==="map"){
+    let rows="";
+    for(let s=1;s<=N+1;s++){
+      const here=list.filter(x=>x.cur===s),set=SETS[s-1],fin=s===N+1;
+      rows+=`<div class="brow ${set&&set.big?"big":""} ${fin?"fin":""}"><div class="bnode">${fin?"🏆":s}</div><div class="binfo"><b>${fin?"Piala Johan":set.name}</b><span>${fin?"Tamat semua 10 set":esc(set.place)}${set&&set.big?" · 🚩 Checkpoint":""}</span><div class="kids">${here.length?here.map(chip).join(""):`<span class="none">—</span>`}</div></div></div>`;
+    }
+    return head+filt+`<p class="bnote">Setiap murid berada di set yang sedang dijawab. Kemajuan dikira selepas Ibu/Ayah semak.</p><div class="broad">${rows}</div>`;
+  }
+  if(B.tab==="ind"){
+    const sorted=[...list].sort((a,b)=>b.done-a.done||b.stk-a.stk||b.rev-a.rev||a.name.localeCompare(b.name));
+    const rows=sorted.map((s,i)=>`<div class="irow ${s.id===me?"me":""}"><span class="rk">${i+1}</span>${sAvatar(s)}<div class="iinfo"><b>${esc(s.name)} ${s.id===me?'<span class="youtag">Kamu</span>':""}</b><span class="icls">${esc(s.cls)}</span><div class="ibar"><i style="width:${s.done*10}%"></i></div><span class="istat">${s.done===N?"🏆 Tamat semua!":s.done+"/10 set siap"} · 🏅 ${s.stk} sticker${s.rev?" · 📚 "+s.rev:""}</span></div></div>`).join("");
+    return head+filt+`<p class="bnote">Disusun ikut bilangan set yang siap, bukan markah. Semua orang boleh sampai ke Piala Johan! 🐪</p><div class="ilist">${rows||'<p class="bmsg">Belum ada murid.</p>'}</div>`;
+  }
+  const st=CLS.map(c=>{const m=all.filter(x=>x.cls===c),tot=m.reduce((a,x)=>a+x.done,0),n=m.length;return {c,n,tot,avg:n?tot/n:0,fin:m.filter(x=>x.done===N).length,stk:m.reduce((a,x)=>a+x.stk,0)}});
+  const lead=st[0].avg===st[1].avg?null:(st[0].avg>st[1].avg?st[0].c:st[1].c);
+  const cards=st.map(x=>`<div class="ccard ${lead===x.c?"lead":""}">${lead===x.c?'<span class="crown">👑 Mendahului</span>':""}<h3>${x.c}</h3><div class="cbig">${x.avg.toFixed(1)}<small> / 10</small></div><span class="clbl">purata set siap setiap murid</span><div class="ibar"><i style="width:${x.avg*10}%"></i></div><ul><li>👧👦 ${x.n} murid</li><li>✅ ${x.tot} set siap semuanya</li><li>🏆 ${x.fin} murid tamat semua</li><li>🏅 ${x.stk} sticker dikumpul</li></ul></div>`).join("");
+  return head+`<p class="bnote">Kelas dibandingkan ikut purata, jadi adil walaupun bilangan murid tak sama. Jom bantu kawan sekelas!</p><div class="cgrid">${cards}</div>`;
 }
 function vWelcome(){
   const q=QUOTES[Math.floor(Math.random()*QUOTES.length)],t="Selamat datang, "+USER.name+"!";
@@ -958,7 +1101,7 @@ function vWelcome(){
 function topbar(){
   return `<div class="topbar">
     <div class="me">${avatar(USER)}${esc(USER.name)} <span class="pill" title="Jumlah bintang">⭐ ${totalStars()}</span></div>
-    <div class="tools"><button class="btn ghost small" data-act="book">🏅 Sticker</button><button class="btn ghost small" data-act="parentPanel">🔒 Ibu/Ayah</button><button class="btn ghost small" data-act="logout">↩ Log Keluar</button></div>
+    <div class="tools"><button class="btn ghost small" data-act="book">🏅 Sticker</button>${cloudOk()?'<button class="btn ghost small" data-act="board">🏆 Papan</button>':""}<button class="btn ghost small" data-act="parentPanel">🔒 Ibu/Ayah</button><button class="btn ghost small" data-act="logout">↩ Log Keluar</button></div>
   </div>`;
 }
 function curSet(){for(let s=1;s<=N;s++)if(["open","progress"].includes(status(s)))return s;return null}
@@ -1060,9 +1203,11 @@ function vPin(){
       <div class="row-btns"><button type="button" class="btn ghost small dark" data-act="pinCancel">Batal</button><button type="submit" class="btn mint small">Sahkan</button></div></form></section>`;
   }
   const dots=[0,1,2,3].map(i=>`<span class="dot ${i<UI.pin.length?"f":""}"></span>`).join("");
+  const kid=m==="student"?ST.users.find(x=>x.id===UI.loginId):(m==="remote"?UI.remote:null);
   const keys=[1,2,3,4,5,6,7,8,9].map(k=>`<button class="key" data-act="key" data-v="${k}">${k}</button>`).join("")+`<button class="key" data-act="pinCancel" style="font-size:1rem">Batal</button><button class="key" data-act="key" data-v="0">0</button><button class="key" data-act="del" aria-label="Padam">⌫</button>`;
   const title={check:"Untuk Ibu &amp; Ayah sahaja",new1:af.change?"Tukar kod Ibu/Ayah":"Cipta kod Ibu/Ayah",new2:"Sahkan kod"}[m];
   const sub={check:af.why||"Masukkan kod 4 digit",new1:af.change?"Pilih kod baru 4 digit.":"Kali pertama: pilih kod 4 digit yang anak tak tahu. Kod ini untuk semak jawapan, buat semula set dan Ruang Ibu/Ayah.",new2:"Masukkan kod yang sama sekali lagi."}[m];
+  if(kid)return `<section class="panel"><div class="pin" id="pinbox"><div class="pinkid">${sAvatar(kid)}</div><h3>Kod ${esc(kid.name)}</h3><p style="color:var(--ink-muted);font-size:1rem;margin-top:6px">Masukkan kod rahsia 4 digit kamu</p><div class="dots">${dots}</div><div class="keys">${keys}</div><p class="err" id="pinerr">${esc(UI.pinErr||"")}</p><p class="small-note">Lupa kod? Minta Ibu/Ayah lihat di Ruang Ibu/Ayah.</p></div></section>`;
   return `<section class="panel"><div class="pin" id="pinbox"><h3>${title}</h3><p style="color:var(--ink-muted);font-size:1rem;margin-top:6px">${esc(sub)}</p><div class="dots">${dots}</div><div class="keys">${keys}</div><p class="err" id="pinerr">${esc(UI.pinErr||"")}</p>${m==="check"?`<button class="linkbtn" data-act="forgot">Lupa kod?</button>`:""}</div></section>`;
 }
 function kidAns(it,v){
@@ -1179,7 +1324,7 @@ function vParent(){
     return `<div class="it"><div><b>${set.big?"🚩 ":""}${set.name} · ${esc(set.place)}</b><span class="st2">${lab}</span></div><div class="row-btns">${act}${reset}</div></div>`;
   }).join("");
   const confAll=UI.confirmReset==="all";
-  const users=ST.users.map(u=>{const c=UI.confirmDel===u.id;return `<div class="it"><div class="me" style="font-size:1.1rem">${avatar(u)}<div><b>${esc(u.name)}</b><span class="st2">${u.cls?esc(u.cls):""}</span></div></div><button class="btn small ${c?"warn":"ghost"}" data-act="delUser" data-u="${esc(u.id)}">${c?"Tekan lagi untuk padam":"Padam pengguna"}</button></div>`}).join("");
+  const users=ST.users.map(u=>{const c=UI.confirmDel===u.id;return `<div class="it"><div class="me" style="font-size:1.1rem">${avatar(u)}<div><b>${esc(u.name)}</b><span class="st2">${u.cls?esc(u.cls):""}${u.pin?" · Kod pelajar: "+esc(u.pin):""}${u.cloud?(u.hidden?" · disorok dari Papan":" · dalam Papan Kelas"):" · phone ini sahaja"}</span></div></div><div class="row-btns">${u.cloud?`<button class="btn small ghost" data-act="hideUser" data-u="${esc(u.id)}">${u.hidden?"Papar di Papan":"Sorok dari Papan"}</button>`:""}<button class="btn small ${c?"warn":"ghost"}" data-act="delUser" data-u="${esc(u.id)}">${c?"Tekan lagi untuk buang":"Buang dari phone ini"}</button></div></div>`}).join("");
   return `<div class="qhead phead"><div><h2>Ruang Ibu &amp; Ayah · ${esc(USER.name)}</h2><p>Semak jawapan, lihat keputusan, atau buka semula set untuk latihan ulangan. Markah terbaik dan sticker kekal walaupun set dibuat semula.</p></div><button class="btn ghost small" data-act="map">Tutup</button></div>
     <div class="pp">${items}<div class="it"><div><b>Mula semula dari awal</b><span class="st2">Padam semua jawapan, markah dan sticker ${esc(USER.name)}</span></div><button class="btn small ${confAll?"warn":"ghost"}" data-act="pReset" data-set="all">${confAll?"Tekan lagi untuk sahkan":"Padam semua"}</button></div></div>
     <h3 class="listh">Pengguna</h3><div class="pp">${users}</div>
@@ -1188,7 +1333,7 @@ function vParent(){
 
 /* ---------- render ---------- */
 function render(){
-  const v={login:vLogin,welcome:vWelcome,map:vMap,quiz:vQuiz,confirm:vConfirm,submitted:vSubmitted,pin:vPin,check:vCheck,result:vResult,book:vBook,parent:vParent,review:vReview}[UI.screen];
+  const v={login:vLogin,welcome:vWelcome,map:vMap,quiz:vQuiz,confirm:vConfirm,submitted:vSubmitted,pin:vPin,check:vCheck,result:vResult,book:vBook,parent:vParent,review:vReview,other:vOther,board:vBoard}[UI.screen];
   app.innerHTML=v();
   SND.setTheme(themeFor(UI.screen));paintSnd();
   if(UI.screen==="welcome")SND.play("jingle",0,.35);
@@ -1227,17 +1372,37 @@ function openStation(s){
   if(st==="open")toast(NM(SETS[s-1].big?"🚩 Checkpoint Besar! Bismillah, {n}!":"Bismillah! Selamat menjawab, {n} 🌙"));
 }
 function needPin(after){UI.pin="";UI.pinErr="";UI.after=after;UI.pinMode=ST.pin?"check":"new1";go("pin")}
-function pinOk(){const af=UI.after;if(af.set)UI.set=af.set;if(af.to==="doReset"){resetSet(af.set);save();toast(SETS[af.set-1].name+" dibuka semula. Markah terbaik tetap disimpan.");go("quiz",{q:0})}else go(af.to)}
+function pinOk(){const af=UI.after;if(af.to==="addForm"){const up=af.upgrade?ST.users.find(u=>u.id===af.upgrade):null;Object.assign(UI,{adding:true,upgradeId:up?up.id:null,newName:up?up.name:"",newCls:up&&CLS.includes(up.cls)?up.cls:"",newC:up?up.c||0:1,newP1:"",newP2:"",consent:false,addErr:"",saving:false});go("login");return}if(af.set)UI.set=af.set;if(af.to==="doReset"){resetSet(af.set);save();toast(SETS[af.set-1].name+" dibuka semula. Markah terbaik tetap disimpan.");go("quiz",{q:0})}else go(af.to)}
 function shake(){const bx=document.getElementById("pinbox");if(bx)bx.classList.add("shake")}
 function mathOk(){SND.ensure();if(parseInt(UI.mathVal,10)===UI.math.a*UI.math.b){SND.play("unlock");UI.pinMode="new1";UI.pin="";UI.pinErr="";UI.after.change=true;render()}else{SND.play("bonk");UI.pinErr="Jawapan salah. Cuba lagi.";UI.mathVal="";render()}}
 function login(id){USER=ST.users.find(u=>u.id===id);D=ST.prog[id]=normProg(ST.prog[id]);}
-function saveUser(){
+async function saveUser(){
+  if(UI.saving)return;
   const name=UI.newName.trim().replace(/\s+/g," ");
-  if(!name){UI.addErr="Tulis nama dulu.";render();return}
-  if(ST.users.some(u=>u.name.toLowerCase()===name.toLowerCase())){UI.addErr="Nama ini sudah ada.";render();return}
-  const id="u"+Date.now().toString(36);
-  SND.play("sparkle");ST.users.push({id,name,cls:UI.newCls.trim(),c:UI.newC});ST.prog[id]=freshProg();save();
-  Object.assign(UI,{adding:false,newName:"",newCls:"",addErr:""});render();toast("Selamat datang, "+name+"! Tekan gambar untuk masuk.");
+  const err=m=>{UI.addErr=m;SND.play("bonk");render()};
+  if(!name)return err("Tulis nama panggilan dulu.");
+  if(!CLS.includes(UI.newCls))return err("Pilih kelas: 2 Aisyah atau 2 Hafsah.");
+  if(!/^\d{4}$/.test(UI.newP1||""))return err("Kod pelajar mesti 4 nombor.");
+  if(UI.newP1!==UI.newP2)return err("Kod pelajar tak sama. Taip semula.");
+  const cOk=cloudOk();
+  if(cOk&&!UI.consent)return err("Sila tandakan persetujuan ibu/bapa.");
+  if(ST.users.some(u=>u.id!==UI.upgradeId&&u.name.toLowerCase()===name.toLowerCase()&&u.cls===UI.newCls))return err("Nama ini sudah ada dalam phone ini.");
+  const id=UI.upgradeId||newId();
+  const u={id,name,cls:UI.newCls,c:UI.newC,pinH:hp(id+":"+UI.newP1),pin:UI.newP1,cloud:cOk};
+  const prog=normProg(ST.prog[id]);
+  if(cOk){
+    UI.saving=true;UI.addErr="";render();
+    try{
+      const list=await withTimeout(CLOUD.listAll(),8000);
+      if(list.some(x=>x.id!==id&&!x.hidden&&x.cls===u.cls&&x.name.toLowerCase()===name.toLowerCase())){UI.saving=false;return err("Nama ini sudah ada dalam "+u.cls+". Tambah huruf atau nama lain, contoh: "+name+" A.")}
+      await withTimeout(CLOUD.putStudent(id,studentDoc(u,prog)),8000);
+      await withTimeout(CLOUD.putState(id,JSON.stringify(prog)),8000);
+    }catch(e){UI.saving=false;return err("Tak dapat simpan ke internet. Semak sambungan dan cuba lagi.")}
+    UI.saving=false;
+  }
+  const i=ST.users.findIndex(x=>x.id===id);if(i>=0)ST.users[i]=u;else ST.users.push(u);
+  ST.prog[id]=prog;save();SND.play("sparkle");
+  Object.assign(UI,{adding:false,upgradeId:null,newName:"",newCls:"",newP1:"",newP2:"",consent:false,addErr:""});render();toast("Selamat datang, "+name+"! Tekan gambar untuk masuk.");
 }
 
 app.addEventListener("submit",e=>{e.preventDefault();if(e.target.id==="addForm")saveUser();if(e.target.id==="mathForm")mathOk()});
@@ -1245,12 +1410,22 @@ app.addEventListener("click",e=>{
   const b=e.target.closest("[data-act]");if(!b||b.disabled)return;
   const a=b.dataset.act,v=b.dataset.v;
   SND.ensure();
-  const SMAP={login:"sparkle",pick:"select",word:"select",tf:"select",submit:"jingle",startReview:"whoosh",rvReveal:"whoosh",logout:"down",book:"sparkle",station:"pop",addUser:"pop",next:"pop",key:"tick",forgot:"pop",changePin:"pop",toCheck:"pop",parentPanel:"pop",askReset:"pop",finish:"pop"};
+  const SMAP={pickUser:"pop",other:"pop",otherPick:"pop",board:"sparkle",bTab:"tap",pick:"select",word:"select",tf:"select",submit:"jingle",startReview:"whoosh",rvReveal:"whoosh",logout:"down",book:"sparkle",station:"pop",addUser:"pop",next:"pop",key:"tick",forgot:"pop",changePin:"pop",toCheck:"pop",parentPanel:"pop",askReset:"pop",finish:"pop"};
   if(a!=="rvPick"&&a!=="rvNext")SND.play(SMAP[a]||"tap");
   switch(a){
-    case "login":{if(b.classList.contains("loading"))break;b.classList.add("loading");const id=b.dataset.u;setTimeout(()=>{login(id);go("welcome")},reduced?0:900);break}
-    case "addUser":UI.adding=true;UI.addErr="";render();break;
-    case "cancelAdd":Object.assign(UI,{adding:false,newName:"",newCls:"",addErr:""});render();break;
+    case "pickUser":{const u=ST.users.find(x=>x.id===b.dataset.u);if(!u)break;if(!u.cls||!u.pinH){needPin({to:"addForm",upgrade:u.id,back:"login",why:"Ibu/Ayah: masukkan kod untuk lengkapkan profil "+u.name});break}UI.loginId=u.id;UI.pin="";UI.pinErr="";UI.pinMode="student";go("pin");break}
+    case "addUser":needPin({to:"addForm",back:"login",why:"Ibu/Ayah: masukkan kod untuk daftar pelajar"});break;
+    case "cancelAdd":Object.assign(UI,{adding:false,upgradeId:null,newName:"",newCls:"",newP1:"",newP2:"",addErr:""});render();break;
+    case "pickCls":UI.newCls=v;render();break;
+    case "toLogin":go("login");break;
+    case "other":UI.other={cls:CLS[0],list:null,err:""};go("other");if(cloudOk())withTimeout(CLOUD.listAll(),8000).then(l=>{UI.other.list=l;if(UI.screen==="other")render()}).catch(()=>{UI.other.err="net";if(UI.screen==="other")render()});else{UI.other.err="off";render()}break;
+    case "oCls":UI.other.cls=v;render();break;
+    case "otherPick":{const st=(UI.other.list||[]).find(x=>x.id===b.dataset.u);if(!st)break;UI.remote=st;UI.pin="";UI.pinErr="";UI.pinMode="remote";go("pin");break}
+    case "board":UI.board={tab:"map",cls:USER&&USER.cls?USER.cls:CLS[0],data:null,err:""};go("board");loadBoard();break;
+    case "bRetry":loadBoard();render();break;
+    case "bTab":UI.board.tab=v;render();break;
+    case "bCls":UI.board.cls=v;render();break;
+    case "hideUser":{const u=ST.users.find(x=>x.id===b.dataset.u);if(!u)break;u.hidden=!u.hidden;save();pushUser(u,normProg(ST.prog[u.id]));toast(u.hidden?u.name+" disorok dari Papan Kelas":u.name+" dipaparkan di Papan Kelas");render();break}
     case "pickC":UI.newC=+v;render();break;
     case "logout":USER=null;D=null;Object.assign(UI,{confirmReset:null,confirmDel:null,adding:false});go("login");break;
     case "map":UI.confirmReset=null;UI.confirmDel=null;UI.scrollMap=true;go("map");break;
@@ -1272,6 +1447,11 @@ app.addEventListener("click",e=>{
       if(UI.pin.length>=4)break;UI.pin+=v;UI.pinErr="";render();
       if(UI.pin.length<4)break;
       const pv=UI.pin,m=UI.pinMode;
+      if(m==="student"||m==="remote"){
+        const k=m==="student"?ST.users.find(x=>x.id===UI.loginId):UI.remote;
+        if(k&&hp(k.id+":"+pv)===k.pinH){SND.play("unlock",0,.1);setTimeout(()=>{if(m==="remote"&&!mine(k.id)){ST.users.push({id:k.id,name:k.name,cls:k.cls,c:k.c||0,pinH:k.pinH,cloud:true});ST.prog[k.id]=freshProg();save()}doLogin(k.id)},200)}
+        else setTimeout(()=>{SND.play("bonk");UI.pin="";UI.pinErr="Kod salah. Cuba lagi.";render();shake()},250);
+        break}
       if(m==="check"){if(hp(pv)===ST.pin){SND.play("unlock",0,.1);setTimeout(pinOk,200)}else setTimeout(()=>{SND.play("bonk");UI.pin="";UI.pinErr="Kod salah. Cuba lagi.";render();shake()},250)}
       else if(m==="new1")setTimeout(()=>{UI.pinNew=pv;UI.pin="";UI.pinMode="new2";render()},200);
       else if(m==="new2"){if(pv===UI.pinNew){ST.pin=hp(pv);save();SND.play("unlock",0,.1);toast("Kod Ibu/Ayah disimpan 🔒");setTimeout(pinOk,200)}else setTimeout(()=>{SND.play("bonk");UI.pin="";UI.pinMode="new1";UI.pinErr="Kod tak sama. Cuba sekali lagi.";render();shake()},250)}
@@ -1291,7 +1471,7 @@ app.addEventListener("click",e=>{
       render();window.scrollTo({top:0,behavior:reduced?"auto":"smooth"});break}
     case "rvExit":UI.set=UI.rv.s;UI.fresh=false;go("result");break;
     case "del":UI.pin=UI.pin.slice(0,-1);render();break;
-    case "pinCancel":{if(UI.pinMode==="forgot"){UI.pinMode="check";UI.pinErr="";render();break}const bk=UI.after&&UI.after.back||"map";if(bk==="result")UI.fresh=false;go(bk);break}
+    case "pinCancel":{if(UI.pinMode==="student"||UI.pinMode==="remote"){go(UI.pinMode==="remote"?"other":"login");break}if(UI.pinMode==="forgot"){UI.pinMode="check";UI.pinErr="";render();break}const bk=UI.after&&UI.after.back||"map";if(bk==="result")UI.fresh=false;go(bk);break}
     case "emark":{D.emarks[UI.set][b.dataset.id]=v==="1";save();const y=scrollY;render();window.scrollTo(0,y);break}
     case "finish":{const s=UI.set,sc=score(s),r={score:sc,stars:starsFor(sc),at:Date.now()};D.results[s]=r;if(!D.best[s]||D.best[s].score<sc)D.best[s]=r;save();UI.fresh=true;go("result");break}
     case "pCheck":UI.set=+b.dataset.set;go("check");break;
@@ -1312,7 +1492,9 @@ app.addEventListener("click",e=>{
 app.addEventListener("input",e=>{
   const k=e.target.dataset.input;
   if(k==="newName"){UI.newName=e.target.value;return}
-  if(k==="newCls"){UI.newCls=e.target.value;return}
+  if(k==="newP1"){UI.newP1=e.target.value.replace(/\D/g,"").slice(0,4);return}
+  if(k==="newP2"){UI.newP2=e.target.value.replace(/\D/g,"").slice(0,4);return}
+  if(k==="consent"){UI.consent=e.target.checked;return}
   if(k==="math"){UI.mathVal=e.target.value;return}
   if(k==="e"){
     const set=SETS[UI.set-1],it=set.items[UI.q],was=isAnswered(D.answers[set.id][it.id]);
@@ -1326,10 +1508,36 @@ app.addEventListener("input",e=>{
 });
 app.addEventListener("keydown",e=>{const g=e.target.closest&&e.target.closest("g[data-act]");if(g&&(e.key==="Enter"||e.key===" ")){e.preventDefault();g.dispatchEvent(new MouseEvent("click",{bubbles:true}))}});
 
+window.addEventListener("cloud-ready",()=>{if(["login","map","book"].includes(UI.screen))render()});
 render();
 })();
 </script>
 
+<script>window.FIREBASE_CONFIG = null;</script>
+<script type="module">
+const V = "10.12.2", B = "https://www.gstatic.com/firebasejs/" + V + "/";
+const cfg = window.FIREBASE_CONFIG;
+if (cfg) {
+  try {
+    const { initializeApp } = await import(B + "firebase-app.js");
+    const { getAuth, signInAnonymously, onAuthStateChanged } = await import(B + "firebase-auth.js");
+    const { initializeFirestore, persistentLocalCache, doc, setDoc, getDoc, getDocs, collection, serverTimestamp } = await import(B + "firebase-firestore.js");
+    const app = initializeApp(cfg);
+    const auth = getAuth(app);
+    let db;
+    try { db = initializeFirestore(app, { localCache: persistentLocalCache() }); } catch (e) { db = initializeFirestore(app, {}); }
+    const ready = new Promise((res, rej) => { onAuthStateChanged(auth, u => { if (u) res(u); }); signInAnonymously(auth).catch(rej); });
+    window.CLOUD = {
+      ok: true, ready,
+      async listAll() { await ready; const s = await getDocs(collection(db, "students")); return s.docs.map(d => ({ id: d.id, ...d.data() })); },
+      async putStudent(id, data) { await ready; await setDoc(doc(db, "students", id), { ...data, updated: serverTimestamp() }); },
+      async putState(id, state) { await ready; await setDoc(doc(db, "progress", id), { state, updated: serverTimestamp() }); },
+      async getState(id) { await ready; const s = await getDoc(doc(db, "progress", id)); return s.exists() ? s.data().state : null; }
+    };
+    window.dispatchEvent(new Event("cloud-ready"));
+  } catch (e) { console.warn("Firebase tidak dapat dimuatkan", e); }
+}
+</script>
 <script>
 if ("serviceWorker" in navigator && location.protocol === "https:") {
   window.addEventListener("load", function(){ navigator.serviceWorker.register("sw.js").catch(function(){}); });
