@@ -279,7 +279,7 @@ textarea{width:100%;min-height:120px;margin-top:14px;font:600 1.25rem/1.5 var(--
 .btn.dark{color:var(--ink);box-shadow:inset 0 0 0 2px #D9CDB6;background:#fff}
 .listh{font-size:1.3rem;color:var(--sand);margin:26px 0 4px}
 .tchav{display:grid;place-items:center;font-size:2.4rem;background:radial-gradient(circle at 35% 30%,#FFE8A3,#E9B949)}
-.tchp .pclass{font-weight:800}
+.tlink{margin-top:-14px;opacity:.7;font-size:.85rem}
 .tchips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
 .tchip{font-size:.78rem;font-weight:800;background:rgba(255,255,255,.08);border:1px solid var(--line);border-radius:999px;padding:1px 7px;white-space:nowrap}
 .tctl{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;background:rgba(255,255,255,.06);border:2px solid var(--line);border-radius:16px;padding:10px 12px;margin:6px 0 4px;font-weight:700}
@@ -3748,10 +3748,10 @@ function vLogin(){
       <div class="tag">Latihan UASA Tahun 2 · Sirah &amp; subjek lain</div></div>
     ${UI.adding?"":installCard()}
     <div class="ask">Siapa yang nak belajar hari ini?</div>
-    <div class="profiles">${cards}${UI.adding?"":`<button class="profile tchp" data-act="teacher"><span class="avatar tchav">🧑‍🏫</span><span class="pname">Muallim</span><span class="pclass">&amp; Muallimah</span></button>`}${add}</div>
+    <div class="profiles">${cards}${add}</div>
     <div class="hint">${ST.users.length?"Tekan gambar kamu untuk masuk":"Ibu/Ayah: tekan Tambah untuk daftar anak"}</div>
     ${cOk&&!UI.adding?`<div class="row-btns"><button class="btn ghost small" data-act="other">🔑 Masuk profil dari phone lain</button><button class="btn ghost small" data-act="board">🏆 Papan Kelas</button></div>`:""}
-    ${UI.adding?"":`<p class="nlink"><button class="linkbtn" data-act="showGuide">❓ Cara guna</button> · <button class="linkbtn" data-act="showNotice">ℹ️ Notis untuk ibu bapa</button></p>`}
+    ${UI.adding?"":`<p class="nlink"><button class="linkbtn" data-act="showGuide">❓ Cara guna</button> · <button class="linkbtn" data-act="showNotice">ℹ️ Notis untuk ibu bapa</button></p><p class="nlink tlink"><button class="linkbtn" data-act="teacher">Ruang Muallim / Muallimah</button></p>`}
   </section>`;
 }
 function vKidCode(){
