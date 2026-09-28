@@ -272,6 +272,14 @@ textarea{width:100%;min-height:120px;margin-top:14px;font:600 1.25rem/1.5 var(--
 .btn.dark{color:var(--ink);box-shadow:inset 0 0 0 2px #D9CDB6;background:#fff}
 .listh{font-size:1.3rem;color:var(--sand);margin:26px 0 4px}
 .chips.wrap{flex-wrap:wrap}
+.bfilt{display:flex;gap:8px;margin:0 0 10px}
+.sel{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:3px}
+.sel>span:first-child{font-size:.78rem;font-weight:800;color:var(--muted);padding-left:4px}
+.sel .selw{position:relative;display:block}
+.sel .selw svg{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+.sel select{-webkit-appearance:none;appearance:none;width:100%;background:rgba(255,255,255,.06);border:2px solid var(--line);color:var(--text);border-radius:14px;padding:10px 32px 10px 12px;font:800 1rem var(--f-body);cursor:pointer;text-overflow:ellipsis}
+.sel select:focus{outline:none;border-color:var(--sky-blue)}
+.sel option{color:#1b1b2f;background:#fff}
 .subjs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:10px}
 .subj{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;background:rgba(255,255,255,.06);border:2px solid var(--line);border-radius:20px;padding:14px;color:var(--text);cursor:pointer;font:inherit}
 .subj .se{font-size:2rem;line-height:1}
@@ -3201,7 +3209,7 @@ const SAINS_FIX = {
 };
 function hp(x){let h=2166136261;for(const c of "jejak:"+x){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return (h>>>0).toString(36)}
 function prepSets(sets){sets.forEach(s=>{
-  s.name="Set "+s.id;
+  s.name="Set "+s.id;s.place="Semua topik";s.bab="30 soalan";
   const it=[];
   s.A.forEach((a,i)=>it.push({id:"A"+(i+1),sec:"A",q:a[0],opts:a[1],ans:a[2]}));
   s.B.forEach((b,i)=>it.push({id:"B"+(i+1),sec:"B",q:b[0],ans:b[1]}));
@@ -3607,27 +3615,30 @@ function vBoard(){
   if(B.err)return head+`<p class="bmsg">${B.err==="off"?"Papan Kelas perlukan sambungan internet.":"Tak dapat sambung ke internet."} <button class="btn ghost small" data-act="bRetry">Cuba lagi</button></p>`;
   if(!B.data)return head+`<p class="bmsg">Memuatkan papan… ⏳</p>`;
   const all=B.data;
-  const filt=`<div class="chips">${[...CLS,"Semua"].map(c=>`<button class="chipc ${B.cls===c?"on":""}" data-act="bCls" data-v="${c}">${c}</button>`).join("")}</div>`;
+  const mapSubj=SUBJ_BY[B.subj]&&SUBJ_BY[B.subj].ready?B.subj:SUBJ;
+  const sk=B.tab==="map"?mapSubj:(SUBJ_BY[B.subj]&&SUBJ_BY[B.subj].ready?B.subj:"all"),SS=sk==="all"?null:SUBJ_BY[sk],sn=SS?SS.sets.length:TOTAL_SETS;
+  const arrow='<svg viewBox="0 0 12 8" width="12" height="8" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
+  const filt=`<div class="bfilt"><label class="sel"><span>Subjek</span><span class="selw"><select data-sel="bSubj">${B.tab==="map"?"":`<option value="all" ${sk==="all"?"selected":""}>📚 Semua</option>`}${READY.map(x=>`<option value="${x.k}" ${sk===x.k?"selected":""}>${x.e} ${esc(x.n)}</option>`).join("")}</select>${arrow}</span></label><label class="sel"><span>Kelas</span><span class="selw"><select data-sel="bCls">${[...CLS,"Semua"].map(c=>`<option value="${c}" ${B.cls===c?"selected":""}>${c==="Semua"?"Semua kelas":c}</option>`).join("")}</select>${arrow}</span></label></div>`;
   const list=B.cls==="Semua"?all:all.filter(s=>s.cls===B.cls);
   const chip=s=>`<span class="kid ${s.id===me?"me":""}">${sAvatar(s,"xs")}${esc(s.name)}${B.cls==="Semua"?`<small>${esc(s.cls.replace("2 ",""))}</small>`:""}</span>`;
+  const dOf=x=>SS?subDone(x,sk):x.done,sOf=x=>SS?((x.sub&&x.sub[sk]&&x.sub[sk].s)||0):x.stars;
   if(B.tab==="map"){
-    let rows="";const BS=SUBJ_BY[B.subj]&&SUBJ_BY[B.subj].ready?SUBJ_BY[B.subj]:READY[0],bn=BS.sets.length;
-    const sch=READY.length>1?`<div class="chips wrap">${READY.map(x=>`<button class="chipc ${x.k===BS.k?"on":""}" data-act="bSubj" data-v="${x.k}">${x.e} ${esc(x.n)}</button>`).join("")}</div>`:"";
+    let rows="";const BS=SS,bn=BS.sets.length;
     for(let s=1;s<=bn+1;s++){
       const here=list.filter(x=>subCur(x,BS.k)===s),set=BS.sets[s-1],fin=s===bn+1;
-      rows+=`<div class="brow ${set&&set.big?"big":""} ${fin?"fin":""}"><div class="bnode">${fin?"🏆":s}</div><div class="binfo"><b>${fin?"Piala Johan "+esc(BS.n):set.name}</b><span>${fin?"Tamat semua "+bn+" set":esc(set.place)}${set&&set.big?" · 🚩 Checkpoint":""}</span><div class="kids">${here.length?here.map(chip).join(""):`<span class="none">—</span>`}</div></div></div>`;
+      rows+=`<div class="brow ${set&&set.big?"big":""} ${fin?"fin":""}"><div class="bnode">${fin?"🏆":s}</div><div class="binfo"><b>${fin?"Piala Johan "+esc(BS.n):set.name}</b><span>${fin?"Tamat semua "+bn+" set":(set.big?"🚩 Checkpoint besar":"30 soalan")}</span><div class="kids">${here.length?here.map(chip).join(""):`<span class="none">—</span>`}</div></div></div>`;
     }
-    return head+sch+filt+`<p class="bnote">${BS.e} ${esc(BS.n)}: setiap murid berada di set yang sedang dijawab. Kemajuan dikira selepas Ibu/Ayah semak.</p><div class="broad">${rows}</div>`;
+    return head+filt+`<p class="bnote">${BS.e} ${esc(BS.n)}: setiap murid berada di set yang sedang dijawab. Kemajuan dikira selepas Ibu/Ayah semak.</p><div class="broad">${rows}</div>`;
   }
   if(B.tab==="ind"){
-    const sorted=[...list].sort(boardSort);
-    const rows=sorted.map((s,i)=>`<div class="irow ${s.id===me?"me":""}"><span class="rk">${i+1}</span>${sAvatar(s)}<div class="iinfo"><b>${esc(s.name)} ${s.id===me?'<span class="youtag">Kamu</span>':""}</b><span class="icls">${esc(s.cls)}</span><div class="ibar"><i style="width:${Math.min(100,s.done/TOTAL_SETS*100)}%"></i></div><span class="istat">${s.done>=TOTAL_SETS?"🏆 Tamat semua!":s.done+" set siap"} · 🏅 ${s.stk} sticker${s.rev?" · 📚 "+s.rev:""}</span></div></div>`).join("");
-    return head+filt+`<p class="bnote">Disusun ikut jumlah set yang siap (semua subjek), bukan markah. Semua orang boleh sampai ke Piala Johan! 🐪</p><div class="ilist">${rows||'<p class="bmsg">Belum ada murid.</p>'}</div>`;
+    const sorted=SS?[...list].sort((a,b)=>dOf(b)-dOf(a)||sOf(b)-sOf(a)||a.name.localeCompare(b.name)):[...list].sort(boardSort);
+    const rows=sorted.map((s,i)=>`<div class="irow ${s.id===me?"me":""}"><span class="rk">${i+1}</span>${sAvatar(s)}<div class="iinfo"><b>${esc(s.name)} ${s.id===me?'<span class="youtag">Kamu</span>':""}</b><span class="icls">${esc(s.cls)}</span><div class="ibar"><i style="width:${Math.min(100,dOf(s)/sn*100)}%"></i></div><span class="istat">${dOf(s)>=sn?"🏆 Tamat semua!":(SS?dOf(s)+"/"+sn+" set siap":dOf(s)+" set siap")}${SS?" · ⭐ "+sOf(s):" · 🏅 "+s.stk+" sticker"+(s.rev?" · 📚 "+s.rev:"")}</span></div></div>`).join("");
+    return head+filt+`<p class="bnote">${SS?SS.e+" "+esc(SS.n)+": disusun ikut set yang siap":"Disusun ikut jumlah set yang siap (semua subjek)"}, bukan markah. Semua orang boleh sampai ke Piala Johan! 🐪</p><div class="ilist">${rows||'<p class="bmsg">Belum ada murid.</p>'}</div>`;
   }
-  const st=CLS.map(c=>{const m=all.filter(x=>x.cls===c),tot=m.reduce((a,x)=>a+x.done,0),n=m.length;return {c,n,tot,avg:n?tot/n:0,fin:m.filter(x=>x.done>=TOTAL_SETS).length,stk:m.reduce((a,x)=>a+x.stk,0)}});
+  const st=CLS.map(c=>{const m=all.filter(x=>x.cls===c),tot=m.reduce((a,x)=>a+dOf(x),0),n=m.length;return {c,n,tot,avg:n?tot/n:0,fin:m.filter(x=>dOf(x)>=sn).length,stk:m.reduce((a,x)=>a+(SS?sOf(x):x.stk),0)}});
   const lead=st[0].avg===st[1].avg?null:(st[0].avg>st[1].avg?st[0].c:st[1].c);
-  const cards=st.map(x=>`<div class="ccard ${lead===x.c?"lead":""}">${lead===x.c?'<span class="crown">👑 Mendahului</span>':""}<h3>${x.c}</h3><div class="cbig">${x.avg.toFixed(1)}<small> / ${TOTAL_SETS}</small></div><span class="clbl">purata set siap setiap murid</span><div class="ibar"><i style="width:${Math.min(100,x.avg/TOTAL_SETS*100)}%"></i></div><ul><li>👧👦 ${x.n} murid</li><li>✅ ${x.tot} set siap semuanya</li><li>🏆 ${x.fin} murid tamat semua</li><li>🏅 ${x.stk} sticker dikumpul</li></ul></div>`).join("");
-  return head+`<p class="bnote">Kelas dibandingkan ikut purata, jadi adil walaupun bilangan murid tak sama. Jom bantu kawan sekelas!</p><div class="cgrid">${cards}</div>`;
+  const cards=st.map(x=>`<div class="ccard ${lead===x.c?"lead":""}">${lead===x.c?'<span class="crown">👑 Mendahului</span>':""}<h3>${x.c}</h3><div class="cbig">${x.avg.toFixed(1)}<small> / ${sn}</small></div><span class="clbl">purata set siap setiap murid</span><div class="ibar"><i style="width:${Math.min(100,x.avg/sn*100)}%"></i></div><ul><li>👧👦 ${x.n} murid</li><li>✅ ${x.tot} set siap semuanya</li><li>🏆 ${x.fin} murid tamat semua</li><li>${SS?"⭐ "+x.stk+" bintang":"🏅 "+x.stk+" sticker"} dikumpul</li></ul></div>`).join("");
+  return head+filt.replace(/<label class="sel"><span>Kelas<\/span>[\s\S]*?<\/label>/,"")+`<p class="bnote">${SS?SS.e+" "+esc(SS.n)+". ":""}Kelas dibandingkan ikut purata, jadi adil walaupun bilangan murid tak sama. Jom bantu kawan sekelas!</p><div class="cgrid">${cards}</div>`;
 }
 function vWelcome(){
   const q=QUOTES[Math.floor(Math.random()*QUOTES.length)],t="Selamat datang, "+USER.name+"!";
@@ -4003,7 +4014,7 @@ app.addEventListener("click",e=>{
     case "other":UI.other={cls:CLS[0],list:null,err:""};go("other");if(cloudOk())withTimeout(CLOUD.listAll(),8000).then(l=>{UI.other.list=l;if(UI.screen==="other")render()}).catch(()=>{UI.other.err="net";if(UI.screen==="other")render()});else{UI.other.err="off";render()}break;
     case "oCls":UI.other.cls=v;render();break;
     case "otherPick":{const st=(UI.other.list||[]).find(x=>x.id===b.dataset.u);if(!st)break;UI.remote=st;UI.pin="";UI.pinErr="";UI.pinMode="remote";go("pin");break}
-    case "board":UI.boardBack=["subjects","map","book"].includes(UI.screen)?UI.screen:"map";UI.board={tab:"ind",cls:USER&&USER.cls?USER.cls:CLS[0],subj:SUBJ,data:null,err:""};go("board");loadBoard();break;
+    case "board":UI.boardBack=["subjects","map","book"].includes(UI.screen)?UI.screen:"map";UI.board={tab:"ind",cls:USER&&USER.cls?USER.cls:CLS[0],subj:"all",data:null,err:""};go("board");loadBoard();break;
     case "bBack":if((UI.boardBack||"map")==="map")UI.scrollMap=true;go(UI.boardBack||"map");break;
     case "bSubj":UI.board.subj=v;render();break;
     case "subjects":UI.confirmReset=null;UI.confirmDel=null;go("subjects");break;
@@ -4078,6 +4089,7 @@ app.addEventListener("click",e=>{
       if(USER&&USER.id===id){USER=null;D=null;P=null;go("login")}else render();break}
   }
 });
+app.addEventListener("change",e=>{const k=e.target.dataset&&e.target.dataset.sel;if(!k||!UI.board)return;if(k==="bSubj")UI.board.subj=e.target.value;if(k==="bCls")UI.board.cls=e.target.value;SND.play("tap");render()});
 app.addEventListener("input",e=>{
   const k=e.target.dataset.input;
   if(k==="newName"){UI.newName=e.target.value;return}
@@ -4117,7 +4129,7 @@ async function pullNewer(){
   if(sc==="result"&&!D.results[UI.set])sc="map";
   if(sc==="submitted"&&st!=="wait")sc="map";
   if(!["subjects","map","quiz","book","board","result","submitted","confirm"].includes(sc))sc="subjects";
-  if(sc==="board"){UI.board={tab:(ss.b&&ss.b.tab)||"ind",cls:(ss.b&&ss.b.cls)||USER.cls||CLS[0],subj:(ss.b&&ss.b.subj)||SUBJ,data:null,err:""};UI.screen="board";render();loadBoard()}
+  if(sc==="board"){UI.board={tab:(ss.b&&ss.b.tab)||"ind",cls:(ss.b&&ss.b.cls)||USER.cls||CLS[0],subj:(ss.b&&ss.b.subj)||"all",data:null,err:""};UI.screen="board";render();loadBoard()}
   else{UI.scrollMap=sc==="map";UI.screen=sc;render()}
   pullNewer();
 })();
