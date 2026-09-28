@@ -3491,7 +3491,7 @@ function boardSort(a,b){return b.done-a.done||b.stk-a.stk||b.rev-a.rev||a.name.l
 const RANK={list:null,t:0,busy:false};
 function myRank(){
   if(!USER||!USER.cloud||USER.hidden||!USER.cls||!RANK.list)return null;
-  const l=mergeLocal(RANK.list).filter(x=>!x.hidden&&x.cls===USER.cls).sort(boardSort);
+  const l=mergeLocal(RANK.list).filter(x=>!x.hidden).sort(boardSort);
   const i=l.findIndex(x=>x.id===USER.id);return i<0?null:{pos:i+1,n:l.length};
 }
 function refreshRank(){
@@ -3618,9 +3618,9 @@ function vBoard(){
   const mapSubj=SUBJ_BY[B.subj]&&SUBJ_BY[B.subj].ready?B.subj:SUBJ;
   const sk=B.tab==="map"?mapSubj:(SUBJ_BY[B.subj]&&SUBJ_BY[B.subj].ready?B.subj:"all"),SS=sk==="all"?null:SUBJ_BY[sk],sn=SS?SS.sets.length:TOTAL_SETS;
   const arrow='<svg viewBox="0 0 12 8" width="12" height="8" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
-  const filt=`<div class="bfilt"><label class="sel"><span>Subjek</span><span class="selw"><select data-sel="bSubj">${B.tab==="map"?"":`<option value="all" ${sk==="all"?"selected":""}>📚 Semua</option>`}${READY.map(x=>`<option value="${x.k}" ${sk===x.k?"selected":""}>${x.e} ${esc(x.n)}</option>`).join("")}</select>${arrow}</span></label><label class="sel"><span>Kelas</span><span class="selw"><select data-sel="bCls">${[...CLS,"Semua"].map(c=>`<option value="${c}" ${B.cls===c?"selected":""}>${c==="Semua"?"Semua kelas":c}</option>`).join("")}</select>${arrow}</span></label></div>`;
-  const list=B.cls==="Semua"?all:all.filter(s=>s.cls===B.cls);
-  const chip=s=>`<span class="kid ${s.id===me?"me":""}">${sAvatar(s,"xs")}${esc(s.name)}${B.cls==="Semua"?`<small>${esc(s.cls.replace("2 ",""))}</small>`:""}</span>`;
+  const filt=`<div class="bfilt"><label class="sel"><span>Subjek</span><span class="selw"><select data-sel="bSubj">${B.tab==="map"?"":`<option value="all" ${sk==="all"?"selected":""}>📚 Semua</option>`}${READY.map(x=>`<option value="${x.k}" ${sk===x.k?"selected":""}>${x.e} ${esc(x.n)}</option>`).join("")}</select>${arrow}</span></label></div>`;
+  const list=all;
+  const chip=s=>`<span class="kid ${s.id===me?"me":""}">${sAvatar(s,"xs")}${esc(s.name)}<small>${esc(s.cls.replace("2 ",""))}</small></span>`;
   const dOf=x=>SS?subDone(x,sk):x.done,sOf=x=>SS?((x.sub&&x.sub[sk]&&x.sub[sk].s)||0):x.stars;
   if(B.tab==="map"){
     let rows="";const BS=SS,bn=BS.sets.length;
@@ -3638,7 +3638,7 @@ function vBoard(){
   const st=CLS.map(c=>{const m=all.filter(x=>x.cls===c),tot=m.reduce((a,x)=>a+dOf(x),0),n=m.length;return {c,n,tot,avg:n?tot/n:0,fin:m.filter(x=>dOf(x)>=sn).length,stk:m.reduce((a,x)=>a+(SS?sOf(x):x.stk),0)}});
   const lead=st[0].avg===st[1].avg?null:(st[0].avg>st[1].avg?st[0].c:st[1].c);
   const cards=st.map(x=>`<div class="ccard ${lead===x.c?"lead":""}">${lead===x.c?'<span class="crown">👑 Mendahului</span>':""}<h3>${x.c}</h3><div class="cbig">${x.avg.toFixed(1)}<small> / ${sn}</small></div><span class="clbl">purata set siap setiap murid</span><div class="ibar"><i style="width:${Math.min(100,x.avg/sn*100)}%"></i></div><ul><li>👧👦 ${x.n} murid</li><li>✅ ${x.tot} set siap semuanya</li><li>🏆 ${x.fin} murid tamat semua</li><li>${SS?"⭐ "+x.stk+" bintang":"🏅 "+x.stk+" sticker"} dikumpul</li></ul></div>`).join("");
-  return head+filt.replace(/<label class="sel"><span>Kelas<\/span>[\s\S]*?<\/label>/,"")+`<p class="bnote">${SS?SS.e+" "+esc(SS.n)+". ":""}Kelas dibandingkan ikut purata, jadi adil walaupun bilangan murid tak sama. Jom bantu kawan sekelas!</p><div class="cgrid">${cards}</div>`;
+  return head+filt+`<p class="bnote">${SS?SS.e+" "+esc(SS.n)+". ":""}Kelas dibandingkan ikut purata, jadi adil walaupun bilangan murid tak sama. Jom bantu kawan sekelas!</p><div class="cgrid">${cards}</div>`;
 }
 function vWelcome(){
   const q=QUOTES[Math.floor(Math.random()*QUOTES.length)],t="Selamat datang, "+USER.name+"!";
@@ -3663,7 +3663,7 @@ function vSubjects(){
 function topbar(){
   refreshRank();const rk=myRank();
   return `<div class="topbar">
-    <div class="me">${avatar(USER)}<span class="nm">${esc(USER.name)}</span><span class="pills"><span class="pill" title="Jumlah bintang">⭐ ${totalStars()}</span>${rk?`<button class="pill rkp" data-act="board" title="Kedudukan dalam ${esc(USER.cls)}" aria-label="Kedudukan ke-${rk.pos} daripada ${rk.n} dalam ${esc(USER.cls)}">${rk.pos<=3?["🥇","🥈","🥉"][rk.pos-1]:"🏆"} Ke-${rk.pos}</button>`:""}</span></div>
+    <div class="me">${avatar(USER)}<span class="nm">${esc(USER.name)}</span><span class="pills"><span class="pill" title="Jumlah bintang">⭐ ${totalStars()}</span>${rk?`<button class="pill rkp" data-act="board" title="Kedudukan keseluruhan" aria-label="Kedudukan ke-${rk.pos} daripada ${rk.n} murid">${rk.pos<=3?["🥇","🥈","🥉"][rk.pos-1]:"🏆"} Ke-${rk.pos}</button>`:""}</span></div>
     <div class="tools"><button class="btn ghost small" data-act="book">🏅 Sticker</button>${cloudOk()?'<button class="btn ghost small" data-act="board">🏆 Papan</button>':""}<button class="btn ghost small" data-act="parentPanel">🔒 Ibu/Ayah</button><button class="btn ghost small" data-act="logout">↩ Keluar</button></div>
   </div>`;
 }
