@@ -2225,7 +2225,7 @@ const BI_SETS = [
   A:[
    ["One foot, two ...",["foots","feets","feet"],2],
    ["I've got two ... . I use them to listen.",["ears","eyes","toes"],0],
-   ["Read: \"This is Robo. Robo has got a square head and four arms. Robo can dance, but it can't swim.\" What can't Robo do?",["swim","talk","dance"],0],
+   ["Read: \"This is Robo. Robo has got a square head and four arms. Robo can dance, sing and run, but it can't swim.\" What can't Robo do?",["swim","sing","dance"],0],
    ["Read: \"Lina likes Fridays. On Fridays, she goes swimming. On Saturdays, she rides her bike in the park.\" When does Lina ride her bike?",["on Saturdays","on Fridays","on Sundays"],0],
    ["Choose the correct sentence.",["There are two bed in my bedroom.","There are two beds in my bedroom.","There is two beds in my bedroom."],1],
    ["Choose the correct question.",["Are there a sofa in the hall?","Is there a sofa in the hall?","Is there sofa a in the hall?"],1],
@@ -2377,7 +2377,7 @@ const BI_SETS = [
   A:[
    ["Monday, Tuesday, ..., Thursday",["Sunday","Friday","Wednesday"],2],
    ["Do you play the piano on Fridays? No, I ...",["don't","not","doesn't"],0],
-   ["Read: \"Kiki is a robot. She has got a round head, two big eyes and wheels. She can't jump, but she can sing.\" What can Kiki do?",["sing","fly","jump"],0],
+   ["Read: \"Kiki is a robot. She has got a round head, two big eyes and wheels. She can't jump, swim or fly, but she can sing.\" What can Kiki do?",["sing","fly","jump"],0],
    ["The cat is ... the bed. (It is below the bed.)",["on","under","in"],1],
    ["We eat our meals in the ...",["cellar","bathroom","dining room"],2],
    ["Choose the correct spelling.",["jelyfish","jellyfisch","jellyfish"],2],
@@ -3305,8 +3305,9 @@ const COLORS = [["#FFE9A8","#D9955A","#5A2E0C"],["#D9FFF0","#35B889","#063B2A"],
 /* ---------- storage (per user) ---------- */
 const KEY2="jejakSirah_v3", OLD="jejakSirah_v2";
 function nSets(k){const x=SUBJ_BY[k];return x&&x.sets?x.sets.length:10}
-function freshSubj(k){const a={},e={};for(let i=1;i<=nSets(k);i++){a[i]={};e[i]={}}return {answers:a,submitted:{},emarks:e,results:{},best:{},reviewed:{},maxOpen:1}}
+function freshSubj(k){const a={},e={};for(let i=1;i<=nSets(k);i++){a[i]={};e[i]={}}return {answers:a,submitted:{},emarks:e,results:{},best:{},reviewed:{},maxOpen:1,ov:(SUBJ_BY[k]&&SUBJ_BY[k].ov)||0}}
 function normSubj(p,k){
+  const ov=(SUBJ_BY[k]&&SUBJ_BY[k].ov)||0;if(p&&typeof p==="object"&&ov&&p.ov!==ov)p=null;
   p=p&&typeof p==="object"?p:{};const f=freshSubj(k);for(const x in f)if(!p[x]||typeof p[x]!=="object"&&x!=="maxOpen")p[x]=f[x];
   if(typeof p.maxOpen!=="number")p.maxOpen=1;
   for(let i=1;i<=nSets(k);i++){p.answers[i]=p.answers[i]||{};p.emarks[i]=p.emarks[i]||{}}
@@ -3318,7 +3319,7 @@ function freshProg(){return {v:2,ts:0,subj:{}}}
 function normProg(p){
   if(!p||p.v!==2)return freshProg();
   if(!p.subj||typeof p.subj!=="object")p.subj={};
-  Object.keys(p.subj).forEach(k=>{if(SUBJ_BY[k])normSubj(p.subj[k],k);else delete p.subj[k]});
+  Object.keys(p.subj).forEach(k=>{if(SUBJ_BY[k])p.subj[k]=normSubj(p.subj[k],k);else delete p.subj[k]});
   return p;
 }
 function loadStore(){
