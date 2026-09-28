@@ -3358,7 +3358,7 @@ function loadStore(){
 let P=null, ST=loadStore(), USER=null, D=null;
 const SESS="jejakSirah_sess";
 const PPK="jejakSirah_pp";function ppOk(){try{return +(sessionStorage.getItem(PPK)||0)>Date.now()}catch(e){return false}}function ppMark(){try{sessionStorage.setItem(PPK,String(Date.now()+30*60*1000))}catch(e){}}function ppClear(){try{sessionStorage.removeItem(PPK)}catch(e){}}
-function saveSess(){try{if(USER)localStorage.setItem(SESS,JSON.stringify({u:USER.id,k:SUBJ,s:UI.screen,pb:UI.parentBack,set:UI.set,q:UI.q,b:UI.board?{tab:UI.board.tab,cls:UI.board.cls,subj:UI.board.subj}:null}));else if(UI.tch&&(UI.screen==="teacher"||(UI.screen==="board"&&UI.boardBack==="teacher")))localStorage.setItem(SESS,JSON.stringify({t:1,tab:UI.tch.tab,cls:UI.tch.cls,subj:UI.tch.subj,qs:UI.tch.qs,qset:UI.tch.qset}));else localStorage.removeItem(SESS)}catch(e){}}
+function saveSess(){try{if(USER)localStorage.setItem(SESS,JSON.stringify({u:USER.id,k:SUBJ,s:UI.screen,pb:UI.parentBack,set:UI.set,q:UI.q,b:UI.board?{tab:UI.board.tab,cls:UI.board.cls,subj:UI.board.subj}:null}));else if(UI.tch&&(UI.screen==="teacher"||(UI.screen==="board"&&UI.boardBack==="teacher")))localStorage.setItem(SESS,JSON.stringify({t:1,tab:UI.tch.tab,cls:UI.tch.cls,subj:UI.tch.subj,qs:UI.tch.qs,qset:UI.tch.qset}));else if(UI.screen==="board"&&UI.board)localStorage.setItem(SESS,JSON.stringify({g:1,b:{tab:UI.board.tab,cls:UI.board.cls,subj:UI.board.subj}}));else localStorage.removeItem(SESS)}catch(e){}}
 function save(){if(P){P.ts=Date.now();P.last=SUBJ}try{localStorage.setItem(KEY2,JSON.stringify(ST))}catch(e){}if(USER&&USER.cloud&&typeof scheduleSync==="function")scheduleSync()}
 let UI={screen:"login",set:1,q:0,pin:"",after:null,toastSeen:{},confirmReset:null,confirmDel:null,adding:false,newName:"",newCls:"",newC:1,addErr:""};
 /* ---------- sound (Web Audio, synthesised) ---------- */
@@ -4407,6 +4407,7 @@ async function pullNewer(){
   if(!noticeSeen())UI.notice=true;
   let ss=null;try{ss=JSON.parse(localStorage.getItem(SESS)||"null")}catch(e){}
   if(ss&&ss.t){openTeacher(ss);return}
+  if(ss&&ss.g){const b=ss.b||{};UI.boardBack="login";UI.board={tab:b.tab||"ind",cls:b.cls||CLS[0],subj:b.subj||"all",data:null,err:""};UI.screen="board";render();loadBoard();return}
   if(!ss||!ST.users.some(u=>u.id===ss.u)){render();return}
   login(ss.u);if(ss.k)setSubject(ss.k);UI.set=ss.set||1;UI.q=ss.q||0;UI.fresh=false;
   let sc=ss.s;const st=UI.set>=1&&UI.set<=N?status(UI.set):"locked";
