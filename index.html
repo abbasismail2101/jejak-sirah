@@ -392,6 +392,12 @@ textarea{width:100%;min-height:120px;margin-top:14px;font:600 1.25rem/1.5 var(--
 .kid.me{background:var(--gold);color:#3A2600}
 .kid .avatar.xs,.avatar.xs{width:26px;height:26px;font-size:.85rem}
 .avatar.xs::after{display:none}
+.avatar.robo svg{width:100%;height:100%;display:block;border-radius:50%}
+.rgrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;margin:6px 0 12px}
+.rpick{min-width:0;display:flex;flex-direction:column;align-items:center;gap:3px;background:transparent;border:3px solid transparent;border-radius:14px;padding:4px 2px;cursor:pointer;font:800 .75rem var(--f-body);color:var(--ink)}
+.rpick .avatar{width:100%;max-width:52px;height:auto;aspect-ratio:1/1}
+.rpick .avatar::after{display:none}
+.rpick.on{border-color:var(--gold-deep);background:#FFF1C7}
 .none{color:var(--muted);opacity:.5}
 .ilist{display:flex;flex-direction:column;gap:8px}
 .irow{display:flex;gap:10px;align-items:center;background:rgba(255,255,255,.05);border:2px solid var(--line);border-radius:16px;padding:8px 12px}
@@ -3437,7 +3443,76 @@ const app=document.getElementById("app");
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
 const NM=s=>s.replace(/\{n\}/g,USER?USER.name:"").replace(/\{s\}/g,SUB?SUB.n:"");
-function avatar(u,cls){const c=COLORS[u.c%COLORS.length];return `<span class="avatar ${cls||""}" style="background:radial-gradient(circle at 35% 30%,${c[0]},${c[1]});color:${c[2]}">${esc(u.name.trim()[0].toUpperCase())}</span>`}
+/* ---------- robot avatars (10) ---------- */
+const ROBOTS=[
+ {n:"Bip",   bg:["#DDF1FF","#6FA9DD"], body:"#4F8FD6", head:"round",  ant:"ball",  eyes:"round", mouth:"smile", extra:"blush"},
+ {n:"Mimi",  bg:["#FFE0F0","#E27AAE"], body:"#F28BBE", head:"round",  ant:"bow",   eyes:"lash",  mouth:"cat",   extra:"blush"},
+ {n:"Rex",   bg:["#FFD9D2","#D2483A"], body:"#C8382B", head:"angular",ant:"horns", eyes:"angry", mouth:"teeth", extra:"scar"},
+ {n:"Zuzu",  bg:["#EDE3FF","#9A7BE0"], body:"#8E6AD8", head:"round",  ant:"heart", eyes:"big",   mouth:"o",     extra:"blush"},
+ {n:"Tank",  bg:["#D9FFE6","#3FA968"], body:"#2F8F55", head:"square", ant:"none",  eyes:"visor", mouth:"grill", extra:"bolts"},
+ {n:"Luna",  bg:["#D9FFF7","#35B8A6"], body:"#2EA898", head:"round",  ant:"moon",  eyes:"happy", mouth:"smile", extra:"flower"},
+ {n:"Volt",  bg:["#FFF3C4","#E29B1B"], body:"#F0A91F", head:"angular",ant:"bolt",  eyes:"angry", mouth:"flat",  extra:"bolts"},
+ {n:"Coco",  bg:["#FFE9D2","#C98548"], body:"#B8773F", head:"square", ant:"ball",  eyes:"round", mouth:"grin",  extra:"ears"},
+ {n:"Ninja", bg:["#E3E6F2","#59607E"], body:"#3B4160", head:"round",  ant:"none",  eyes:"narrow",mouth:"none",  extra:"band"},
+ {n:"Pixie", bg:["#E6FFF1","#5CCB94"], body:"#4DBA86", head:"round",  ant:"pig",   eyes:"lash",  mouth:"smile", extra:"stars"}
+];
+function robotSVG(i){
+  const r=ROBOTS[((i|0)%ROBOTS.length+ROBOTS.length)%ROBOTS.length],B=r.body,F="#1D2340",E="#7CF3FF",W="#FFFFFF";
+  let s="";
+  // shoulders
+  s+=`<rect x="26" y="82" width="48" height="22" rx="10" fill="${B}"/><rect x="44" y="76" width="12" height="8" fill="${B}" opacity=".85"/>`;
+  // antenna / top
+  const a=r.ant;
+  if(a==="ball"||a==="bolt"||a==="moon"||a==="heart")s+=`<line x1="50" y1="26" x2="50" y2="13" stroke="${B}" stroke-width="3.5" stroke-linecap="round"/>`;
+  if(a==="ball")s+=`<circle cx="50" cy="11" r="5.5" fill="#FFD45E" stroke="${B}" stroke-width="2"/>`;
+  if(a==="heart")s+=`<path d="M50 16 C44 11 43 5 47.5 4.5 C49 4.3 50 5.8 50 7 C50 5.8 51 4.3 52.5 4.5 C57 5 56 11 50 16Z" fill="#FF6FA8"/>`;
+  if(a==="moon")s+=`<path d="M53 3 A8 8 0 1 0 55 17 A6.5 6.5 0 1 1 53 3Z" fill="#FFD45E"/>`;
+  if(a==="bolt")s+=`<path d="M52 1 L44 12 L50 12 L47 21 L56 9 L50 9 Z" fill="#FFF36B" stroke="#E29B1B" stroke-width="1"/>`;
+  if(a==="bow")s+=`<path d="M50 24 L36 16 Q33 24 36 31 Z" fill="#FF5C9A"/><path d="M50 24 L64 16 Q67 24 64 31 Z" fill="#FF5C9A"/><circle cx="50" cy="24" r="4.5" fill="#FF8DBB"/>`;
+  if(a==="horns")s+=`<path d="M28 32 L22 12 L38 28 Z" fill="#FFD45E"/><path d="M72 32 L78 12 L62 28 Z" fill="#FFD45E"/>`;
+  if(a==="pig")s+=`<line x1="34" y1="28" x2="27" y2="14" stroke="${B}" stroke-width="3.5" stroke-linecap="round"/><circle cx="26" cy="12" r="5" fill="#FF9EC7"/><line x1="66" y1="28" x2="73" y2="14" stroke="${B}" stroke-width="3.5" stroke-linecap="round"/><circle cx="74" cy="12" r="5" fill="#FF9EC7"/>`;
+  // ears
+  if(r.extra==="ears")s+=`<rect x="10" y="44" width="10" height="18" rx="4" fill="${B}"/><rect x="80" y="44" width="10" height="18" rx="4" fill="${B}"/><circle cx="15" cy="53" r="2.5" fill="#FFD45E"/><circle cx="85" cy="53" r="2.5" fill="#FFD45E"/>`;
+  else s+=`<rect x="13" y="47" width="8" height="12" rx="3" fill="${B}" opacity=".8"/><rect x="79" y="47" width="8" height="12" rx="3" fill="${B}" opacity=".8"/>`;
+  // head
+  if(r.head==="round")s+=`<rect x="18" y="26" width="64" height="52" rx="24" fill="${B}"/>`;
+  else if(r.head==="square")s+=`<rect x="18" y="26" width="64" height="52" rx="8" fill="${B}"/>`;
+  else s+=`<path d="M24 26 L76 26 L84 44 L78 78 L22 78 L16 44 Z" fill="${B}"/>`;
+  s+=`<rect x="24" y="31" width="52" height="8" rx="4" fill="#fff" opacity=".18"/>`;
+  // band (ninja)
+  if(r.extra==="band")s+=`<rect x="18" y="36" width="64" height="9" fill="#E53950"/><path d="M80 40 L94 34 L92 44 Z" fill="#E53950"/>`;
+  // face screen
+  s+=`<rect x="26" y="${r.extra==="band"?46:39}" width="48" height="${r.extra==="band"?26:32}" rx="12" fill="${F}"/>`;
+  const ey=r.extra==="band"?57:52;
+  // eyes
+  const e=r.eyes;
+  if(e==="round")s+=`<circle cx="39" cy="${ey}" r="5.5" fill="${E}"/><circle cx="61" cy="${ey}" r="5.5" fill="${E}"/><circle cx="41" cy="${ey-2}" r="1.8" fill="${W}"/><circle cx="63" cy="${ey-2}" r="1.8" fill="${W}"/>`;
+  if(e==="big")s+=`<circle cx="39" cy="${ey}" r="7.5" fill="${W}"/><circle cx="61" cy="${ey}" r="7.5" fill="${W}"/><circle cx="40" cy="${ey+1}" r="4.5" fill="#7A4FD6"/><circle cx="62" cy="${ey+1}" r="4.5" fill="#7A4FD6"/><circle cx="41.5" cy="${ey-1}" r="1.6" fill="${W}"/><circle cx="63.5" cy="${ey-1}" r="1.6" fill="${W}"/>`;
+  if(e==="lash")s+=`<circle cx="39" cy="${ey}" r="5.5" fill="#FFB6D9"/><circle cx="61" cy="${ey}" r="5.5" fill="#FFB6D9"/><circle cx="40.5" cy="${ey-1.5}" r="1.8" fill="${W}"/><circle cx="62.5" cy="${ey-1.5}" r="1.8" fill="${W}"/><path d="M33 ${ey-6} l-3 -3 M36 ${ey-7} l-1 -4 M67 ${ey-6} l3 -3 M64 ${ey-7} l1 -4" stroke="#FFB6D9" stroke-width="1.8" stroke-linecap="round"/>`;
+  if(e==="angry")s+=`<path d="M33 ${ey-3} L45 ${ey+1} L45 ${ey+4} L33 ${ey+2} Z" fill="#FF5A4E"/><path d="M67 ${ey-3} L55 ${ey+1} L55 ${ey+4} L67 ${ey+2} Z" fill="#FF5A4E"/><path d="M31 ${ey-8} L46 ${ey-3} M69 ${ey-8} L54 ${ey-3}" stroke="${B}" stroke-width="3" stroke-linecap="round"/>`;
+  if(e==="visor")s+=`<rect x="31" y="${ey-5}" width="38" height="9" rx="4.5" fill="#3BFF9A" opacity=".9"/><rect x="47" y="${ey-5}" width="10" height="9" rx="4" fill="#E9FFF3"/>`;
+  if(e==="happy")s+=`<path d="M33 ${ey+1} Q39 ${ey-6} 45 ${ey+1}" stroke="${E}" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M55 ${ey+1} Q61 ${ey-6} 67 ${ey+1}" stroke="${E}" stroke-width="3" fill="none" stroke-linecap="round"/>`;
+  if(e==="narrow")s+=`<rect x="33" y="${ey-2}" width="12" height="4" rx="2" fill="${E}"/><rect x="55" y="${ey-2}" width="12" height="4" rx="2" fill="${E}"/>`;
+  // mouth
+  const m=r.mouth,my=r.extra==="band"?66:63;
+  if(m==="smile")s+=`<path d="M42 ${my} Q50 ${my+6} 58 ${my}" stroke="${E}" stroke-width="2.6" fill="none" stroke-linecap="round"/>`;
+  if(m==="cat")s+=`<path d="M43 ${my} Q46.5 ${my+4} 50 ${my} Q53.5 ${my+4} 57 ${my}" stroke="#FFB6D9" stroke-width="2.4" fill="none" stroke-linecap="round"/>`;
+  if(m==="teeth")s+=`<rect x="39" y="${my-2}" width="22" height="7" rx="2" fill="${W}"/><path d="M39 ${my-2} l3.7 4 l3.6 -4 l3.7 4 l3.6 -4 l3.7 4 l3.7 -4" stroke="${F}" stroke-width="1.3" fill="none"/>`;
+  if(m==="o")s+=`<ellipse cx="50" cy="${my+1}" rx="3.5" ry="4" fill="#FF8DBB"/>`;
+  if(m==="grill")s+=`<rect x="38" y="${my-2}" width="24" height="6" rx="2" fill="#3BFF9A" opacity=".5"/><path d="M44 ${my-2} v6 M50 ${my-2} v6 M56 ${my-2} v6" stroke="${F}" stroke-width="1.5"/>`;
+  if(m==="flat")s+=`<rect x="41" y="${my}" width="18" height="3.5" rx="1.75" fill="#FF5A4E"/>`;
+  if(m==="grin")s+=`<path d="M40 ${my-2} Q50 ${my+9} 60 ${my-2} Z" fill="${E}"/>`;
+  // extras
+  if(r.extra==="blush")s+=`<ellipse cx="30.5" cy="${my-1}" rx="3" ry="2" fill="#FF8DBB" opacity=".8"/><ellipse cx="69.5" cy="${my-1}" rx="3" ry="2" fill="#FF8DBB" opacity=".8"/>`;
+  if(r.extra==="bolts")s+=`<circle cx="23" cy="31" r="2.2" fill="#fff" opacity=".7"/><circle cx="77" cy="31" r="2.2" fill="#fff" opacity=".7"/><circle cx="23" cy="73" r="2.2" fill="#fff" opacity=".7"/><circle cx="77" cy="73" r="2.2" fill="#fff" opacity=".7"/>`;
+  if(r.extra==="scar")s+=`<path d="M64 42 L70 50 M65 47 L69 45" stroke="#FFD45E" stroke-width="2" stroke-linecap="round"/>`;
+  if(r.extra==="flower")s+=`<g transform="translate(74 30)"><circle r="3" cx="0" cy="-4" fill="#FFD1E6"/><circle r="3" cx="4" cy="0" fill="#FFD1E6"/><circle r="3" cx="0" cy="4" fill="#FFD1E6"/><circle r="3" cx="-4" cy="0" fill="#FFD1E6"/><circle r="2.2" fill="#FFD45E"/></g>`;
+  if(r.extra==="stars")s+=`<path d="M30 ${my-3} l1.2 2.4 2.6 .4 -1.9 1.8 .5 2.6 -2.4 -1.3 -2.4 1.3 .5 -2.6 -1.9 -1.8 2.6 -.4Z" fill="#FFD45E"/><path d="M70 ${my-3} l1.2 2.4 2.6 .4 -1.9 1.8 .5 2.6 -2.4 -1.3 -2.4 1.3 .5 -2.6 -1.9 -1.8 2.6 -.4Z" fill="#FFD45E"/>`;
+  s+=`<rect x="36" y="88" width="28" height="7" rx="3.5" fill="#fff" opacity=".25"/>`;
+  return `<svg class="robot" viewBox="0 0 100 100" aria-hidden="true">${s}</svg>`;
+}
+function robotAvatar(i,cls,label){const r=ROBOTS[((i|0)%ROBOTS.length+ROBOTS.length)%ROBOTS.length];return `<span class="avatar robo ${cls||""}" style="background:radial-gradient(circle at 35% 30%,${r.bg[0]},${r.bg[1]})"${label?` aria-label="${label}"`:""}>${robotSVG(i)}</span>`}
+function avatar(u,cls){return robotAvatar(u.c||0,cls)}
 function isAnswered(v){return v!==undefined&&v!==null&&String(v).trim()!==""}
 function answeredCount(s){const a=D.answers[s];return SETS[s-1].items.filter(i=>isAnswered(a[i.id])).length}
 function starsFor(sc){return sc>=27?3:sc>=21?2:sc>=15?1:0}
@@ -3536,7 +3611,7 @@ function refreshRank(){
   RANK.busy=true;RANK.t=Date.now();
   withTimeout(CLOUD.listAll(),8000).then(list=>{const old=JSON.stringify(myRank());RANK.list=list;if(JSON.stringify(myRank())!==old&&["map","book"].includes(UI.screen))render()}).catch(()=>{RANK.t=Date.now()-45000}).finally(()=>{RANK.busy=false});
 }
-function sAvatar(s,cls){const c=COLORS[(s.c||0)%COLORS.length];return `<span class="avatar ${cls||""}" style="background:radial-gradient(circle at 35% 30%,${c[0]},${c[1]});color:${c[2]}">${esc(String(s.name||"?").trim()[0].toUpperCase())}</span>`}
+function sAvatar(s,cls){return robotAvatar(s.c||0,cls)}
 function mine(id){return ST.users.some(u=>u.id===id)}
 
 /* ---------- install (PWA) ---------- */
@@ -3587,6 +3662,10 @@ function dd(key,opts,cur){
   const c=opts.find(o=>o.v===cur)||opts[0],open=UI.ddOpen===key;
   return `<div class="dd ${open?"open":""}"><button type="button" class="ddbtn" data-act="ddOpen" data-k="${key}" aria-haspopup="listbox" aria-expanded="${open}"><span>${esc(c?c.l:"")}</span><svg viewBox="0 0 12 8" width="12" height="8" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>${open?`<div class="ddbg" data-act="ddClose"></div><div class="ddlist" role="listbox">${opts.map(o=>`<button type="button" role="option" aria-selected="${o.v===c.v}" class="ddopt ${o.v===c.v?"on":""}" data-act="ddPick" data-k="${key}" data-v="${esc(o.v)}">${esc(o.l)}${o.v===c.v?'<span class="ddtick">✓</span>':""}</button>`).join("")}</div>`:""}</div>`;
 }
+function avModal(){
+  const u=ST.users.find(x=>x.id===UI.avFor);if(!u)return "";
+  return `<div class="modalbg" data-act="avClose"></div><div class="modal" role="dialog" aria-label="Pilih robot"><h3>🤖 Pilih robot ${esc(u.name)}</h3><div class="rgrid">${ROBOTS.map((r,i)=>`<button type="button" class="rpick ${(u.c||0)===i?"on":""}" data-act="avPick" data-v="${i}" aria-label="Robot ${r.n}">${robotAvatar(i)}<span>${r.n}</span></button>`).join("")}</div><div class="row-btns" style="justify-content:center"><button class="btn ghost small dark" data-act="avClose">Tutup</button></div></div>`;
+}
 function installModal(){
   const link=location.href.split("#")[0];
   let steps,title="Pasang di skrin utama";
@@ -3611,7 +3690,7 @@ function vLogin(){
       <h3>${UI.upgradeId?"Lengkapkan profil":"Pelajar baru"}</h3>
       <label for="newName">Nama panggilan</label><input id="newName" data-input="newName" maxlength="16" value="${esc(UI.newName)}" placeholder="Contoh: Hassan">
       <span class="lbl2">Kelas</span><div class="clsbtns">${CLS.map(c=>`<button type="button" class="clsb ${UI.newCls===c?"on":""}" data-act="pickCls" data-v="${c}">${c}</button>`).join("")}</div>
-      <span class="lbl2">Warna</span><div class="swatches">${COLORS.map((c,i)=>`<button type="button" class="sw ${UI.newC===i?"on":""}" data-act="pickC" data-v="${i}" style="background:${c[1]}" aria-label="Warna ${i+1}"></button>`).join("")}</div>
+      <span class="lbl2">Pilih robot</span><div class="rgrid">${ROBOTS.map((r,i)=>`<button type="button" class="rpick ${UI.newC===i?"on":""}" data-act="pickC" data-v="${i}" aria-label="Robot ${r.n}">${robotAvatar(i)}<span>${r.n}</span></button>`).join("")}</div>
       <div class="codebox"><b>🔑 Kod rahsia anak</b><span>Untuk masuk profil dari phone lain. Di phone ini anak terus masuk tanpa kod.</span>
       <div class="pinrow"><div><label for="newP1">Kod anak (4 digit)</label><input id="newP1" data-input="newP1" type="password" inputmode="numeric" maxlength="4" value="${esc(UI.newP1||"")}" placeholder="••••"></div>
       <div><label for="newP2">Ulang kod</label><input id="newP2" data-input="newP2" type="password" inputmode="numeric" maxlength="4" value="${esc(UI.newP2||"")}" placeholder="••••"></div></div>
@@ -3974,7 +4053,7 @@ function vParent(){
     return `<div class="it"><div><b>${set.big?"🚩 ":""}${set.name} · ${esc(set.place)}</b><span class="st2">${lab}</span></div><div class="row-btns">${act}${reset}</div></div>`;
   }).join("");
   const confAll=UI.confirmReset==="all";
-  const users=ST.users.map(u=>{const c=UI.confirmDel===u.id;return `<div class="it"><div class="me" style="font-size:1.1rem">${avatar(u)}<div><b>${esc(u.name)}</b><span class="st2">${u.cls?esc(u.cls):""}${u.pin?" · Kod pelajar: "+esc(u.pin):""}${u.cloud?(u.hidden?" · disorok dari Papan":" · dalam Papan Kelas"):" · phone ini sahaja"}</span></div></div><div class="row-btns">${u.pinH?`<button class="btn small ghost" data-act="kidReset" data-u="${esc(u.id)}">🔑 Tukar kod</button>`:""}${u.pinH?`<button class="btn small ghost" data-act="toggleLock" data-u="${esc(u.id)}">${u.lock?"🔒 Kod: diminta":"🔓 Kod: tidak diminta"}</button>`:""}${u.cloud?`<button class="btn small ghost" data-act="hideUser" data-u="${esc(u.id)}">${u.hidden?"Papar di Papan":"Sorok dari Papan"}</button>`:""}<button class="btn small ${c?"warn":"ghost"}" data-act="delUser" data-u="${esc(u.id)}">${c?"Tekan lagi untuk buang":"Buang dari phone ini"}</button></div></div>`}).join("");
+  const users=ST.users.map(u=>{const c=UI.confirmDel===u.id;return `<div class="it"><div class="me" style="font-size:1.1rem">${avatar(u)}<div><b>${esc(u.name)}</b><span class="st2">${u.cls?esc(u.cls):""}${u.pin?" · Kod pelajar: "+esc(u.pin):""}${u.cloud?(u.hidden?" · disorok dari Papan":" · dalam Papan Kelas"):" · phone ini sahaja"}</span></div></div><div class="row-btns"><button class="btn small ghost" data-act="avOpen" data-u="${esc(u.id)}">🤖 Tukar robot</button>${u.pinH?`<button class="btn small ghost" data-act="kidReset" data-u="${esc(u.id)}">🔑 Tukar kod</button>`:""}${u.pinH?`<button class="btn small ghost" data-act="toggleLock" data-u="${esc(u.id)}">${u.lock?"🔒 Kod: diminta":"🔓 Kod: tidak diminta"}</button>`:""}${u.cloud?`<button class="btn small ghost" data-act="hideUser" data-u="${esc(u.id)}">${u.hidden?"Papar di Papan":"Sorok dari Papan"}</button>`:""}<button class="btn small ${c?"warn":"ghost"}" data-act="delUser" data-u="${esc(u.id)}">${c?"Tekan lagi untuk buang":"Buang dari phone ini"}</button></div></div>`}).join("");
   const psub=`<div class="bfilt"><div class="sel"><span>Subjek</span>${dd("pSubj",READY.map(x=>({v:x.k,l:x.e+" "+x.n})),SUBJ)}</div></div>`;
   return `<div class="qhead phead"><div><h2>Ruang Ibu &amp; Ayah · ${esc(USER.name)}</h2><p>Semak jawapan, lihat keputusan, atau buka semula set untuk latihan ulangan. Markah terbaik dan sticker kekal walaupun set dibuat semula.</p></div><button class="btn ghost small" data-act="pClose">Tutup</button></div>
     ${psub}
@@ -3988,7 +4067,7 @@ function vParent(){
 function render(){
   const v={login:vLogin,welcome:vWelcome,subjects:vSubjects,map:vMap,quiz:vQuiz,confirm:vConfirm,submitted:vSubmitted,pin:vPin,check:vCheck,result:vResult,book:vBook,parent:vParent,review:vReview,other:vOther,board:vBoard,kidcode:vKidCode,kidreset:vKidReset}[UI.screen];
   app.classList.toggle("ltr",!!(USER&&SUB&&!SUB.rtl));
-  app.innerHTML=v()+(["quiz","check","review","pin"].includes(UI.screen)?"":`<footer class="credit">Dibangunkan oleh Abah Hassan</footer>`)+(UI.installHelp?installModal():"")+(UI.notice?noticeModal():(UI.guide?guideModal():""));
+  app.innerHTML=v()+(["quiz","check","review","pin"].includes(UI.screen)?"":`<footer class="credit">Dibangunkan oleh Abah Hassan</footer>`)+(UI.installHelp?installModal():"")+(UI.notice?noticeModal():(UI.guide?guideModal():""))+(UI.avFor?avModal():"");
   if(UI.screen==="parent"||UI.screen==="check")ppMark();SND.setTheme(themeFor(UI.screen));paintSnd();saveSess();
   if(UI.screen==="welcome")SND.play("jingle",0,.35);
   if(UI.screen==="welcome")setTimeout(()=>confetti(90),500);
@@ -4093,6 +4172,9 @@ app.addEventListener("click",e=>{
     case "ddOpen":UI.ddOpen=UI.ddOpen===b.dataset.k?null:b.dataset.k;render();break;
     case "ddClose":UI.ddOpen=null;render();break;
     case "ddPick":{const k=b.dataset.k;UI.ddOpen=null;if(k==="bSubj"&&UI.board)UI.board.subj=v;if(k==="pSubj"){setSubject(v);UI.confirmReset=null}if(k==="bookSubj")UI.bookSubj=v;render();break}
+    case "avOpen":UI.avFor=b.dataset.u;render();break;
+    case "avClose":UI.avFor=null;render();break;
+    case "avPick":{const u=ST.users.find(x=>x.id===UI.avFor);if(u){u.c=+v;save();if(u.cloud)pushUser(u,normProg(ST.prog[u.id]));SND.play("sparkle");toast("Robot "+ROBOTS[+v].n+" dipilih! 🤖")}UI.avFor=null;render();break}
     case "noticeOk":{const first=!noticeSeen();try{localStorage.setItem(NOTICE_KEY,String(Date.now()))}catch(e){}UI.notice=false;if(first&&!guideSeen()){UI.guide=true;UI.guideI=0;UI.guideStill=false}render();break}
     case "showGuide":UI.guide=true;UI.guideI=0;UI.guideStill=false;render();break;
     case "guideNext":UI.guideStill=true;UI.guideI=Math.min((UI.guideI||0)+1,GUIDE.length-1);render();break;
