@@ -1,7 +1,7 @@
 {
-  "name": "Jejak Sirah",
-  "short_name": "Jejak Sirah",
-  "description": "Latihan Sirah Tahun 2 dalam Jawi",
+  "name": "Kembara Ilmu",
+  "short_name": "Kembara Ilmu",
+  "description": "Latihan UASA Tahun 2",
   "lang": "ms",
   "start_url": "./",
   "scope": "./",

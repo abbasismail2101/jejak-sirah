@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Jejak Sirah</title>
-<meta name="description" content="Latihan Sirah Tahun 2 dalam Jawi">
+<title>Kembara Ilmu</title>
+<meta name="description" content="Latihan UASA Tahun 2: Sirah, Feqah, Akhlak, BM, BI, Matematik, Sains">
 <meta name="theme-color" content="#141A3A">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Jejak Sirah">
+<meta name="apple-mobile-web-app-title" content="Kembara Ilmu">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -435,7 +435,7 @@ textarea{width:100%;min-height:120px;margin-top:14px;font:600 1.25rem/1.5 var(--
 
 <div id="sky" aria-hidden="true"></div>
 <main id="app"><section style="max-width:480px;margin:12vh auto 0;text-align:center;font-family:system-ui,sans-serif;color:#F6F1FF;line-height:1.6">
-<h1 style="font-size:2rem;color:#F2C98A;margin:0 0 12px">Jejak Sirah</h1>
+<h1 style="font-size:2rem;color:#F2C98A;margin:0 0 12px">Kembara Ilmu</h1>
 <p style="font-weight:700">App ini tak dapat berjalan dalam paparan ini.</p>
 <p>Kalau dibuka terus dari WhatsApp, Telegram atau app Files di iPhone, paparan itu hanya "preview" dan tak jalankan app. Buka link app ini dalam <b>Safari</b> atau <b>Chrome</b>.</p>
 </section></main>
@@ -3505,14 +3505,14 @@ function mine(id){return ST.users.some(u=>u.id===id)}
 /* ---------- install (PWA) ---------- */
 let deferredPrompt=null;
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e;if(UI.screen==="login")render()});
-window.addEventListener("appinstalled",()=>{deferredPrompt=null;UI.installHelp=false;toast("App Jejak Sirah dah dipasang! 🎉");render()});
+window.addEventListener("appinstalled",()=>{deferredPrompt=null;UI.installHelp=false;toast("App Kembara Ilmu dah dipasang! 🎉");render()});
 function isStandalone(){try{return matchMedia("(display-mode: standalone)").matches||navigator.standalone===true}catch(e){return false}}
 function isIOS(){return /iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1)}
 function inAppBrowser(){return /FBAN|FBAV|Instagram|Line\/|WhatsApp|Telegram|TikTok|MicroMessenger|; wv\)/i.test(navigator.userAgent)}
 function canShowInstall(){return !!window.JS_PWA&&!isStandalone()}
 function installCard(){
   if(!canShowInstall())return "";
-  return `<div class="instcard"><span class="insticon">📲</span><div><b>Pasang Jejak Sirah</b><span>Letak di skrin utama macam app biasa. Boleh guna tanpa internet.</span></div><button class="btn small" data-act="install">Pasang</button></div>`;
+  return `<div class="instcard"><span class="insticon">📲</span><div><b>Pasang Kembara Ilmu</b><span>Letak di skrin utama macam app biasa. Boleh guna tanpa internet.</span></div><button class="btn small" data-act="install">Pasang</button></div>`;
 }
 function installModal(){
   const link=location.href.split("#")[0];
@@ -3521,9 +3521,9 @@ function installModal(){
     title="Buka dalam browser dulu";
     steps=`<li>Link ini sedang dibuka di dalam app (contoh WhatsApp). App tak boleh dipasang dari sini.</li><li>Tekan ikon <b>⋮</b> atau <b>⋯</b> di atas, pilih <b>Buka dalam ${isIOS()?"Safari":"Chrome"}</b>.</li><li>Kalau tiada pilihan itu, salin link di bawah dan tampal dalam ${isIOS()?"Safari":"Chrome"}.</li>`;
   } else if(isIOS()){
-    steps=`<li>Tekan butang <b>Share</b> <span class="kbd">⬆︎</span> (kotak dengan anak panah ke atas) di bawah atau atas skrin.</li><li>Scroll ke bawah dan pilih <b>Add to Home Screen</b> <span class="kbd">➕</span>.</li><li>Tekan <b>Add</b>. Ikon bulan sabit Jejak Sirah akan muncul di skrin utama.</li>`;
+    steps=`<li>Tekan butang <b>Share</b> <span class="kbd">⬆︎</span> (kotak dengan anak panah ke atas) di bawah atau atas skrin.</li><li>Scroll ke bawah dan pilih <b>Add to Home Screen</b> <span class="kbd">➕</span>.</li><li>Tekan <b>Add</b>. Ikon bulan sabit Kembara Ilmu akan muncul di skrin utama.</li>`;
   } else {
-    steps=`<li>Tekan menu <b>⋮</b> di bucu atas kanan Chrome.</li><li>Pilih <b>Install app</b> atau <b>Add to Home screen</b>.</li><li>Tekan <b>Install</b>. Ikon Jejak Sirah akan muncul di skrin utama.</li>`;
+    steps=`<li>Tekan menu <b>⋮</b> di bucu atas kanan Chrome.</li><li>Pilih <b>Install app</b> atau <b>Add to Home screen</b>.</li><li>Tekan <b>Install</b>. Ikon Kembara Ilmu akan muncul di skrin utama.</li>`;
   }
   return `<div class="modalbg" data-act="closeInstall"></div><div class="modal" role="dialog" aria-label="${title}"><h3>📲 ${title}</h3><ol class="isteps">${steps}</ol>
     <div class="linkbox"><input id="instLink" readonly value="${esc(link)}"><button class="btn small" data-act="copyLink">Salin link</button></div>
@@ -3553,7 +3553,7 @@ function vLogin(){
     </form>`:`<button class="profile addp" data-act="addUser"><span class="avatar plus">+</span><span class="pname">Tambah</span><span class="pclass">Pelajar baru</span></button>`;
   return `<section class="login">
     <div class="brand"><div class="moon" aria-hidden="true"></div>
-      <h1>Jejak Sirah</h1><div class="bj jawi">جيجق سيرة</div>
+      <h1>Kembara Ilmu</h1><div class="bj jawi">کمبارا علمو</div>
       <div class="tag">Latihan UASA Tahun 2 · Sirah &amp; subjek lain</div></div>
     ${UI.adding?"":installCard()}
     <div class="ask">Siapa yang nak belajar hari ini?</div>
