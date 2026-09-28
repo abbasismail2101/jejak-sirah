@@ -408,6 +408,11 @@ textarea{width:100%;min-height:120px;margin-top:14px;font:600 1.25rem/1.5 var(--
 .modal{position:fixed;left:0;right:0;top:0;bottom:0;margin:auto;height:fit-content;z-index:51;background:var(--paper);color:var(--ink);border-radius:24px;padding:20px 20px 16px;width:min(420px,calc(100% - 32px));max-height:calc(100% - 40px);overflow:auto;box-shadow:0 20px 50px rgba(0,0,0,.5);animation:fadein .25s both}
 @keyframes fadein{from{opacity:0}to{opacity:1}}
 .modal h3{font-size:1.4rem;margin-bottom:6px}
+.nlist{padding-left:20px;margin:8px 0 10px;display:grid;gap:8px;line-height:1.5;font-size:.98rem}
+.nfoot{font-size:.85rem;color:var(--ink-muted);margin:0 0 12px}
+.notice .row-btns{justify-content:center}
+.nlink{text-align:center;margin:14px 0 0}
+.nlink .linkbtn{color:var(--muted);font-size:.92rem}
 .isteps{padding-left:22px;margin:8px 0 12px;display:grid;gap:8px;font-weight:700;line-height:1.5}
 .kbd{display:inline-block;background:#fff;border:2px solid #D9CDB6;border-radius:8px;padding:0 6px;font-size:.9em}
 .linkbox{display:flex;gap:8px;margin-bottom:10px}
@@ -3515,6 +3520,21 @@ function installCard(){
   if(!canShowInstall())return "";
   return `<div class="instcard"><span class="insticon">📲</span><div><b>Pasang Kembara Ilmu</b><span>Letak di skrin utama macam app biasa. Boleh guna tanpa internet.</span></div><button class="btn small" data-act="install">Pasang</button></div>`;
 }
+const NOTICE_KEY="kembaraIlmu_notice_v1";
+function noticeSeen(){try{return !!localStorage.getItem(NOTICE_KEY)}catch(e){return false}}
+function noticeModal(){
+  const first=!noticeSeen();
+  return `<div class="modalbg"${first?"":' data-act="noticeOk"'}></div><div class="modal notice" role="dialog" aria-label="Notis untuk ibu bapa"><h3>📢 ${first?"Sebelum mula, ":""}untuk Ibu &amp; Ayah</h3>
+    <ul class="nlist">
+      <li><b>Soalan dijana dengan bantuan AI</b> berdasarkan buku teks dan nota, dan <b>belum disemak oleh guru</b>.</li>
+      <li>Mungkin ada <b>kesilapan</b> pada fakta, ejaan (termasuk Jawi) atau skema jawapan.</li>
+      <li>Sila <b>awasi dan semak bersama anak</b>. Buku teks dan guru ialah rujukan utama. Jika ragu, rujuk mereka.</li>
+      <li>App ini <b>alat latihan tambahan</b> sahaja, bukan kertas soalan rasmi, dan <b>tiada kaitan rasmi</b> dengan pihak sekolah atau KPM.</li>
+      <li>Jumpa kesilapan? Maklumkan kepada pengurus app supaya dapat dibaiki.</li>
+    </ul>
+    <p class="nfoot">Dengan meneruskan, anda bersetuju menggunakan app ini dengan pengawasan ibu bapa.</p>
+    <div class="row-btns"><button class="btn mint" data-act="noticeOk">${first?"Saya faham 👍":"Tutup"}</button></div></div>`;
+}
 function installModal(){
   const link=location.href.split("#")[0];
   let steps,title="Pasang di skrin utama";
@@ -3561,6 +3581,7 @@ function vLogin(){
     <div class="profiles">${cards}${add}</div>
     <div class="hint">${ST.users.length?"Tekan gambar kamu untuk masuk":"Ibu/Ayah: tekan Tambah untuk daftar anak"}</div>
     ${cOk&&!UI.adding?`<div class="row-btns"><button class="btn ghost small" data-act="other">🔑 Masuk profil dari phone lain</button><button class="btn ghost small" data-act="board">🏆 Papan Kelas</button></div>`:""}
+    ${UI.adding?"":`<p class="nlink"><button class="linkbtn" data-act="showNotice">ℹ️ Notis untuk ibu bapa</button></p>`}
   </section>`;
 }
 function vKidCode(){
@@ -3901,6 +3922,7 @@ function vParent(){
     ${psub}
     <div class="pp">${items}<div class="it"><div><b>Mula semula ${esc(SUB.n)} dari awal</b><span class="st2">Padam semua jawapan, markah dan sticker ${esc(SUB.n)} ${esc(USER.name)}</span></div><button class="btn small ${confAll?"warn":"ghost"}" data-act="pReset" data-set="all">${confAll?"Tekan lagi untuk sahkan":"Padam semua"}</button></div></div>
     <h3 class="listh">Pengguna</h3><div class="pp">${users}</div>
+    <p class="nlink"><button class="linkbtn" data-act="showNotice">ℹ️ Notis penggunaan (soalan dijana AI)</button></p>
     <h3 class="listh">Kod Ibu/Ayah</h3><div class="pp"><div class="it"><div><b>🔒 Kod 4 digit</b><span class="st2">Satu kod untuk semua pengguna di peranti ini</span></div><button class="btn small ghost" data-act="changePin">Tukar kod</button></div></div>`;
 }
 
@@ -3908,7 +3930,7 @@ function vParent(){
 function render(){
   const v={login:vLogin,welcome:vWelcome,subjects:vSubjects,map:vMap,quiz:vQuiz,confirm:vConfirm,submitted:vSubmitted,pin:vPin,check:vCheck,result:vResult,book:vBook,parent:vParent,review:vReview,other:vOther,board:vBoard,kidcode:vKidCode,kidreset:vKidReset}[UI.screen];
   app.classList.toggle("ltr",!!(USER&&SUB&&!SUB.rtl));
-  app.innerHTML=v()+(UI.installHelp?installModal():"");
+  app.innerHTML=v()+(UI.installHelp?installModal():"")+(UI.notice?noticeModal():"");
   if(UI.screen==="parent"||UI.screen==="check")ppMark();SND.setTheme(themeFor(UI.screen));paintSnd();saveSess();
   if(UI.screen==="welcome")SND.play("jingle",0,.35);
   if(UI.screen==="welcome")setTimeout(()=>confetti(90),500);
@@ -4010,6 +4032,8 @@ app.addEventListener("click",e=>{
     case "krCancel":go(UI.kr&&UI.kr.back||"login");break;
     case "toggleLock":{const u=ST.users.find(x=>x.id===b.dataset.u);if(!u)break;if(!u.pinH){toast("Lengkapkan profil dulu");break}u.lock=!u.lock;save();toast(u.lock?u.name+": kod diminta setiap kali buka":u.name+": terus masuk tanpa kod di phone ini");render();break}
     case "install":if(deferredPrompt){const dp=deferredPrompt;dp.prompt();dp.userChoice.then(c=>{deferredPrompt=null;if(c&&c.outcome==="accepted")toast("Sedang dipasang… 🎉");render()}).catch(()=>{})}else{UI.installHelp=true;render()}break;
+    case "noticeOk":try{localStorage.setItem(NOTICE_KEY,String(Date.now()))}catch(e){}UI.notice=false;render();break;
+    case "showNotice":UI.notice=true;render();break;
     case "closeInstall":UI.installHelp=false;render();break;
     case "copyLink":{const l=location.href.split("#")[0];const done=()=>toast("Link disalin ✅");try{navigator.clipboard.writeText(l).then(done).catch(()=>{const i=document.getElementById("instLink");i.select();document.execCommand("copy");done()})}catch(e){const i=document.getElementById("instLink");i.select();try{document.execCommand("copy");done()}catch(_){}}break}
     case "other":UI.other={cls:CLS[0],list:null,err:""};go("other");if(cloudOk())withTimeout(CLOUD.listAll(),8000).then(l=>{UI.other.list=l;if(UI.screen==="other")render()}).catch(()=>{UI.other.err="net";if(UI.screen==="other")render()});else{UI.other.err="off";render()}break;
@@ -4122,6 +4146,7 @@ async function pullNewer(){
   try{const st=await withTimeout(CLOUD.getState(id),5000);if(st&&USER&&USER.id===id){const c=JSON.parse(st);if(c.v===2&&(c.ts||0)>(P.ts||0)){P=ST.prog[id]=normProg(c);setSubject(SUBJ);try{localStorage.setItem(KEY2,JSON.stringify(ST))}catch(e){}if(!["quiz","check","review","pin"].includes(UI.screen))render()}}}catch(e){}
 }
 (function restore(){
+  if(!noticeSeen())UI.notice=true;
   let ss=null;try{ss=JSON.parse(localStorage.getItem(SESS)||"null")}catch(e){}
   if(!ss||!ST.users.some(u=>u.id===ss.u)){render();return}
   login(ss.u);if(ss.k)setSubject(ss.k);UI.set=ss.set||1;UI.q=ss.q||0;UI.fresh=false;
