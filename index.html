@@ -293,7 +293,11 @@ textarea{width:100%;min-height:120px;margin-top:14px;font:600 1.25rem/1.5 var(--
 .bookh{margin-top:30px}
 .rumi{direction:ltr}
 .qtext.rumi,.factline.rumi{text-align:left;line-height:1.6}
-#app.ltr .opt{direction:ltr;text-align:left}
+#app.ltr .opt{direction:ltr;text-align:left;font-family:var(--f-body);font-weight:700;font-size:clamp(1.05rem,3.4vw,1.3rem)}
+#app.ltr .opt .lt{font-family:var(--f-display)}
+.rumi{font-family:var(--f-body)}
+.qtext.rumi{font-weight:700;font-size:clamp(1.2rem,3.6vw,1.5rem)}
+.left-item.rumi{font-weight:800}
 #app.ltr .chip,#app.ltr .av.j,#app.ltr .rw .q,#app.ltr .psec,#app.ltr .qgrid .gl{font-family:inherit;direction:ltr}
 #app.ltr .rw .q{text-align:left;line-height:1.5}
 #app.ltr .tfb .jw{display:none}
@@ -1619,6 +1623,1582 @@ const AKHLAK_FIX = {
  9:{"D1":"نبي محمد ﷺ براني دان کوات منتڠ موسوه.","D4":"ماکنن يڠ تيڠݢي کندوڠن ݢارم دان ݢولا تيدق دݢالقکن."},
  10:{"D1":"صيفت دڠکي بوکن صيفت اهلي شرݢ.","D3":"کتيک ماسوق روماه، کيت ملاڠکه ماسوق دڠن کاکي کانن.","D5":"اورڠ يڠ منيڤتي ماس صلاة د اول وقتو دان تيدق ملڠاهکنڽ."}
 };
+const BM_SETS = [
+{ id:1, place:"Perpustakaan Ceria", bab:"Semua bab", sticker:{"e":"📘","n":"Buku Biru"},
+  A:[
+   ["Perkataan yang merupakan kata nama khas ialah ...",["Melaka","bandar","sungai"],0],
+   ["Ayah membeli ... kereta baharu.",["sehelai","sebuah","seekor"],1],
+   ["'Saya dan adik bermain bola.' Kata ganti nama diri pertama dalam ayat itu ialah ...",["adik","bola","saya"],2],
+   ["Awalan meN- + baca menjadi ...",["mebaca","menbaca","membaca"],2],
+   ["Aina seorang murid yang otak cair. Maksud 'otak cair' ialah ...",["malas belajar","suka bercakap","cerdik dan cepat faham"],2],
+   ["'... yang datang ke rumah kamu semalam?' Kata tanya yang sesuai ialah ...",["Siapakah","Berapakah","Bilakah"],0],
+   ["Baca: 'Hana membawa bekal nasi goreng ke sekolah. Dia makan bersama Soo Mei pada waktu rehat.' Hana makan bersama ...",["Amin","Soo Mei","Hani"],1],
+   ["Bola sepak itu berbentuk ...",["bulat","tebal","wangi"],0],
+   ["Antara berikut, yang manakah kata majmuk?",["berjalan","ikan-ikan","jam tangan"],2],
+   ["Tanda baca di akhir ayat tanya ialah ...",["tanda soal (?)","noktah (.)","koma (,)"],0]
+  ],
+  bank:["ke","jernih","sekuntum","cuka","menyapu"],
+  B:[
+   ["Emak memetik {_} bunga ros di taman.","sekuntum"],
+   ["Kakak {_} sampah di halaman rumah.","menyapu"],
+   ["Buah limau itu rasanya masam seperti {_}.","cuka"],
+   ["Kami pergi {_} Zoo Negara dengan menaiki bas.","ke"],
+   ["Air sungai di kampung itu sangat {_} dan bersih.","jernih"]
+  ],
+  right:["rendah","pendek","nipis","sempit","halus"],
+  C:[["tinggi",0],["panjang",1],["tebal",2],["kasar",4],["luas",3]],
+  D:[
+   ["Kata nama khas dimulakan dengan huruf besar.",true],
+   ["'Mereka' ialah kata ganti nama diri pertama.",false],
+   ["Pantun empat kerat mempunyai empat baris.",true],
+   ["Penjodoh bilangan bagi kucing ialah sebuah.",false],
+   ["'Ringan tulang' bermaksud rajin membuat kerja.",true]
+  ],
+  E:[
+   ["Tuliskan dua contoh kata nama am.","Jawapan munasabah, cth. buku, kerusi, guru, rumah (mana-mana dua)"],
+   ["Bina satu ayat menggunakan perkataan 'membaca'.","Jawapan munasabah, cth. Amin membaca buku cerita."],
+   ["Baca: 'Cici ialah hamster kesayangan Hani. Cici dibawa ke klinik kerana sakit.' Mengapakah Cici dibawa ke klinik?","Kerana Cici sakit."],
+   ["Nyatakan dua kata ganti nama diri kedua.","kamu, engkau, awak, anda (mana-mana dua)"],
+   ["Susun semula menjadi ayat: 'bola / adik / menendang'","Adik menendang bola."]
+  ]
+},
+{ id:2, place:"Taman Pantun", bab:"Semua bab", sticker:{"e":"📜","n":"Gulungan Pantun"},
+  A:[
+   ["Baris pertama dan kedua dalam pantun dipanggil ...",["maksud","pembayang maksud","rangkap"],1],
+   ["Pak Ali membeli ... pisang di pasar.",["setandan","sehelai","sepasang"],0],
+   ["Kata ganti nama diri ketiga untuk orang yang dihormati ialah ...",["beliau","saya","kamu"],0],
+   ["Surat itu ... oleh posmen ke rumah Amar.",["menghantar","dihantar","hantaran"],1],
+   ["Yang manakah kata adjektif warna?",["jingga","bulat","lembut"],0],
+   ["Perkataan 'ikan-ikan' ialah kata ganda ...",["separa","berentak","penuh"],2],
+   ["Kata tanya yang digunakan untuk bertanya tentang sebab ialah ...",["di mana","berapa","mengapa"],2],
+   ["Baca: 'Rahisin kawan baik Yahya. Dia berasal dari Sabah.' Dari manakah Rahisin berasal?",["Perak","Sarawak","Sabah"],2],
+   ["Amar dan Amin sangat rapat bagai isi dengan ...",["kulit","kuku","tebing"],1],
+   ["Ayat 'Jangan buang sampah di sini.' ialah ayat perintah jenis ...",["larangan","ajakan","permintaan"],0]
+  ],
+  bank:["membakar","sepasang","atau","hijau","sekeping"],
+  B:[
+   ["Adik makan {_} roti bakar untuk sarapan.","sekeping"],
+   ["Kamu mahu minum susu {_} jus oren?","atau"],
+   ["Warna daun yang segar ialah {_}.","hijau"],
+   ["Emak {_} kek coklat di dalam ketuhar untuk hari jadi adik.","membakar"],
+   ["Ibu membeli {_} kasut sekolah untuk saya.","sepasang"]
+  ],
+  right:["payung","baju","arnab","pensel","bola"],
+  C:[["seekor",2],["sebatang",3],["sehelai",1],["sebiji",4],["sekaki",0]],
+  D:[
+   ["Pantun mempunyai pembayang maksud dan maksud.",true],
+   ["Perkataan 'dibaca' ialah kata kerja pasif.",true],
+   ["'Seperti kacang lupakan kulit' bermaksud orang yang mengenang budi.",false],
+   ["Kata sendi nama 'di' ditulis terpisah, contohnya 'di sekolah'.",true],
+   ["Ayat tanya diakhiri dengan tanda noktah.",false]
+  ],
+  E:[
+   ["Apakah maksud pantun ini? 'Batu geliga batu permata, / Cincin suasa di dalam peti; / Jiran tetangga saudara kita, / Setiap masa perlu dihormati.'","Kita perlu menghormati jiran tetangga pada setiap masa."],
+   ["Nyatakan dua kata adjektif ukuran.","panjang, pendek, tebal, nipis, tinggi, luas (mana-mana dua)"],
+   ["Bina satu ayat tanya menggunakan kata tanya 'bila'.","Jawapan munasabah, cth. Bilakah kamu pergi ke Pulau Pinang?"],
+   ["Baca: 'Amin membantu ayah mencuci kereta pada petang Ahad.' Bilakah Amin membantu ayah?","Pada petang Ahad."],
+   ["Tukarkan kepada ayat pasif: 'Hani menyiram pokok bunga.'","Pokok bunga disiram oleh Hani."]
+  ]
+},
+{ id:3, place:"Pondok Peribahasa", bab:"Semua bab", sticker:{"e":"🦉","n":"Burung Hantu Bijak"},
+  A:[
+   ["Kakak sangat ... . Dia selalu membantu emak memasak.",["berat tulang","kaki bangku","ringan tulang"],2],
+   ["Yang manakah kata nama am?",["Kuala Lumpur","Cikgu Munirah","guru"],2],
+   ["Awalan ber- + lari menjadi ...",["berlari","belari","berari"],0],
+   ["Hasan tidak hadir ke sekolah ... dia demam. Kata hubung yang sesuai ialah ...",["atau","kerana","tetapi"],1],
+   ["Pisau itu sangat ... . Hati-hati!",["biru","bulat","tajam"],2],
+   ["Baca: 'Pada cuti sekolah, ayah membawa kami ke Bukit Larut, Taiping. Udara di sana sangat sejuk.' Bagaimanakah udara di Bukit Larut?",["panas","sejuk","berdebu"],1],
+   ["Penjodoh bilangan untuk cincin ialah ...",["sebentuk","sebatang","sebuah"],0],
+   ["Yang manakah ayat penyata?",["Adik sedang tidur.","Tolong kejutkan adik.","Di manakah adik?"],0],
+   ["Perkataan 'mandi-manda' ialah kata ganda ...",["separa","berentak","penuh"],1],
+   ["Perkataan 'makanan' terbentuk daripada kata dasar 'makan' + akhiran ...",["-kan","-an","-i"],1]
+  ],
+  bank:["menulis","seekor","di","gembira","dekat"],
+  B:[
+   ["Julaihi {_} surat kepada datuknya di kampung.","menulis"],
+   ["Saya sangat {_} kerana mendapat hadiah.","gembira"],
+   ["Adik meletakkan kasutnya {_} rak kasut.","di"],
+   ["Pak Mat menangkap {_} ikan keli di sungai.","seekor"],
+   ["Rumah Komala sangat {_} dengan sekolah. Dia hanya berjalan kaki.","dekat"]
+  ],
+  right:["cerdik dan cepat faham","orang yang paling disayangi","sangat rapat dan mesra","bijak mencari jalan menyelesaikan masalah","tidak pandai bermain bola sepak"],
+  C:[["otak cair",0],["panjang akal",3],["anak emas",1],["kaki bangku",4],["bagai isi dengan kuku",2]],
+  D:[
+   ["'Beliau' digunakan untuk merujuk orang yang dihormati.",true],
+   ["Kata ganda 'buku-buku' ialah gandaan separa.",false],
+   ["Ayat perintah digunakan untuk memberi arahan, larangan, ajakan atau permintaan.",true],
+   ["Bulat dan lonjong ialah contoh kata adjektif bentuk.",true],
+   ["Perkataan 'bersih' ialah kata kerja.",false]
+  ],
+  E:[
+   ["Tuliskan dua contoh kata kerja.","Jawapan munasabah, cth. makan, minum, membaca, menulis (mana-mana dua)"],
+   ["Baca: 'Seok Ling menanam pokok bunga di halaman rumah. Dia menyiramnya setiap pagi.' Apakah yang ditanam oleh Seok Ling?","Pokok bunga."],
+   ["Bina satu ayat perintah jenis ajakan.","Jawapan munasabah, cth. Marilah kita membersihkan kelas."],
+   ["Nyatakan satu kata majmuk yang berkaitan dengan sekolah.","cth. bilik darjah, alat tulis, beg sekolah, papan tulis (jawapan munasabah)"],
+   ["Apakah antonim bagi 'rajin'?","malas"]
+  ]
+},
+{ id:4, place:"Jambatan Kata", bab:"Semua bab", sticker:{"e":"🔤","n":"Huruf Ajaib"},
+  A:[
+   ["Kata ganti nama diri pertama untuk ramai orang (termasuk diri sendiri) ialah ...",["mereka","kamu","kami"],2],
+   ["Emak membeli ... surat khabar.",["seekor","sebilah","senaskhah"],2],
+   ["Meja itu ... oleh Aidil dengan kain.",["mengelap","dilap","lapan"],1],
+   ["Awalan meN- + tulis menjadi ...",["menulis","metulis","mentulis"],0],
+   ["Perkataan yang merupakan kata adjektif ukuran ialah ...",["wangi","nipis","merah"],1],
+   ["Kata tanya untuk bertanya tentang tempat ialah ...",["siapa","berapa","di mana"],2],
+   ["Umar dan Ah Kau saling membantu seperti aur dengan ...",["tebing","kulit","kuku"],0],
+   ["Baca: 'Kok Bun melihat air paip terbuka. Dia segera menutup paip itu.' Apakah yang dilakukan oleh Kok Bun?",["membuka paip","menutup paip","mandi"],1],
+   ["'Tong sampah' ialah contoh ...",["kata majmuk","kata ganti nama","kata ganda"],0],
+   ["Ayat majmuk dibina dengan mencantumkan ...",["satu suku kata","dua huruf","dua ayat tunggal atau lebih"],2]
+  ],
+  bank:["pecah","bergotong-royong","kepada","sarung","besar"],
+  B:[
+   ["Penduduk kampung {_} membersihkan kawasan surau.","bergotong-royong"],
+   ["Ayah memakai {_} tangan ketika membersihkan longkang.","sarung"],
+   ["Pasu bunga itu {_} kerana ditolak oleh kucing.","pecah"],
+   ["Nenek memberikan hadiah {_} saya.","kepada"],
+   ["Semut sangat kecil, tetapi gajah sangat {_}.","besar"]
+  ],
+  right:["sahabat","cerdik","indah","riang","pantas"],
+  C:[["gembira",3],["pandai",1],["cantik",2],["cepat",4],["kawan",0]],
+  D:[
+   ["'Bila' ialah kata tanya untuk bertanya tentang masa.",true],
+   ["Kata majmuk 'air terjun' ditulis rapat menjadi 'airterjun'.",false],
+   ["Perkataan 'pelari' terbentuk daripada awalan pe- dan kata dasar 'lari'.",true],
+   ["Penjodoh bilangan 'sekuntum' digunakan untuk bunga.",true],
+   ["'Kamu' ialah kata ganti nama diri ketiga.",false]
+  ],
+  E:[
+   ["Gabungkan menjadi satu ayat majmuk: 'Ali membeli jam. Jam itu mahal.'","Ali membeli jam yang mahal."],
+   ["Tuliskan dua penjodoh bilangan bersama bendanya.","Jawapan munasabah, cth. seekor kucing, sebatang pensel (mana-mana dua yang betul)"],
+   ["Baca: 'Elis menanam anak pokok bersama rakan-rakannya pada Hari Alam Sekitar.' Mengapakah kita perlu menanam pokok?","Jawapan munasabah, cth. supaya udara bersih / alam sekitar terpelihara."],
+   ["Nyatakan antonim bagi 'bersih'.","kotor"],
+   ["Tuliskan satu ayat tanya menggunakan kata tanya 'berapa'.","Jawapan munasabah, cth. Berapakah harga buku itu?"]
+  ]
+},
+{ id:5, place:"Menara Tatabahasa", bab:"Checkpoint · Semua bab", big:true, sticker:{"e":"🏆","n":"Juara Tatabahasa"},
+  A:[
+   ["Dalam ayat 'Cikgu Munirah mengajar kami melukis.', kata nama khas ialah ...",["melukis","kami","Cikgu Munirah"],2],
+   ["Ayah membelah kayu dengan ... kapak.",["sebatang","sebiji","sebilah"],2],
+   ["Awalan meN- + cat menjadi ...",["mencat","mecat","mengecat"],2],
+   ["Yang manakah ayat pasif?",["Aidil suka makan kek.","Aidil memotong kek itu.","Kek itu dipotong oleh Aidil."],2],
+   ["Saya mahu bermain di luar ... hari sedang hujan. Kata hubung yang sesuai ialah ...",["tetapi","dan","atau"],0],
+   ["Perkataan yang mempunyai imbuhan akhiran ialah ...",["berjalan","menulis","hormati"],2],
+   ["Pola ayat 'Mereka sangat teruja.' ialah ...",["Frasa Nama + Frasa Adjektif","Frasa Nama + Frasa Nama","Frasa Nama + Frasa Kerja"],0],
+   ["Ubat itu pahit bagai ...",["madu","gula","hempedu"],2],
+   ["Baca: 'Pak Samad menternak lembu dan kambing. Setiap pagi dia memberi haiwan itu makan rumput.' Apakah makanan haiwan ternakan Pak Samad?",["nasi","ikan","rumput"],2],
+   ["Yang manakah kata ganda berentak?",["budak-budak","sayur-mayur","pepohon"],1]
+  ],
+  bank:["kerana","untuk","lonjong","melukis","pagi"],
+  B:[
+   ["Hasan {_} gambar pemandangan dengan pensel warna.","melukis"],
+   ["Adik menangis {_} anak patungnya hilang.","kerana"],
+   ["Buah betik itu berbentuk {_}.","lonjong"],
+   ["Kami berkumpul di dewan {_} mendengar ceramah.","untuk"],
+   ["Pada waktu {_}, matahari terbit di sebelah timur.","pagi"]
+  ],
+  right:["bertanya tentang orang","bertanya tentang bilangan","bertanya tentang masa","bertanya tentang cara","bertanya tentang tempat"],
+  C:[["siapa",0],["di mana",4],["bila",2],["berapa",1],["bagaimana",3]],
+  D:[
+   ["'Sayangi' terbentuk daripada kata dasar 'sayang' dan akhiran -i.",true],
+   ["Perkataan 'pepohon' ialah kata majmuk.",false],
+   ["Ayat 'Marilah kita ke kantin.' ialah ayat perintah jenis ajakan.",true],
+   ["Pembayang maksud pantun terdapat pada baris ketiga dan keempat.",false],
+   ["Kata adjektif 'wangi' menerangkan sifat bau sesuatu.",true]
+  ],
+  E:[
+   ["Tukarkan kepada ayat pasif: 'Komala membaca buku cerita.'","Buku cerita dibaca oleh Komala."],
+   ["Baca: 'Kami tidak membuang sampah merata-rata. Kami membuangnya ke dalam tong sampah.' Nyatakan satu kebaikan menjaga kebersihan.","Jawapan munasabah, cth. kawasan bersih dan cantik / tidak ada penyakit / nyamuk tidak membiak."],
+   ["Apakah maksud simpulan bahasa 'panjang akal'?","Bijak mencari jalan untuk menyelesaikan masalah."],
+   ["Bina satu ayat majmuk menggunakan kata hubung 'dan'.","Jawapan munasabah, cth. Amin dan Amar bermain bola."],
+   ["Tuliskan dua perkataan yang menerima awalan ber-.","cth. berlari, bermain, berjalan, bersukan (mana-mana dua)"]
+  ]
+},
+{ id:6, place:"Kebun Kosa Kata", bab:"Semua bab", sticker:{"e":"✏️","n":"Pensel Pintar"},
+  A:[
+   ["Yang manakah kata nama am?",["Sungai Pahang","Pahang","sungai"],2],
+   ["Pak Abu memetik ... kelapa.",["seekor","sebiji","sehelai"],1],
+   ["Kata ganti nama diri kedua ialah ...",["aku","dia","engkau"],2],
+   ["Adik ... di atas sofa kerana terlalu penat.",["menidurkan","tiduran","tertidur"],2],
+   ["Warna langit pada waktu siang yang cerah ialah ...",["hitam","ungu","biru"],2],
+   ["Yang manakah ayat tanya yang ditulis dengan betul?",["berapakah umur kamu?","Berapakah umur kamu?","Berapakah umur kamu."],1],
+   ["Perkataan yang sama maksud dengan 'emak' ialah ...",["nenek","ibu","ayah"],1],
+   ["Baca: 'Amar menyimpan wang syiling di dalam tabung setiap hari. Dia mahu membeli sebuah basikal.' Mengapakah Amar menyimpan wang?",["untuk membeli basikal","untuk bermain","untuk membeli gula-gula"],0],
+   ["Adik bongsu sangat dikasihi oleh ayah. Adik ialah ... ayah.",["ringan tulang","buah hati","kaki bangku"],1],
+   ["Perkataan 'hantarkan' mempunyai akhiran ...",["-i","-kan","-an"],1]
+  ],
+  bank:["jauh","seutas","dengan","petani","menghormati"],
+  B:[
+   ["Kakak memakai {_} rantai emas.","seutas"],
+   ["Kita mesti {_} ibu bapa kita.","menghormati"],
+   ["Saya pergi ke sekolah {_} abang.","dengan"],
+   ["Orang yang menanam padi di sawah dipanggil {_}.","petani"],
+   ["Rumah nenek sangat {_}. Kami mengambil masa lima jam untuk sampai.","jauh"]
+  ],
+  right:["turun","malam","tutup","ringan","sejuk"],
+  C:[["siang",1],["naik",0],["buka",2],["berat",3],["panas",4]],
+  D:[
+   ["Nama hari seperti 'Isnin' ialah kata nama khas.",true],
+   ["Kata ganda 'kawan-kawan' bermaksud ramai kawan.",true],
+   ["Perkataan 'mainan' ialah contoh kata berimbuhan awalan.",false],
+   ["Kata sendi nama 'ke' menunjukkan arah atau tempat yang dituju.",true],
+   ["Tanda koma digunakan di akhir ayat penyata.",false]
+  ],
+  E:[
+   ["Tuliskan dua kata nama khas.","Jawapan munasabah, cth. Malaysia, Ramli, Pulau Pinang, Isnin (mana-mana dua)"],
+   ["Baca: 'Hani membawa Cici ke klinik haiwan. Cici dirawat oleh Doktor Ramesh.' Siapakah yang merawat Cici?","Doktor Ramesh."],
+   ["Apakah maksud simpulan bahasa 'otak cair'?","Cerdik / pandai / cepat faham."],
+   ["Bina satu ayat menggunakan perkataan 'sedih'.","Jawapan munasabah, cth. Adik sedih kerana basikalnya rosak."],
+   ["Tuliskan kata ganda penuh bagi 'rumah'.","rumah-rumah"]
+  ]
+},
+{ id:7, place:"Pulau Sajak", bab:"Semua bab", sticker:{"e":"🖍️","n":"Krayon Ceria"},
+  A:[
+   ["Sajak yang tidak mempunyai rangkap dipanggil sajak ...",["pantun","berangkap","bebas"],2],
+   ["Penjodoh bilangan untuk surat ialah ...",["sepucuk","seekor","sebiji"],0],
+   ["'Aku' ialah kata ganti nama diri ...",["ketiga","kedua","pertama"],2],
+   ["Perkataan yang mempunyai awalan ter- ialah ...",["menjatuhkan","terjatuh","berjalan"],1],
+   ["Yang manakah kata adjektif sifat?",["merah","lembut","segi tiga"],1],
+   ["Surat itu dikirim ... Cikgu Ramlah. Kata sendi nama yang betul ialah ...",["kepada","di","ke"],0],
+   ["Baca: 'Pasukan bola sepak sekolah kami menang kerana semua pemain bekerjasama.' Mengapakah pasukan itu menang?",["kerana padang luas","kerana pemain bekerjasama","kerana hari hujan"],1],
+   ["Rima akhir pantun empat kerat biasanya ...",["a-b-a-b","a-a-b-b","a-b-c-d"],0],
+   ["Kek coklat ini manis macam ...",["madu","garam","cuka"],0],
+   ["Yang manakah kata tunggal?",["bermain","bola","sapu tangan"],1]
+  ],
+  bank:["mencuci","Marilah","mengaum","di","diletakkan"],
+  B:[
+   ["{_} kita pergi ke perpustakaan.","Marilah"],
+   ["Tong sampah itu {_} di tepi pintu kelas.","diletakkan"],
+   ["Harimau itu {_} dengan kuat di dalam hutan.","mengaum"],
+   ["Julaihi menjumpai wang {_} atas lantai kantin.","di"],
+   ["Abang {_} kereta ayah pada hari Ahad.","mencuci"]
+  ],
+  right:["sebatang","sebuah","sehelai","seutas","sebilah"],
+  C:[["pisau",4],["kereta",1],["kertas",2],["pokok",0],["jam tangan",3]],
+  D:[
+   ["Sajak berangkap mempunyai rangkap.",true],
+   ["'Ringan tulang' bermaksud malas.",false],
+   ["'di' dalam perkataan 'dibaca' ialah awalan dan ditulis rapat.",true],
+   ["Kata adjektif warna menerangkan bentuk sesuatu benda.",false],
+   ["Ayat yang bermula dengan 'Jangan' ialah ayat larangan.",true]
+  ],
+  E:[
+   ["Tuliskan dua kata tanya.","apa, siapa, bila, di mana, berapa, mengapa, bagaimana (mana-mana dua)"],
+   ["Baca: 'Komala menjumpai sebuah dompet di padang. Dia menyerahkan dompet itu kepada guru besar.' Apakah sikap baik Komala?","Jujur / amanah."],
+   ["Bina satu ayat menggunakan kata majmuk 'jam tangan'.","Jawapan munasabah, cth. Ayah memakai jam tangan baharu."],
+   ["Apakah antonim bagi 'awal'?","lewat / lambat"],
+   ["Susun semula menjadi ayat: 'di / membaca / Aidil / perpustakaan / buku'","Aidil membaca buku di perpustakaan."]
+  ]
+},
+{ id:8, place:"Lembah Imbuhan", bab:"Semua bab", sticker:{"e":"🗝️","n":"Kunci Imbuhan"},
+  A:[
+   ["Awalan meN- + ambil menjadi ...",["menambil","meambil","mengambil"],2],
+   ["Nenek memberikan saya ... sayur bayam.",["seikat","sebilah","seekor"],0],
+   ["Pilih kata nama khas yang ditulis dengan betul.",["Pulau Langkawi","pulau langkawi","Pulau langkawi"],0],
+   ["Amin dan Amar bermain di taman. ... sangat gembira.",["Mereka","Saya","Kamu"],0],
+   ["Kata adjektif ukuran dalam ayat 'Zirafah mempunyai leher yang panjang.' ialah ...",["panjang","zirafah","leher"],0],
+   ["Yang manakah ayat perintah jenis permintaan?",["Tolong ambilkan buku itu.","Jangan bising.","Buku itu tebal."],0],
+   ["Maksud 'seperti kacang lupakan kulit' ialah ...",["orang yang suka makan kacang","orang yang rajin","orang yang lupa asal usulnya"],2],
+   ["Baca: 'Setiap pagi, Pak Leman memberi makan ayam-ayamnya. Ayam-ayam itu bertelur setiap hari.' Apakah hasil ternakan Pak Leman?",["madu lebah","telur ayam","susu lembu"],1],
+   ["Yang manakah kata ganda berimbuhan?",["lalu-lalang","melambai-lambai","kanak-kanak"],1],
+   ["Perkataan yang bermaksud 'orang yang melukis' ialah ...",["melukis","lukisan","pelukis"],2]
+  ],
+  bank:["membersihkan","dengan","Mengapakah","secawan","pendek"],
+  B:[
+   ["Adik minum {_} susu sebelum tidur.","secawan"],
+   ["Saya mencuci tangan {_} sabun sebelum makan.","dengan"],
+   ["Guru menyuruh kami {_} kelas selepas waktu sekolah.","membersihkan"],
+   ["{_} kamu tidak makan sarapan tadi?","Mengapakah"],
+   ["Tali itu terlalu {_}. Ia tidak sampai ke tiang.","pendek"]
+  ],
+  right:["gemar","balik","hendak","berang","benar"],
+  C:[["marah",3],["suka",0],["mahu",2],["betul",4],["pulang",1]],
+  D:[
+   ["Perkataan 'menghantarkan' mempunyai awalan meN- dan akhiran -kan.",true],
+   ["'Sebatang' ialah penjodoh bilangan untuk kucing.",false],
+   ["Ayat penyata memberikan keterangan tentang sesuatu perkara.",true],
+   ["'Beliau' ialah kata ganti nama diri pertama.",false],
+   ["Kata majmuk terdiri daripada gabungan dua kata dasar atau lebih.",true]
+  ],
+  E:[
+   ["Tuliskan dua perkataan yang mempunyai akhiran -an.","cth. makanan, minuman, mainan, tulisan (mana-mana dua)"],
+   ["Baca: 'Adik jatuh ketika berlari di koridor. Lututnya luka.' Apakah pengajaran petikan ini?","Jawapan munasabah, cth. Jangan berlari di koridor / kita perlu berhati-hati."],
+   ["Apakah maksud simpulan bahasa 'anak emas'?","Orang yang paling disayangi (lebih daripada orang lain)."],
+   ["Bina satu ayat tanya menggunakan 'siapakah'.","Jawapan munasabah, cth. Siapakah nama guru kelas kamu?"],
+   ["Nyatakan dua kata adjektif bentuk.","bulat, lonjong, segi tiga, segi empat sama, silinder (mana-mana dua)"]
+  ]
+},
+{ id:9, place:"Sungai Cerita", bab:"Semua bab", sticker:{"e":"📚","n":"Rak Cerita"},
+  A:[
+   ["Yang manakah kata nama am bagi haiwan?",["arnab","Sang Kancil","Si Comel"],0],
+   ["Kakak memberikan ... limau kepada adik.",["sehelai","seulas","sebatang"],1],
+   ["Kata ganti nama diri 'engkau' merujuk kepada ...",["orang yang kita bercakap dengannya","orang yang tiada di situ","diri sendiri"],0],
+   ["Rumput di padang ... oleh tukang kebun.",["memotong","potongan","dipotong"],2],
+   ["Saya suka makan epal ... oren. Kata hubung yang sesuai ialah ...",["tetapi","dan","kerana"],1],
+   ["Kami mandi. ... , kami bersarapan. Penanda wacana yang sesuai ialah ...",["Selepas itu","Atau","Tetapi"],0],
+   ["Baca: 'Kok Bun menyertai persembahan tarian singa pada Tahun Baharu Cina.' Bilakah persembahan tarian singa itu?",["pada Tahun Baharu Cina","pada Deepavali","pada Hari Raya Aidilfitri"],0],
+   ["Perkataan yang menerangkan jarak ialah ...",["lambat","jauh","gembira"],1],
+   ["Lengkapkan: 'Rajin dan usaha tangga ...'",["kemalasan","kejayaan","kesedihan"],1],
+   ["Pola ayat 'Rumah itu besar.' ialah ...",["Frasa Nama + Frasa Kerja","Frasa Nama + Frasa Sendi Nama","Frasa Nama + Frasa Adjektif"],2]
+  ],
+  bank:["lembut","Negaraku","bendera","sawah","menangis"],
+  B:[
+   ["Kami menyanyikan lagu {_} setiap hari Isnin di sekolah.","Negaraku"],
+   ["Jalur Gemilang ialah nama {_} Malaysia.","bendera"],
+   ["Petani menanam padi di {_}.","sawah"],
+   ["Adik {_} kerana takut akan bunyi guruh.","menangis"],
+   ["Bulu anak kucing itu sangat {_}.","lembut"]
+  ],
+  right:["keluar","murah","kosong","lemah","gelap"],
+  C:[["masuk",0],["penuh",2],["mahal",1],["terang",4],["kuat",3]],
+  D:[
+   ["'Jalur Gemilang' ialah kata nama khas.",true],
+   ["Ayat 'Jangan bermain api.' ialah ayat ajakan.",false],
+   ["Kata ganda 'lalu-lalang' ialah gandaan berentak.",true],
+   ["Kata tanya 'berapa' digunakan untuk bertanya tentang bilangan atau harga.",true],
+   ["Perkataan 'terbesar' bermaksud besar dengan tidak sengaja.",false]
+  ],
+  E:[
+   ["Nyatakan satu cara kita menghormati rakan berlainan kaum.","Jawapan munasabah, cth. mengucapkan selamat pada hari perayaan mereka / berkawan dengan semua kaum."],
+   ["Baca: 'Hasan membantu seorang nenek melintas jalan. Nenek itu berterima kasih kepadanya.' Apakah yang dilakukan oleh Hasan?","Hasan membantu seorang nenek melintas jalan."],
+   ["Tuliskan dua kata kerja yang berawalan di-.","cth. dibaca, dimakan, dibawa, diambil (mana-mana dua)"],
+   ["Bina satu ayat menggunakan penanda wacana 'akhirnya'.","Jawapan munasabah, cth. Akhirnya, kami sampai di rumah nenek."],
+   ["Apakah sinonim bagi 'rajin'?","tekun / gigih"]
+  ]
+},
+{ id:10, place:"Istana Bahasa", bab:"Checkpoint · Semua bab", big:true, sticker:{"e":"🌟","n":"Bintang Bahasa"},
+  A:[
+   ["Yang manakah ayat yang ditulis dengan betul?",["kami melawat Muzium Negara.","Kami melawat Muzium Negara.","Kami melawat muzium negara."],1],
+   ["Datuk membelah buah durian dengan ... parang.",["sehelai","sebentuk","sebilah"],2],
+   ["Kata ganti nama diri ketiga dalam ayat 'Beliau guru besar sekolah kami.' ialah ...",["Beliau","kami","guru"],0],
+   ["Awalan meN- + pukul menjadi ...",["mempukul","memukul","menpukul"],1],
+   ["Yang manakah ayat majmuk?",["Adik menangis kerana lapar.","Adik lapar.","Adik menangis."],0],
+   ["Yang manakah BUKAN kata adjektif?",["berlari","cantik","tinggi"],0],
+   ["Aina dan Mei Ling sentiasa bersama-sama ...",["seperti kacang lupakan kulit","seperti cuka","bagai isi dengan kuku"],2],
+   ["Baca: 'Hujan turun dengan lebat. Air sungai naik lalu melimpah ke kampung.' Apakah yang berlaku kepada kampung itu?",["kering","dilanda banjir","terbakar"],1],
+   ["Perkataan 'pengunjung-pengunjung' bermaksud ...",["tempat melawat","seorang pengunjung","ramai pengunjung"],2],
+   ["'... cara membuat layang-layang?' Kata tanya yang sesuai ialah ...",["Bagaimanakah","Siapakah","Bilakah"],0]
+  ],
+  bank:["luas","tetapi","menanam","sehelai","berjimat"],
+  B:[
+   ["Kami {_} pokok di sekeliling sekolah pada Hari Alam Sekitar.","menanam"],
+   ["Dia pandai berenang, {_} adiknya belum pandai.","tetapi"],
+   ["Kita perlu {_} air supaya tidak membazir.","berjimat"],
+   ["Ibu membeli {_} kain batik di pasar.","sehelai"],
+   ["Taman permainan itu {_} dan bersih.","luas"]
+  ],
+  right:["rajin membuat kerja","tolong-menolong antara satu sama lain","orang yang sangat dikasihi","bijak mencari jalan menyelesaikan masalah","tidak pandai bermain bola sepak"],
+  C:[["ringan tulang",0],["kaki bangku",4],["buah hati",2],["seperti aur dengan tebing",1],["panjang akal",3]],
+  D:[
+   ["Kata dasar ialah perkataan yang belum menerima imbuhan.",true],
+   ["'Sapu tangan' ialah kata ganda.",false],
+   ["Akhiran -i dalam perkataan 'lawati' terletak di akhir perkataan.",true],
+   ["Ayat tanya mesti diakhiri dengan tanda seru.",false],
+   ["'Kita' ialah kata ganti nama diri kedua.",false]
+  ],
+  E:[
+   ["Tukarkan kepada ayat pasif: 'Elis menyapu sampah.'","Sampah disapu oleh Elis."],
+   ["Baca: 'Julaihi menjaga kebun sayur di belakang rumahnya. Dia menyiram dan membaja sayur itu setiap hari.' Nyatakan dua kerja yang dilakukan oleh Julaihi.","Menyiram dan membaja sayur."],
+   ["Tuliskan dua baris maksud dalam pantun ini: 'Masak kari si ikan kaci, / Potong bersegi sayur umbut; / Peralatan diri hendaklah suci, / Berus gigi dan sikat rambut.'","Peralatan diri hendaklah suci, / Berus gigi dan sikat rambut."],
+   ["Nyatakan dua jenis kata ganda dan berikan contoh.","cth. penuh (buku-buku), separa (pepohon), berentak (sayur-mayur), berimbuhan (bersama-sama) (mana-mana dua)"],
+   ["Bina satu ayat menggunakan kata adjektif warna.","Jawapan munasabah, cth. Kakak memakai baju kurung berwarna merah."]
+  ]
+}
+];
+const BM_FIX = {
+ 1:{"D2":"'Mereka' ialah kata ganti nama diri ketiga.","D4":"Penjodoh bilangan bagi kucing ialah seekor."},
+ 2:{"D3":"'Seperti kacang lupakan kulit' bermaksud orang yang lupa asal usulnya atau tidak mengenang budi.","D5":"Ayat tanya diakhiri dengan tanda soal."},
+ 3:{"D2":"Kata ganda 'buku-buku' ialah gandaan penuh.","D5":"Perkataan 'bersih' ialah kata adjektif."},
+ 4:{"D2":"Kata majmuk 'air terjun' ditulis terpisah.","D5":"'Kamu' ialah kata ganti nama diri kedua."},
+ 5:{"D2":"Perkataan 'pepohon' ialah kata ganda separa.","D4":"Pembayang maksud pantun terdapat pada baris pertama dan kedua."},
+ 6:{"D3":"Perkataan 'mainan' ialah contoh kata berimbuhan akhiran.","D5":"Tanda noktah digunakan di akhir ayat penyata."},
+ 7:{"D2":"'Ringan tulang' bermaksud rajin membuat kerja atau suka menolong.","D4":"Kata adjektif warna menerangkan warna sesuatu benda."},
+ 8:{"D2":"'Seekor' ialah penjodoh bilangan untuk kucing.","D4":"'Beliau' ialah kata ganti nama diri ketiga."},
+ 9:{"D2":"Ayat 'Jangan bermain api.' ialah ayat larangan.","D5":"Perkataan 'terbesar' bermaksud paling besar."},
+ 10:{"D2":"'Sapu tangan' ialah kata majmuk.","D4":"Ayat tanya mesti diakhiri dengan tanda soal.","D5":"'Kita' ialah kata ganti nama diri pertama."}
+};
+const BI_SETS = [
+{ id:1, place:"Word Park", bab:"Semua bab", sticker:{"e":"📕","n":"Word Book"},
+  A:[
+   ["Which day comes after Monday?",["Friday","Sunday","Tuesday"],2],
+   ["Where do we cook food? In the ...",["bedroom","bathroom","kitchen"],2],
+   ["Choose the correct sentence.",["She is wearing a skirt.","She are wearing a skirt.","She wearing is a skirt."],0],
+   ["I have got two ... . I walk with them.",["ears","legs","eyes"],1],
+   ["Choose the correct spelling.",["sandcastle","sancastle","sandcasle"],0],
+   ["On Sundays, I ... TV.",["watching","watch","watches"],1],
+   ["Read: \"Mia is at the beach. She is eating an ice cream. Her brother is looking for shells.\" What is Mia doing?",["swimming in the sea","looking for shells","eating an ice cream"],2],
+   ["Read: \"Tom has got a robot. The robot has got a big head and long arms.\" The robot's arms are ...",["small","long","short"],1],
+   ["Is there a bed in the bedroom? Yes, there ...",["are","is","am"],1],
+   ["A penguin lives in the ...",["polar region","desert","jungle"],0]
+  ],
+  bank:["bike","hands","jacket","photo","stairs"],
+  B:[
+   ["I ride my {_} on Fridays.","bike"],
+   ["Put on your {_}. It is cold outside.","jacket"],
+   ["We go up the {_} to the bedroom.","stairs"],
+   ["I can clap my {_}.","hands"],
+   ["Dad is taking a {_} of the sea.","photo"]
+  ],
+  right:["a big fish with sharp teeth","we wear them on our feet","the middle part of your leg","the room near the front door","the day after Saturday"],
+  C:[["hall",3],["socks",1],["knee",2],["shark",0],["Sunday",4]],
+  D:[
+   ["There are seven days in a week.",true],
+   ["We sleep in the bathroom.",false],
+   ["We wear a cap on our head.",true],
+   ["A camel lives in the ocean.",false],
+   ["We have got ten toes.",true]
+  ],
+  E:[
+   ["What do you do on Saturdays?","Any sensible answer, e.g. On Saturdays, I play football."],
+   ["Name two rooms in a house.","Any two: kitchen, bedroom, bathroom, living room, dining room, hall, cellar"],
+   ["What are you wearing today?","I'm wearing ... (any clothes, e.g. a T-shirt and trousers)"],
+   ["Write one thing you can do with your feet.","Any sensible answer, e.g. I can kick / run / jump / walk."],
+   ["Put the letters in order to make a word: s - e - h - o - s (you wear them on your feet)","shoes"]
+  ]
+},
+{ id:2, place:"Playtime Plaza", bab:"Semua bab", sticker:{"e":"⚽","n":"Football Star"},
+  A:[
+   ["How many days are there in a week?",["five","six","seven"],2],
+   ["What do you do on Mondays? I ... to school.",["goes","go","going"],1],
+   ["Choose the correct spelling.",["Wednesday","Wednesdey","Wensday"],0],
+   ["Jeans, skirt and shorts are ...",["rooms","animals","clothes"],2],
+   ["Which animal can fly?",["shark","parrot","goat"],1],
+   ["There ... three chairs in the dining room.",["am","is","are"],2],
+   ["Read: \"Sam likes Sundays. On Sundays, he plays tennis with his dad. Then he watches TV.\" Who does Sam play tennis with?",["his dad","his sister","his mum"],0],
+   ["The robot ... walk. It hasn't got legs.",["can't","is","can"],0],
+   ["What are they doing? They are ... a sandcastle.",["making","make","makes"],0],
+   ["Which word is a part of the body?",["hall","finger","sweater"],1]
+  ],
+  bank:["shoes","music","ride","cellar","camel"],
+  B:[
+   ["I {_} my bike in the park.","ride"],
+   ["The {_} is under the house. It is dark there.","cellar"],
+   ["I wear {_} on my feet.","shoes"],
+   ["The {_} lives in the desert.","camel"],
+   ["Dad is listening to {_}.","music"]
+  ],
+  right:["Yes, I can.","She's in the kitchen.","Yes, I do.","I'm painting a picture.","It's Tuesday."],
+  C:[["What day is it today?",4],["Do you like these socks?",2],["Where's Grandma?",1],["Can you swim?",0],["What are you doing?",3]],
+  D:[
+   ["Saturday and Sunday are the weekend.",true],
+   ["A shark lives in the desert.",false],
+   ["We have got three arms.",false],
+   ["We eat dinner in the bathroom.",false],
+   ["We can eat ice cream at the beach.",true]
+  ],
+  E:[
+   ["What is your favourite day? Why?","Any day with a reason, e.g. Saturday, because I play football."],
+   ["Name two free time activities.","Any two: play football, ride a bike, swim, watch TV, play the piano, play tennis, etc."],
+   ["Is there a TV in your living room?","Yes, there is. / No, there isn't."],
+   ["Write two things you wear when it is cold.","Any two: jacket, sweater, trousers, socks, jeans"],
+   ["Complete: one foot, two ...","feet"]
+  ]
+},
+{ id:3, place:"Old House Hill", bab:"Semua bab", sticker:{"e":"🏚️","n":"Old House"},
+  A:[
+   ["Where do we take a bath? In the ...",["kitchen","bathroom","hall"],1],
+   ["The room under the house is the ...",["bedroom","cellar","dining room"],1],
+   ["Is there a cat in the hall? No, there ...",["is","isn't","aren't"],1],
+   ["Are there any books on the table? Yes, there ...",["are","isn't","is"],0],
+   ["Read: \"Grandpa is in the living room. He is reading a book. Grandma is in the kitchen.\" Where is Grandma?",["in the garden","in the living room","in the kitchen"],2],
+   ["Choose the correct spelling.",["windo","window","wimdow"],1],
+   ["Which day comes before Friday?",["Tuesday","Thursday","Saturday"],1],
+   ["She is wearing red ... on her feet.",["shoes","cap","jacket"],0],
+   ["I've got ten ... on my hands.",["fingers","toes","knees"],0],
+   ["Look! The boy ... a fish.",["catch","is catching","are catching"],1]
+  ],
+  bank:["taking","head","shorts","do","parrot"],
+  B:[
+   ["A {_} lives in the jungle. It can fly and talk.","parrot"],
+   ["I {_} my homework on Tuesdays.","do"],
+   ["Put on your {_}. We are going to the beach.","shorts"],
+   ["Touch your {_}! It is at the top of your body.","head"],
+   ["Mum is {_} a photo of me.","taking"]
+  ],
+  right:["new","sad","short","small","down"],
+  C:[["big",3],["long",2],["old",0],["up",4],["happy",1]],
+  D:[
+   ["There are stairs in the old house.",true],
+   ["We cook in the bedroom.",false],
+   ["A polar bear lives in a cold place.",true],
+   ["Tuesday comes after Wednesday.",false],
+   ["We wear socks on our hands.",false]
+  ],
+  E:[
+   ["Where do you sleep?","I sleep in the bedroom."],
+   ["What is there in your kitchen? Write one thing.","There is a ... (e.g. fridge / table / cooker / sink)"],
+   ["Write a sentence with 'There are'.","Any correct sentence, e.g. There are four chairs in the dining room."],
+   ["What can you see at the beach? Write two things.","Any two: sea, sand, shells, fish, sandcastle, boat, sun"],
+   ["Write this sentence correctly: my name is ali","My name is Ali. (capital M, capital A, full stop)"]
+  ]
+},
+{ id:4, place:"Closet Corner", bab:"Semua bab", sticker:{"e":"👕","n":"Cool T-shirt"},
+  A:[
+   ["We wear a ... on our head.",["sock","skirt","cap"],2],
+   ["Do you like my T-shirt? Yes, I ...",["can","am","do"],2],
+   ["Do you like these shorts? No, I ...",["doesn't","don't","isn't"],1],
+   ["I like ... shoes. (more than one)",["a","these","this"],1],
+   ["Read: \"Ben is wearing a blue T-shirt and black shorts. His sister is wearing a pink skirt.\" What colour is Ben's T-shirt?",["pink","blue","black"],1],
+   ["Choose the correct spelling.",["jaket","jacket","jackit"],1],
+   ["Which one is NOT clothes?",["kitchen","skirt","trousers"],0],
+   ["On Wednesdays, I ... the piano.",["playing","plays","play"],2],
+   ["The robot has got two ... . It can hold a ball.",["knees","toes","hands"],2],
+   ["What is she doing? She is ... to music.",["listen","listening","listens"],1]
+  ],
+  bank:["shark","sweater","on","jeans","walk"],
+  B:[
+   ["Put {_} your socks.","on"],
+   ["Ali is wearing a warm {_}. It is cold today.","sweater"],
+   ["He is wearing a white shirt and grey {_}.","jeans"],
+   ["A {_} is a big fish with sharp teeth.","shark"],
+   ["My little brother can't {_} yet. He is only one.","walk"]
+  ],
+  right:["on your eyes","on your finger","on your feet","on your legs","on your body"],
+  C:[["shoes",2],["T-shirt",4],["trousers",3],["ring",1],["glasses",0]],
+  D:[
+   ["We wear socks inside our shoes.",true],
+   ["We have got three knees.",false],
+   ["Trousers and shorts are clothes for our legs.",true],
+   ["We wear shorts on our head.",false],
+   ["We have got two arms.",true]
+  ],
+  E:[
+   ["What clothes do you like?","I like ... (any clothes, e.g. I like my red T-shirt.)"],
+   ["What are you wearing now? Write one sentence.","I'm wearing ... (any clothes)"],
+   ["Answer: Do you like these shoes?","Yes, I do. / No, I don't."],
+   ["Write two things you wear to school.","Any two: shirt, trousers, skirt, shoes, socks, baju kurung, tie"],
+   ["Put the words in order: wearing / is / a / She / skirt","She is wearing a skirt."]
+  ]
+},
+{ id:5, place:"Robot Factory", bab:"Checkpoint · Semua bab", big:true, sticker:{"e":"🤖","n":"Super Robot"},
+  A:[
+   ["One foot, two ...",["foots","feets","feet"],2],
+   ["I've got two ... . I use them to listen.",["ears","eyes","toes"],0],
+   ["Read: \"This is Robo. Robo has got a square head and four arms. Robo can dance, but it can't swim.\" What can't Robo do?",["swim","talk","dance"],0],
+   ["Read: \"Lina likes Fridays. On Fridays, she goes swimming. On Saturdays, she rides her bike in the park.\" When does Lina ride her bike?",["on Saturdays","on Fridays","on Sundays"],0],
+   ["Choose the correct sentence.",["There are two bed in my bedroom.","There are two beds in my bedroom.","There is two beds in my bedroom."],1],
+   ["Choose the correct question.",["Are there a sofa in the hall?","Is there a sofa in the hall?","Is there sofa a in the hall?"],1],
+   ["What are you doing? I ... a picture.",["am painting","am paints","painting"],0],
+   ["Which word starts with the 'sk' sound?",["shoes","socks","skirt"],2],
+   ["Which word does NOT belong: jacket, jeans, kitchen, shorts?",["kitchen","jeans","shorts"],0],
+   ["Which sentence has the correct capital letters and full stop?",["On Mondays, i go to school","on mondays, I go to school.","On Mondays, I go to school."],2]
+  ],
+  bank:["dining","sweater","knees","looking","Tuesday"],
+  B:[
+   ["We eat lunch in the {_} room.","dining"],
+   ["The children are {_} for shells on the beach.","looking"],
+   ["Monday, {_}, Wednesday.","Tuesday"],
+   ["Bend your {_} and jump!","knees"],
+   ["It's cold. Put on your {_}.","sweater"]
+  ],
+  right:["I watch TV.","No, I'm not.","Yes, it has.","Yes, there is.","She's wearing a dress."],
+  C:[["Has the robot got legs?",2],["Is there a bath in the bathroom?",3],["What's she wearing?",4],["What do you do on Sundays?",0],["Are you eating ice cream?",1]],
+  D:[
+   ["We have got ten toes and ten fingers.",true],
+   ["'Is there a bed?' — 'Yes, there are.' is correct.",false],
+   ["'Put on your cap' is an instruction.",true],
+   ["'I can swims' is correct.",false],
+   ["A penguin can swim.",true]
+  ],
+  E:[
+   ["Think of a robot. Write two sentences about it.","Any two correct sentences, e.g. My robot has got a big head. It can dance."],
+   ["Write two things you can do and one thing you can't do.","Any sensible answers: I can ... / I can't ..."],
+   ["What is there in your bedroom? Write two things.","Any two, e.g. There is a bed. There is a lamp. There are pillows."],
+   ["What are the children doing at the beach? Write one sentence.","Any sensible answer, e.g. They are making a sandcastle."],
+   ["Write the two days of the weekend.","Saturday, Sunday"]
+  ]
+},
+{ id:6, place:"Sunny Beach", bab:"Semua bab", sticker:{"e":"🏖️","n":"Sandcastle"},
+  A:[
+   ["At the beach, we can look for ...",["stairs","shells","socks"],1],
+   ["Look at Dad! He is ... a fish.",["catches","catching","catch"],1],
+   ["Are you listening to music? Yes, I ...",["am","is","do"],0],
+   ["Read: \"It is Sunday. Aina and her mum are at the beach. Aina is making a sandcastle. Mum is reading a book.\" What is Mum doing?",["swimming","making a sandcastle","reading a book"],2],
+   ["Choose the correct spelling.",["photo","foto","phote"],0],
+   ["Which day is at the weekend?",["Monday","Thursday","Saturday"],2],
+   ["Where do we watch TV? In the ...",["living room","bathroom","cellar"],0],
+   ["It's hot today. Put on your ...",["jacket","shorts","sweater"],1],
+   ["I kick a ball with my ...",["finger","belly","foot"],2],
+   ["This bird is black and white. It can swim but it can't fly. It is a ...",["goat","penguin","parrot"],1]
+  ],
+  bank:["sit","eat","cap","play","skirt"],
+  B:[
+   ["We {_} ice cream at the beach.","eat"],
+   ["I {_} tennis on Thursdays.","play"],
+   ["We {_} on the sand and look at the sea.","sit"],
+   ["My sister is wearing a pink {_}.","skirt"],
+   ["I wear a {_} on my head when it is sunny.","cap"]
+  ],
+  right:["a castle made of sand","it is hot and yellow in the sky","it moves on the water","big blue water at the beach","the hard home of a small sea animal"],
+  C:[["sandcastle",0],["shell",4],["boat",2],["sea",3],["sun",1]],
+  D:[
+   ["We can make a sandcastle with sand.",true],
+   ["'I is swimming' is correct.",false],
+   ["A parrot lives in the sea.",false],
+   ["Monday comes after Sunday.",true],
+   ["We wear a sweater when it is hot.",false]
+  ],
+  E:[
+   ["What do you like to do at the beach?","I like to ... (e.g. swim, make sandcastles, look for shells)"],
+   ["Write the sentence: He / swim / now","He is swimming now."],
+   ["What do you do on Sundays?","On Sundays, I ... (any sensible activity)"],
+   ["Name two animals that live in the sea.","Any two: shark, jellyfish, fish, crab, turtle"],
+   ["Fill in the missing letters: s _ n d c _ s t l e","sandcastle (a, a)"]
+  ]
+},
+{ id:7, place:"Animal Island", bab:"Semua bab", sticker:{"e":"🐧","n":"Penguin Pal"},
+  A:[
+   ["A camel lives in the ...",["ocean","polar region","desert"],2],
+   ["Which animal lives in the ocean?",["horse","camel","shark"],2],
+   ["A polar bear lives in a place that is ...",["green and rainy","hot and sandy","cold and snowy"],2],
+   ["Read: \"Pip is a parrot. He lives in the jungle. He is green and red. He can fly and he can talk!\" Where does Pip live?",["in the sea","in the jungle","in the desert"],1],
+   ["Choose the correct spelling.",["basketball","basketbal","baskitball"],0],
+   ["Is there a cow on the farm? Yes, ...",["it are","there are","there is"],2],
+   ["What does she do on Thursdays? She ... tennis.",["playing","plays","play"],1],
+   ["He's wearing a jacket ... a cap.",["and","but","or"],0],
+   ["Which part of the body do we use to see?",["ears","eyes","knees"],1],
+   ["Look! They ... photos of the animals.",["are taking","takes","is taking"],0]
+  ],
+  bank:["cooks","socks","jellyfish","paint","goat"],
+  B:[
+   ["A {_} lives in the sea. It is soft and you can see through it.","jellyfish"],
+   ["A {_} lives on a farm and eats grass. It gives us milk.","goat"],
+   ["In the morning, I put on my {_} before my shoes.","socks"],
+   ["We {_} a picture in art class.","paint"],
+   ["My mum {_} in the kitchen.","cooks"]
+  ],
+  right:["It's Friday.","He's in the hall.","It's a shell.","No, I don't.","I've got a new robot."],
+  C:[["What's this?",2],["What day is it?",0],["Where's Dad?",1],["Do you like this cap?",3],["What have you got?",4]],
+  D:[
+   ["A penguin lives in a hot place.",false],
+   ["Horses live on a farm.",true],
+   ["We use our ears to listen.",true],
+   ["'I has got a cat' is correct.",false],
+   ["Jeans are clothes for our legs.",true]
+  ],
+  E:[
+   ["What animal do you like? Where does it live?","Any animal with a sensible home, e.g. I like sharks. They live in the ocean."],
+   ["What does your mum or dad do on Sundays?","Any sensible answer, e.g. My dad plays badminton."],
+   ["Write one sentence about your best friend.","Any correct sentence, e.g. My best friend is Adam. He can run fast."],
+   ["What are you doing now?","I'm ... (e.g. I'm reading. / I'm doing my homework.)"],
+   ["Fill in the missing letters: j _ c k _ t","jacket (a, e)"]
+  ]
+},
+{ id:8, place:"Shell Bay", bab:"Semua bab", sticker:{"e":"🐚","n":"Sea Shell"},
+  A:[
+   ["Today is ... . Tomorrow is Saturday.",["Friday","Sunday","Monday"],0],
+   ["I ... my bike on Sundays.",["rides","riding","ride"],2],
+   ["Read: \"My house has got two floors. There is a kitchen and a living room downstairs. There are three bedrooms upstairs.\" How many bedrooms are there?",["two","three","one"],1],
+   ["Where is the bath? It's in the ...",["living room","dining room","bathroom"],2],
+   ["Choose the correct spelling.",["picsure","picture","pikture"],1],
+   ["Choose the correct sentence.",["He wearing a red cap.","He's wear a red cap.","He's wearing a red cap."],2],
+   ["Point to your ... . It is in the middle of your leg.",["knee","finger","arm"],0],
+   ["The robot ... got a big head.",["is","has","have"],1],
+   ["What is he doing? He's ... ice cream.",["eats","eat","eating"],2],
+   ["Which word starts with the 'sp' sound?",["stairs","sweater","spider"],2]
+  ],
+  bank:["sofa","look","toes","sister","swimming"],
+  B:[
+   ["Let's go {_} at the pool on Sunday.","swimming"],
+   ["Grandma is sitting on the {_} in the living room.","sofa"],
+   ["My {_} are on my feet. I've got ten.","toes"],
+   ["I like to {_} for shells.","look"],
+   ["My {_} is wearing a pink dress. She is five.","sister"]
+  ],
+  right:["slow","night","cold","short","dry"],
+  C:[["fast",0],["hot",2],["day",1],["wet",4],["tall",3]],
+  D:[
+   ["There are seven days in a week and two days in the weekend.",true],
+   ["A kitchen is for sleeping.",false],
+   ["We can listen to music with our ears.",true],
+   ["'They is playing' is correct.",false],
+   ["We can find shells at the beach.",true]
+  ],
+  E:[
+   ["Which room do you like in your house? Why?","Any room with a reason, e.g. My bedroom, because I can read there."],
+   ["Write two things there are in your living room.","Any two: sofa, TV, table, chairs, lamp, carpet"],
+   ["Complete: A robot has got ...","Any sensible body parts, e.g. a head, two arms and two legs."],
+   ["Write one sentence about your weekend.","Any correct sentence, e.g. On Saturdays, I go to the park."],
+   ["Write this sentence correctly: i like sundays","I like Sundays. (capital I, capital S, full stop)"]
+  ]
+},
+{ id:9, place:"Rainbow Library", bab:"Semua bab", sticker:{"e":"🌈","n":"Rainbow Reader"},
+  A:[
+   ["Monday, Tuesday, ..., Thursday",["Sunday","Friday","Wednesday"],2],
+   ["Do you play the piano on Fridays? No, I ...",["don't","not","doesn't"],0],
+   ["Read: \"Kiki is a robot. She has got a round head, two big eyes and wheels. She can't jump, but she can sing.\" What can Kiki do?",["sing","fly","jump"],0],
+   ["The cat is ... the bed. (It is below the bed.)",["on","under","in"],1],
+   ["We eat our meals in the ...",["cellar","bathroom","dining room"],2],
+   ["Choose the correct spelling.",["jelyfish","jellyfisch","jellyfish"],2],
+   ["Mum is wearing a long ...",["sock","cap","skirt"],2],
+   ["Look! She ... a picture of the sea.",["paint","is painting","are painting"],1],
+   ["Which word means more than one?",["cap","socks","sock"],1],
+   ["Choose the correct question.",["What you do on Saturdays?","What do you on Saturdays?","What do you do on Saturdays?"],2]
+  ],
+  bank:["fingers","sweater","TV","stairs","listen"],
+  B:[
+   ["My brother and I watch {_} after dinner.","TV"],
+   ["Grandpa is going down the {_} to the cellar.","stairs"],
+   ["Wiggle your {_}! You have got ten on your hands.","fingers"],
+   ["I wear a warm {_} when it is cold.","sweater"],
+   ["Please {_} to the song.","listen"]
+  ],
+  right:["I've got two legs.","He's catching a fish.","It's Saturday.","No, there isn't.","Yes, I do."],
+  C:[["How many legs have you got?",0],["What's your favourite day?",2],["Is there a car in the kitchen?",3],["What's he doing?",1],["Do you like these shorts?",4]],
+  D:[
+   ["'Put on your shoes' is an instruction.",true],
+   ["A robot is a machine.",true],
+   ["We say 'two foot'.",false],
+   ["Thursday comes after Friday.",false],
+   ["A bathroom is for cooking.",false]
+  ],
+  E:[
+   ["Describe your school bag in one sentence.","Any sentence with a describing word, e.g. My bag is big and blue."],
+   ["Can you ride a bike? Answer in a full sentence.","Yes, I can. / No, I can't. (also accept: I can ride a bike.)"],
+   ["What do you do on Mondays?","Any sensible answer, e.g. On Mondays, I go to school."],
+   ["Write three clothes in your cupboard.","Any three clothes, e.g. shirt, jeans, jacket"],
+   ["Put the words in order: is / reading / Grandpa / a book","Grandpa is reading a book."]
+  ]
+},
+{ id:10, place:"Champion Castle", bab:"Checkpoint · Semua bab", big:true, sticker:{"e":"🏆","n":"English Champion"},
+  A:[
+   ["Read: \"Hi! I'm Zara. On Mondays, I go to school. On Wednesdays, I play badminton. On Saturdays, I visit my grandma. My favourite day is Saturday.\" What does Zara do on Wednesdays?",["She plays badminton.","She visits her grandma.","She goes to the beach."],0],
+   ["Read the text about Zara again. What is Zara's favourite day?",["Saturday","Monday","Wednesday"],0],
+   ["Choose the correct sentence.",["There is three shells in the bucket.","There are three shell in the bucket.","There are three shells in the bucket."],2],
+   ["'Is Dad in the kitchen?' 'Yes, ...'",["she is","he is","it is"],1],
+   ["Choose the correct sentence.",["These socks is blue.","This socks are blue.","These socks are blue."],2],
+   ["Choose the correct spelling.",["Thurday","Thersday","Thursday"],2],
+   ["The robot has got long arms, ... it can't walk.",["or","but","and"],1],
+   ["Which word does NOT belong: bedroom, kitchen, parrot, hall?",["parrot","hall","kitchen"],0],
+   ["A boy is holding a camera at the beach. What is he doing?",["He's catching a fish.","He's taking a photo.","He's eating ice cream."],1],
+   ["Which question is written correctly?",["Can you swim?","can you swim?","Can you swim."],0]
+  ],
+  bank:["jacket","camel","cellar","song","kick"],
+  B:[
+   ["We keep old things in the {_} under the house.","cellar"],
+   ["Grandma is wearing a warm {_} and a scarf.","jacket"],
+   ["I can {_} a ball with my foot.","kick"],
+   ["A {_} lives in the desert.","camel"],
+   ["We sing a {_} in music class.","song"]
+  ],
+  right:["a machine that can move","Saturday and Sunday","a big fish with sharp teeth","a hat for sunny days","the fingers on your feet"],
+  C:[["weekend",1],["toes",4],["cap",3],["shark",2],["robot",0]],
+  D:[
+   ["We say 'I am eating' and 'She is eating'.",true],
+   ["Sunday comes before Saturday.",false],
+   ["A penguin lives in the jungle.",false],
+   ["A jellyfish lives in the sea.",true],
+   ["'I've got two feet' is correct.",true]
+  ],
+  E:[
+   ["Write two sentences about your favourite day.","Any two correct sentences, e.g. My favourite day is Sunday. On Sundays, I ride my bike."],
+   ["Write two sentences about your house. Use 'There is' and 'There are'.","e.g. There is a kitchen. There are three bedrooms."],
+   ["What is your friend wearing today? Write one sentence.","He's / She's wearing ... (any clothes)"],
+   ["Write one thing a robot can do and one thing it can't do.","e.g. It can walk. It can't swim. (any sensible answer)"],
+   ["Your family is at the beach. What is one person doing? Write one sentence.","e.g. My dad is swimming. / My sister is making a sandcastle."]
+  ]
+}
+];
+const BI_FIX = {
+ 1:{"D2":"We sleep in the bedroom.","D4":"A camel lives in the desert."},
+ 2:{"D2":"A shark lives in the sea.","D3":"We have got two arms.","D4":"We eat dinner in the dining room."},
+ 3:{"D2":"We cook in the kitchen.","D4":"Tuesday comes before Wednesday.","D5":"We wear socks on our feet."},
+ 4:{"D2":"We have got two knees.","D4":"We wear shorts on our legs."},
+ 5:{"D2":"The correct answer is 'Yes, there is.'","D4":"'I can swim' is correct."},
+ 6:{"D2":"'I am swimming' is correct.","D3":"A parrot lives in the jungle.","D5":"We wear shorts or a T-shirt when it is hot."},
+ 7:{"D1":"A penguin lives in a cold place.","D4":"'I have got a cat' is correct."},
+ 8:{"D2":"A bedroom is for sleeping. A kitchen is for cooking.","D4":"'They are playing' is correct."},
+ 9:{"D3":"We say 'two feet'.","D4":"Thursday comes before Friday.","D5":"A kitchen is for cooking."},
+ 10:{"D2":"Sunday comes after Saturday.","D3":"A penguin lives in a cold place (the polar region)."}
+};
+const MAT_SETS = [
+{ id:1, place:"Bukit Sifir", bab:"Semua bab", sticker:{"e":"🔢","n":"Bintang Sifir"},
+  A:[
+   ["Nilai digit 4 dalam nombor 548 ialah ...",["40","4","400"],0],
+   ["Bundarkan 263 kepada puluh terdekat.",["260","270","300"],0],
+   ["356 + 128 = ...",["474","384","484"],2],
+   ["5 × 4 = ...",["20","25","9"],0],
+   ["Sebiji kek dibahagi kepada 8 bahagian sama besar. 3 bahagian berlorek. Pecahan bahagian berlorek ialah ...",["5/8","8/3","3/8"],2],
+   ["Ali ada RM50. Dia membeli sebuah buku berharga RM18. Berapakah baki wangnya?",["RM32","RM68","RM42"],0],
+   ["1 jam = ... minit",["100","30","60"],2],
+   ["Unit yang sesuai untuk menyukat isi padu air dalam sebiji cawan ialah ...",["mililiter","gram","sentimeter"],0],
+   ["Bentuk 3D yang mempunyai 6 muka rata berbentuk segi empat sama ialah ...",["kuboid","silinder","kubus"],2],
+   ["Carta palang menunjukkan buah kegemaran murid: Epal 6 orang, Pisang 9 orang, Oren 4 orang. Buah manakah paling digemari?",["Oren","Pisang","Epal"],1]
+  ],
+  bank:["tiga","150","lima","24","kilogram"],
+  B:[
+   ["Nombor 705 dibaca tujuh ratus {_}.","lima"],
+   ["Sebuah segi tiga mempunyai {_} sisi.","tiga"],
+   ["Dalam 1 hari ada {_} jam.","24"],
+   ["Pola nombor: 120, 130, 140, {_}, 160.","150"],
+   ["Jisim sebiji tembikai lebih sesuai diukur dalam {_}.","kilogram"]
+  ],
+  right:["345","1 muka rata dan 1 muka melengkung","RM17","satu perdua","15"],
+  C:[["3 ratus 4 puluh 5",0],["½",3],["5 × 3",4],["kon",1],["RM10 + RM5 + RM2",2]],
+  D:[
+   ["48 + 25 = 73",true],
+   ["Nombor 609 lebih besar daripada 690.",false],
+   ["Bulatan tidak mempunyai bucu.",true],
+   ["0.7 sama dengan 7/10.",true],
+   ["Jarum panjang pada muka jam menunjukkan jam.",false]
+  ],
+  E:[
+   ["Tulis 800 + 30 + 6 sebagai satu nombor.","836"],
+   ["Siti ada 12 biji gula-gula. Dia membahagikannya sama banyak kepada 4 orang kawan. Berapa biji gula-gula yang setiap kawan dapat?","3 biji (12 ÷ 4 = 3)"],
+   ["Nyatakan dua cara mengumpul data.","Temu bual (bertanya), pemerhatian, soal selidik / senarai semak (mana-mana dua)"],
+   ["Tulis waktu 'pukul 7 dan 20 minit' dalam angka.","7:20"],
+   ["Beri satu contoh keperluan dan satu contoh kehendak.","Keperluan: makanan / pakaian / buku sekolah. Kehendak: mainan / permainan video / gula-gula (jawapan munasabah)"]
+  ]
+},
+{ id:2, place:"Pasar Ringgit", bab:"Semua bab", sticker:{"e":"💰","n":"Syiling Emas"},
+  A:[
+   ["Nombor 'enam ratus lapan' ditulis sebagai ...",["680","608","6008"],1],
+   ["Nombor manakah paling besar?",["907","799","970"],2],
+   ["742 − 318 = ...",["1060","424","436"],1],
+   ["3 × 10 = ...",["13","310","30"],2],
+   ["Antara 1/3, 1/5 dan 1/8, pecahan yang paling besar ialah ...",["1/5","1/8","1/3"],2],
+   ["Harga sebatang pen ialah RM3. Berapakah harga 5 batang pen?",["RM15","RM35","RM8"],0],
+   ["Jarum pendek menunjuk di antara 4 dan 5. Jarum panjang menunjuk ke 6. Waktunya ialah ...",["6:20","4:06","4:30"],2],
+   ["Sebatang pembaris sekolah panjangnya 30 ...",["meter","kilogram","sentimeter"],2],
+   ["Bentuk 2D manakah mempunyai 3 sisi dan 3 bucu?",["segi empat tepat","segi tiga","bulatan"],1],
+   ["Carta palang menunjukkan buku yang didermakan: Kelas 2A 15 buah, 2B 20 buah, 2C 10 buah. Kelas manakah menderma paling sedikit?",["2B","2A","2C"],2]
+  ],
+  bank:["60","8","simpanan","9","puluh"],
+  B:[
+   ["Dalam nombor 381, digit 8 berada di tempat {_}.","puluh"],
+   ["Satu jam ada {_} minit.","60"],
+   ["Sebuah kuboid mempunyai {_} bucu.","8"],
+   ["18 ÷ 2 = {_}","9"],
+   ["Wang yang tidak dibelanjakan boleh dimasukkan ke dalam tabung sebagai {_}.","simpanan"]
+  ],
+  right:["2 muka rata dan 1 muka melengkung","20","100 sen","420","0.2"],
+  C:[["4 ratus 2 puluh",3],["2/10",4],["RM1",2],["silinder",0],["4 × 5",1]],
+  D:[
+   ["1/2 lebih besar daripada 1/4.",true],
+   ["275 dibundarkan kepada ratus terdekat ialah 200.",false],
+   ["Piramid tapak segi empat sama mempunyai 5 bucu.",true],
+   ["Jisim diukur dalam liter.",false],
+   ["RM20 + RM35 = RM55",true]
+  ],
+  E:[
+   ["Tulis nombor 469 dalam perkataan.","empat ratus enam puluh sembilan"],
+   ["Mei Ling ada 24 biji guli. Dia memberi 9 biji kepada adiknya. Berapa biji guli yang tinggal?","15 biji (24 − 9 = 15)"],
+   ["Tulis waktu 'pukul 11 dan 15 minit' dalam angka.","11:15"],
+   ["Namakan dua objek di rumah yang berbentuk kuboid.","Kotak, almari, buku, bata, peti ais (jawapan munasabah, mana-mana dua)"],
+   ["Tulis tiga nombor seterusnya: 200, 300, 400, ...","500, 600, 700"]
+  ]
+},
+{ id:3, place:"Menara Jam", bab:"Semua bab", sticker:{"e":"⏰","n":"Jam Ajaib"},
+  A:[
+   ["Cerakinan bagi 527 ialah ...",["50 + 20 + 7","500 + 2 + 7","500 + 20 + 7"],2],
+   ["Nombor sebelum 400 ialah ...",["401","399","300"],1],
+   ["215 + 340 + 125 = ...",["580","670","680"],2],
+   ["20 ÷ 5 = ...",["25","15","4"],2],
+   ["0.5 sama nilai dengan ...",["5/10","1/5","5"],0],
+   ["Aminah membeli sebuah buku berharga RM12 dan sebatang pensel berharga RM3. Berapakah jumlah harganya?",["RM123","RM15","RM9"],1],
+   ["Waktu 'pukul 2 dan 45 minit' ditulis sebagai ...",["4:25","2:40","2:45"],2],
+   ["Isi padu air dalam sebuah baldi lebih sesuai disukat dalam ...",["liter","mililiter","sentimeter"],0],
+   ["Bentuk 3D manakah boleh bergolek?",["piramid tapak segi empat sama","kubus","silinder"],2],
+   ["Cara mengumpul data dengan bertanya soalan kepada rakan dipanggil ...",["carta palang","temu bual","pemerhatian"],1]
+  ],
+  bank:["ratus","16","jam","bulatan","100"],
+  B:[
+   ["Dalam nombor 690, digit 6 berada di tempat {_}.","ratus"],
+   ["4 × 4 = {_}","16"],
+   ["Bentuk 2D yang tiada sisi lurus ialah {_}.","bulatan"],
+   ["Jarum pendek pada muka jam menunjukkan {_}.","jam"],
+   ["RM50 + RM50 = RM{_}","100"]
+  ],
+  right:["709","6 muka segi empat sama","0","24 jam","0.3"],
+  C:[["7 ratus 9",0],["3/10",4],["kubus",1],["1 hari",3],["2 × 0",2]],
+  D:[
+   ["8 × 1 = 8",true],
+   ["Nombor 850 dibaca lapan ratus lima.",false],
+   ["RM100 − RM45 = RM55",true],
+   ["Kilogram digunakan untuk mengukur panjang.",false],
+   ["Palang yang paling tinggi dalam carta palang menunjukkan bilangan yang paling banyak.",true]
+  ],
+  E:[
+   ["Bundarkan 648 kepada ratus terdekat.","600"],
+   ["Sebuah dulang ada 5 baris telur. Setiap baris ada 3 biji telur. Berapakah jumlah telur?","15 biji (5 × 3 = 15)"],
+   ["Susun pecahan ini dari yang paling kecil: 3/8, 1/8, 5/8.","1/8, 3/8, 5/8"],
+   ["Pak Ali menjual 3 biji durian. Harga sebiji durian RM10. Berapakah jumlah wang yang diterimanya?","RM30 (3 × RM10)"],
+   ["Nyatakan dua perbezaan antara kubus dan silinder.","Kubus ada bucu, silinder tiada bucu; kubus ada 6 muka rata, silinder ada muka melengkung; silinder boleh bergolek, kubus tidak (mana-mana dua)"]
+  ]
+},
+{ id:4, place:"Taman Pecahan", bab:"Semua bab", sticker:{"e":"🍕","n":"Piza Pecahan"},
+  A:[
+   ["Nilai digit 7 dalam nombor 173 ialah ...",["70","7","700"],0],
+   ["Pola nombor: 505, 510, 515, ..., 525. Nombor yang tertinggal ialah ...",["516","530","520"],2],
+   ["900 − 457 = ...",["453","443","557"],1],
+   ["Sebuah kereta ada 4 roda. Berapakah jumlah roda bagi 6 buah kereta?",["24","20","10"],0],
+   ["Sebiji piza dipotong kepada 6 bahagian sama besar. Abu makan 1 bahagian. Pecahan piza yang dimakan oleh Abu ialah ...",["6/1","1/6","5/6"],1],
+   ["50 sen + 20 sen + 10 sen = ...",["RM8","70 sen","80 sen"],2],
+   ["2 hari = ... jam",["48","24","120"],0],
+   ["Jisim sebiji tembikai lebih kurang 3 ...",["liter","kilogram","gram"],1],
+   ["Bentangan yang terdiri daripada 6 segi empat sama akan membentuk sebuah ...",["kubus","kon","silinder"],0],
+   ["Carta palang menunjukkan bilangan pen: Biru 8 batang, Merah 5 batang, Hitam 7 batang. Berapakah jumlah semua pen?",["13","20","15"],1]
+  ],
+  bank:["panjang","pemerhatian","4","0.7","1000"],
+  B:[
+   ["999 + 1 = {_}","1000"],
+   ["Pecahan 7/10 ditulis dalam perpuluhan sebagai {_}.","0.7"],
+   ["Segi empat tepat mempunyai {_} bucu.","4"],
+   ["Mengumpul data dengan melihat dan mencatat dipanggil {_}.","pemerhatian"],
+   ["Minit ditunjukkan oleh jarum {_}.","panjang"]
+  ],
+  right:["610","5 muka rata","7","RM20","satu perempat"],
+  C:[["6 ratus 1 puluh",0],["1/4",4],["RM5 × 4",3],["35 ÷ 5",2],["piramid tapak segi empat sama",1]],
+  D:[
+   ["1/3 lebih besar daripada 1/2.",false],
+   ["0.4 lebih besar daripada 0.2.",true],
+   ["63 + 29 = 92",true],
+   ["Silinder mempunyai 8 bucu.",false],
+   ["Susu dalam kotak kecil boleh disukat dalam mililiter.",true]
+  ],
+  E:[
+   ["Tulis 'sembilan ratus dua belas' dalam angka.","912"],
+   ["Ibu membeli 3 bungkus kuih. Harga sebungkus RM2. Ibu membayar dengan RM10. Berapakah baki wangnya?","RM4 (3 × RM2 = RM6; RM10 − RM6 = RM4)"],
+   ["Namakan bentuk 2D yang mempunyai 4 sisi yang sama panjang.","segi empat sama"],
+   ["Sebuah bentuk dibahagi kepada 5 bahagian sama besar. 2 bahagian berlorek. Tulis pecahan bagi bahagian berlorek.","2/5"],
+   ["Nyatakan unit yang sesuai untuk mengukur panjang sebuah meja.","sentimeter (cm) atau meter (m)"]
+  ]
+},
+{ id:5, place:"Kota Seribu", bab:"Checkpoint · Semua bab", big:true, sticker:{"e":"🏆","n":"Piala Separuh Jalan"},
+  A:[
+   ["Nombor manakah menjadi 450 apabila dibundarkan kepada puluh terdekat?",["455","443","447"],2],
+   ["Susun 581, 518, 815 dari yang paling kecil. Nombor di tengah ialah ...",["815","518","581"],2],
+   ["268 + 175 + 309 = ...",["752","742","652"],0],
+   ["Ada 40 biji limau. Limau itu dimasukkan sama banyak ke dalam 5 bakul. Berapa biji limau dalam setiap bakul?",["35","45","8"],2],
+   ["Antara berikut, yang manakah paling besar?",["3/10","0.9","0.6"],1],
+   ["Kamal ada RM80. Dia membeli kasut RM35 dan baju RM28. Berapakah baki wangnya?",["RM17","RM27","RM63"],0],
+   ["3 jam = ... minit",["36","180","90"],1],
+   ["Panjang sebatang pensel lebih kurang ...",["15 cm","15 m","15 kg"],0],
+   ["Bentuk 3D yang mempunyai 5 muka rata, 5 bucu dan 8 tepi ialah ...",["kon","piramid tapak segi empat sama","kuboid"],1],
+   ["Carta palang menunjukkan kehadiran murid ke perpustakaan: Isnin 12, Selasa 18, Rabu 15. Berapa orang murid lebih pada hari Selasa berbanding hari Isnin?",["6","3","30"],0]
+  ],
+  bank:["48","12","30","35","tepat"],
+  B:[
+   ["Nilai digit 3 dalam nombor 438 ialah {_}.","30"],
+   ["7 × 5 = {_}","35"],
+   ["Bentuk 2D yang mempunyai 4 sisi dengan sisi bertentangan sama panjang ialah segi empat {_}.","tepat"],
+   ["1 hari ada 24 jam. Jadi, 2 hari ada {_} jam.","48"],
+   ["Sebuah kuboid mempunyai {_} tepi.","12"]
+  ],
+  right:["956","9","RM15","empat persepuluh","isi padu cecair"],
+  C:[["9 ratus 5 puluh 6",0],["4/10",3],["RM3 × 5",2],["liter",4],["45 ÷ 5",1]],
+  D:[
+   ["RM45 + RM38 = RM73",false],
+   ["2/7 lebih kecil daripada 5/7.",true],
+   ["Kon mempunyai satu muka rata.",true],
+   ["705 − 298 = 407",true],
+   ["350 dibundarkan kepada ratus terdekat ialah 300.",false]
+  ],
+  E:[
+   ["Tulis nombor tiga digit yang paling besar menggunakan digit 4, 9 dan 2.","942"],
+   ["Seorang peniaga ada 500 biji telur. Dia menjual 185 biji pada waktu pagi dan 120 biji pada waktu petang. Berapa biji telur yang tinggal?","195 biji (500 − 185 − 120 = 195)"],
+   ["Liza ada RM20. Dia mahu membeli 4 buah buku cerita. Harga sebuah buku RM6. Adakah wangnya cukup? Terangkan.","Tidak cukup. 4 × RM6 = RM24, lebih daripada RM20 (kurang RM4)."],
+   ["Jarum pendek berada di antara 8 dan 9. Jarum panjang menunjuk ke 3. Tulis waktu itu dalam angka.","8:15"],
+   ["Carta palang menunjukkan sukan kegemaran: Bola sepak 10 orang, Badminton 8 orang, Renang 6 orang. Berapakah jumlah murid?","24 orang (10 + 8 + 6)"]
+  ]
+},
+{ id:6, place:"Jambatan Pembaris", bab:"Semua bab", sticker:{"e":"📏","n":"Pembaris Ajaib"},
+  A:[
+   ["Nombor 1000 dibaca ...",["seribu","seratus","sepuluh ribu"],0],
+   ["Bundarkan 781 kepada ratus terdekat.",["780","700","800"],2],
+   ["463 − 185 = ...",["288","322","278"],2],
+   ["3 × 6 = ...",["18","16","9"],0],
+   ["Antara berikut, yang manakah sama nilai dengan 0.6?",["6/10","6","1/6"],0],
+   ["Sebuah kotak pensel berharga RM8.50. Ain membayar RM10. Berapakah wang bakinya?",["RM2.50","RM1.50","RM18.50"],1],
+   ["Waktu 'pukul 6 dan 10 minit petang' ditulis sebagai ...",["6:01 petang","10:06 petang","6:10 petang"],2],
+   ["Alat yang digunakan untuk menimbang jisim ialah ...",["pembaris","penimbang","bikar"],1],
+   ["Bentuk 2D manakah tidak mempunyai bucu?",["segi tiga","segi empat sama","bulatan"],2],
+   ["Carta palang menunjukkan jualan aiskrim: Coklat 25 batang, Vanila 30 batang, Strawberi 20 batang. Perisa manakah paling sedikit dijual?",["Vanila","Coklat","Strawberi"],2]
+  ],
+  bank:["50","keperluan","600","meter","3"],
+  B:[
+   ["Nombor selepas 599 ialah {_}.","600"],
+   ["5 × 10 = {_}","50"],
+   ["Sebuah segi tiga mempunyai {_} bucu.","3"],
+   ["Panjang pintu kelas lebih sesuai diukur dalam {_}.","meter"],
+   ["Barang yang mesti kita ada untuk hidup, seperti makanan, dipanggil {_}.","keperluan"]
+  ],
+  right:["6","satu perlima","60 minit","6 muka rata, 8 bucu, 12 tepi","207"],
+  C:[["2 ratus 7",4],["1/5",1],["1 jam",2],["kuboid",3],["24 ÷ 4",0]],
+  D:[
+   ["0.3 lebih besar daripada 0.8.",false],
+   ["RM2 + RM3 + RM5 = RM10",true],
+   ["Kon boleh bergolek.",true],
+   ["Mililiter digunakan untuk mengukur panjang.",false],
+   ["Nombor 482 mempunyai 8 puluh.",true]
+  ],
+  E:[
+   ["Tulis 'lapan ratus empat puluh' dalam angka.","840"],
+   ["Sebuah bas membawa 45 orang penumpang. Di perhentian, 18 orang turun. Berapa orang penumpang yang tinggal di dalam bas?","27 orang (45 − 18 = 27)"],
+   ["Tulis dua pecahan yang lebih kecil daripada 1/2 dengan penyebut 10.","1/10, 2/10, 3/10, 4/10 (mana-mana dua)"],
+   ["Sekarang pukul 8:00 pagi hari Isnin. Berapa jam lagi untuk sampai pukul 8:00 pagi hari Selasa?","24 jam (1 hari = 24 jam)"],
+   ["Nyatakan satu cara untuk mengumpul data tentang warna kegemaran rakan sekelas.","Bertanya / temu bual rakan, soal selidik, atau senarai semak (jawapan munasabah)"]
+  ]
+},
+{ id:7, place:"Pulau Bentuk", bab:"Semua bab", sticker:{"e":"🔺","n":"Segi Tiga Emas"},
+  A:[
+   ["Nombor '4 ratus 6' ialah ...",["460","406","46"],1],
+   ["Pola nombor: 950, 850, 750, ... Nombor seterusnya ialah ...",["650","700","740"],0],
+   ["508 + 297 = ...",["795","805","705"],1],
+   ["9 × 0 = ...",["90","9","0"],2],
+   ["Pecahan manakah paling besar?",["5/6","4/6","2/6"],0],
+   ["Harga 2 buah buku tulis ialah RM6. Berapakah harga sebuah buku tulis?",["RM4","RM3","RM12"],1],
+   ["Jarum panjang menunjuk ke 12 dan jarum pendek menunjuk ke 7. Waktunya ialah ...",["12:07","12:00","7:00"],2],
+   ["Isi padu air dalam sebuah akuarium lebih kurang 20 ...",["liter","sentimeter","mililiter"],0],
+   ["Bentangan silinder terdiri daripada ...",["1 bulatan dan 4 segi tiga","2 bulatan dan 1 segi empat tepat","6 segi empat sama"],1],
+   ["Carta palang menunjukkan bilangan buku yang dibaca: Ali 7, Ben 4, Chong 9, Devi 7. Dua murid yang membaca bilangan buku yang sama ialah ...",["Ali dan Devi","Ali dan Chong","Ben dan Chong"],0]
+  ],
+  bank:["kilogram","5","bucu","9","puluh"],
+  B:[
+   ["Dalam nombor 305, digit 0 berada di tempat {_}.","puluh"],
+   ["36 ÷ 4 = {_}","9"],
+   ["Segi tiga mempunyai 3 sisi dan 3 {_}.","bucu"],
+   ["Sekeping wang kertas RM10 sama nilai dengan dua keping wang kertas RM{_}.","5"],
+   ["Unit untuk menimbang sekampit beras ialah {_}.","kilogram"]
+  ],
+  right:["4 sisi sama panjang","0.9","24 jam","14","830"],
+  C:[["8 ratus 3 puluh",4],["9/10",1],["segi empat sama",0],["2 × 7",3],["1 hari",2]],
+  D:[
+   ["4 × 5 = 5 × 4",true],
+   ["Nombor 199 lebih besar daripada 201.",false],
+   ["Piramid tapak segi empat sama mempunyai tapak berbentuk segi tiga.",false],
+   ["RM50 − RM17 = RM33",true],
+   ["Minyak masak dalam botol besar lebih sesuai disukat dalam liter.",true]
+  ],
+  E:[
+   ["Cerakinkan 872 mengikut nilai tempat.","800 + 70 + 2 (8 ratus, 7 puluh, 2 sa)"],
+   ["Sebuah kotak ada 3 baris kek cawan. Setiap baris ada 4 biji. Berapakah jumlah kek cawan?","12 biji (3 × 4 = 12)"],
+   ["Namakan dua bentuk 3D yang mempunyai bucu.","Kubus, kuboid, piramid tapak segi empat sama (mana-mana dua; kon juga boleh diterima)"],
+   ["Tulis waktu 9:35 dalam perkataan.","pukul sembilan dan tiga puluh lima minit (pukul 9 dan 35 minit)"],
+   ["Carta palang menunjukkan haiwan di ladang: Ayam 10 ekor, Itik 6 ekor. Berapa ekor ayam lebih daripada itik?","4 ekor (10 − 6 = 4)"]
+  ]
+},
+{ id:8, place:"Lembah Carta", bab:"Semua bab", sticker:{"e":"📊","n":"Carta Bintang"},
+  A:[
+   ["Nombor yang mempunyai 6 ratus, 0 puluh dan 3 sa ialah ...",["630","603","6003"],1],
+   ["Bundarkan 95 kepada puluh terdekat.",["100","90","95"],0],
+   ["824 − 136 − 250 = ...",["688","438","448"],1],
+   ["Seramai 30 orang murid dibahagikan kepada beberapa kumpulan. Setiap kumpulan ada 3 orang. Berapakah bilangan kumpulan?",["10","33","27"],0],
+   ["'Tiga persepuluh' ditulis dalam perpuluhan sebagai ...",["3.10","0.3","30"],1],
+   ["Harga sebiji bola RM25. Harga sebuah raket RM48. Berapakah jumlah harga kedua-dua barang itu?",["RM73","RM23","RM63"],0],
+   ["Antara berikut, yang manakah betul?",["1 jam = 24 minit","1 jam = 60 minit","1 hari = 60 jam"],1],
+   ["Isi padu ubat dalam sebuah botol kecil lebih kurang 10 ...",["mililiter","liter","kilogram"],0],
+   ["Bentuk 3D manakah mempunyai 2 muka rata dan 1 muka melengkung?",["kubus","kon","silinder"],2],
+   ["Carta palang menunjukkan warna kereta di tempat letak kereta: Merah 14, Biru 9, Putih 14. Pernyataan manakah betul?",["Kereta merah sama banyak dengan kereta putih","Kereta putih paling sedikit","Kereta biru paling banyak"],0]
+  ],
+  bank:["keperluan","1","½","720","pendek"],
+  B:[
+   ["Nombor 'tujuh ratus dua puluh' ditulis sebagai {_}.","720"],
+   ["10 ÷ 10 = {_}","1"],
+   ["Satu perdua ditulis sebagai pecahan {_}.","½"],
+   ["Jarum {_} pada muka jam bergerak paling perlahan.","pendek"],
+   ["Kita patut membeli barang {_} dahulu sebelum barang kehendak.","keperluan"]
+  ],
+  right:["2 keping 50 sen","5 bucu","kotak kasut","40","550"],
+  C:[["5 ratus 5 puluh",4],["RM1",0],["piramid tapak segi empat sama",1],["8 × 5",3],["kuboid",2]],
+  D:[
+   ["346 + 257 = 603",true],
+   ["6/10 sama dengan 0.6.",true],
+   ["Bentangan kubus terdiri daripada 6 segi tiga.",false],
+   ["Jisim sebiji telur ayam lebih kurang 50 kilogram.",false],
+   ["Data boleh dikumpul melalui pemerhatian.",true]
+  ],
+  E:[
+   ["Tulis tiga nombor seterusnya: 480, 490, 500, ...","510, 520, 530"],
+   ["Ada 4 kotak. Setiap kotak ada 7 biji bola. Berapakah jumlah bola?","28 biji (4 × 7 = 28)"],
+   ["Adik ada 3 keping wang kertas RM10 dan 2 keping wang kertas RM5. Berapakah jumlah wangnya?","RM40 (RM30 + RM10)"],
+   ["Waktu rehat bermula pada pukul 10:15 pagi. Tulis waktu itu dalam perkataan.","pukul sepuluh dan lima belas minit pagi (pukul 10 dan 15 minit pagi)"],
+   ["Nyatakan dua ciri segi empat tepat.","4 sisi, 4 bucu, sisi yang bertentangan sama panjang (mana-mana dua)"]
+  ]
+},
+{ id:9, place:"Tasik Liter", bab:"Semua bab", sticker:{"e":"🥛","n":"Botol Ajaib"},
+  A:[
+   ["Nombor manakah paling kecil?",["298","289","829"],1],
+   ["Nilai digit 9 dalam nombor 915 ialah ...",["9","90","900"],2],
+   ["Ali mengumpul 237 keping setem. Abu mengumpul 158 keping setem. Berapakah jumlah setem mereka?",["395","385","79"],0],
+   ["16 ÷ 2 = ...",["8","18","14"],0],
+   ["Pecahan manakah ialah 'lima perlapan'?",["8/5","5/8","5/10"],1],
+   ["Siti ada RM100. Dia membelanjakan RM64. Berapakah baki wangnya?",["RM164","RM46","RM36"],2],
+   ["Jarum panjang menunjuk ke nombor 9. Berapa minitkah yang ditunjukkan?",["90 minit","45 minit","9 minit"],1],
+   ["Isi padu air dalam sebuah botol besar ialah 1 ...",["liter","mililiter","meter"],0],
+   ["Bentuk 2D yang mempunyai 4 sisi sama panjang dan 4 bucu ialah ...",["segi tiga","segi empat sama","bulatan"],1],
+   ["Carta palang menunjukkan pokok yang ditanam: Tahun 1 menanam 20 pokok, Tahun 2 menanam 35 pokok. Berapa pokok lebih yang ditanam oleh Tahun 2?",["15","55","25"],0]
+  ],
+  bank:["6","27","panjang","500","30"],
+  B:[
+   ["519 dibundarkan kepada ratus terdekat ialah {_}.","500"],
+   ["9 × 3 = {_}","27"],
+   ["Sebuah kuboid mempunyai {_} muka rata.","6"],
+   ["Waktu 7:30 bermaksud pukul 7 dan {_} minit.","30"],
+   ["Kita menggunakan pembaris untuk mengukur {_}.","panjang"]
+  ],
+  right:["tin susu","666","RM5","bertanya soalan","0.1"],
+  C:[["6 ratus 6 puluh 6",1],["1/10",4],["RM20 ÷ 4",2],["silinder",0],["temu bual",3]],
+  D:[
+   ["0.2 sama dengan 2/10.",true],
+   ["Satu hari mempunyai 12 jam.",false],
+   ["Segi empat tepat mempunyai 3 bucu.",false],
+   ["90 − 45 = 45",true],
+   ["Sebuah buku lebih ringan daripada sebuah beg sekolah yang penuh dengan buku.",true]
+  ],
+  E:[
+   ["Tulis 'lima ratus tujuh' dalam angka.","507"],
+   ["Ada 18 biji epal. Ibu membahagikannya sama banyak kepada 3 orang anak. Berapa biji epal yang setiap anak dapat?","6 biji (18 ÷ 3 = 6)"],
+   ["Encik Rahim membeli 2 kg gula dan 3 kg tepung. Berapakah jumlah jisim barang yang dibelinya?","5 kg"],
+   ["Lisa ada RM15. Dia mahu membeli sebuah beg berharga RM40. Berapa lagi wang yang dia perlukan?","RM25 (RM40 − RM15)"],
+   ["Nyatakan dua ciri kon.","1 muka rata, 1 muka melengkung, boleh bergolek, ada puncak/bucu (mana-mana dua)"]
+  ]
+},
+{ id:10, place:"Puncak Matematik", bab:"Checkpoint · Semua bab", big:true, sticker:{"e":"👑","n":"Mahkota Matematik"},
+  A:[
+   ["347 dibundarkan kepada puluh terdekat ialah ...",["300","350","340"],1],
+   ["Pola nombor: 1000, 900, 800, ..., 600. Nombor yang tertinggal ialah ...",["850","750","700"],2],
+   ["186 + 245 + 369 = ...",["790","700","800"],2],
+   ["Pak Mat ada 50 biji rambutan. Dia memasukkan 10 biji ke dalam setiap plastik. Berapa plastik yang diperlukan?",["60","40","5"],2],
+   ["Pasangan manakah sama nilai?",["4/10 dan 0.4","1/4 dan 0.4","4/10 dan 4"],0],
+   ["Harga sebatang aiskrim RM2. Faiz membeli 5 batang dan membayar dengan sekeping wang kertas RM20. Berapakah wang bakinya?",["RM10","RM15","RM18"],0],
+   ["Waktu manakah menunjukkan 'pukul 12 dan 5 minit'?",["5:12","12:05","12:50"],1],
+   ["Panjang sebuah bilik darjah lebih kurang 8 ...",["sentimeter","liter","meter"],2],
+   ["Bentuk 3D manakah mempunyai 6 muka rata, 8 bucu dan 12 tepi, tetapi tidak semua mukanya sama besar?",["kubus","piramid tapak segi empat sama","kuboid"],2],
+   ["Carta palang menunjukkan buku yang dipinjam: Isnin 25, Selasa 15, Rabu 30. Berapakah jumlah buku yang dipinjam dalam tiga hari itu?",["60","55","70"],2]
+  ],
+  bank:["32","simpanan","405","segi tiga","0.5"],
+  B:[
+   ["Nombor yang 10 lebih daripada 395 ialah {_}.","405"],
+   ["8 × 4 = {_}","32"],
+   ["Pecahan 1/2 sama nilai dengan perpuluhan {_}.","0.5"],
+   ["Bentangan piramid tapak segi empat sama terdiri daripada 1 segi empat sama dan 4 {_}.","segi tiga"],
+   ["Wang yang disimpan di dalam tabung atau bank dipanggil {_}.","simpanan"]
+  ],
+  right:["808","tujuh persepuluh","dadu","RM25","24 jam"],
+  C:[["8 ratus 8",0],["1 hari",4],["RM100 − RM75",3],["7/10",1],["kubus",2]],
+  D:[
+   ["1000 ialah 1 lebih daripada 999.",true],
+   ["5/9 lebih kecil daripada 4/9.",false],
+   ["RM32 + RM45 + RM18 = RM95",true],
+   ["Satu jam mempunyai 100 minit.",false],
+   ["Isi padu air dalam sebuah tangki besar lebih sesuai disukat dalam mililiter.",false]
+  ],
+  E:[
+   ["Nyatakan nilai tempat dan nilai digit bagi digit 5 dalam nombor 752.","Nilai tempat: puluh. Nilai digit: 50."],
+   ["Sebuah kedai ada 634 biji belon. Sebanyak 278 biji belon telah dijual. Berapa biji belon yang tinggal?","356 biji (634 − 278 = 356)"],
+   ["Kakak ada RM45. Dia membeli sebuah beg berharga RM28 dan sebuah buku berharga RM9. Berapakah baki wangnya?","RM8 (RM45 − RM28 − RM9 = RM8)"],
+   ["Tulis waktu 'pukul 4 dan 25 minit petang' dalam angka.","4:25 petang"],
+   ["Carta palang menunjukkan jualan kuih: Karipap 40, Donat 25, Kuih lapis 35. (a) Kuih manakah paling banyak dijual? (b) Berapa lebih karipap dijual berbanding donat?","(a) Karipap (b) 15 (40 − 25)"]
+  ]
+}
+];
+const MAT_FIX = {
+ 1:{"D2":"Nombor 690 lebih besar daripada 609.","D5":"Jarum panjang pada muka jam menunjukkan minit."},
+ 2:{"D2":"275 dibundarkan kepada ratus terdekat ialah 300.","D4":"Jisim diukur dalam gram atau kilogram."},
+ 3:{"D2":"Nombor 850 dibaca lapan ratus lima puluh.","D4":"Kilogram digunakan untuk mengukur jisim."},
+ 4:{"D1":"1/2 lebih besar daripada 1/3.","D4":"Silinder tidak mempunyai bucu."},
+ 5:{"D1":"RM45 + RM38 = RM83","D5":"350 dibundarkan kepada ratus terdekat ialah 400."},
+ 6:{"D1":"0.8 lebih besar daripada 0.3.","D4":"Mililiter digunakan untuk mengukur isi padu cecair."},
+ 7:{"D2":"Nombor 201 lebih besar daripada 199.","D3":"Piramid tapak segi empat sama mempunyai tapak berbentuk segi empat sama."},
+ 8:{"D3":"Bentangan kubus terdiri daripada 6 segi empat sama.","D4":"Jisim sebiji telur ayam lebih kurang 50 gram."},
+ 9:{"D2":"Satu hari mempunyai 24 jam.","D3":"Segi empat tepat mempunyai 4 bucu."},
+ 10:{"D2":"5/9 lebih besar daripada 4/9.","D4":"Satu jam mempunyai 60 minit.","D5":"Isi padu air dalam sebuah tangki besar lebih sesuai disukat dalam liter."}
+};
+const SAINS_SETS = [
+{ id:1, place:"Makmal Ceria", bab:"Semua bab", sticker:{"e":"🔬","n":"Saintis Cilik"},
+  A:[
+   ["Kemahiran menggunakan deria untuk mengumpul maklumat dipanggil ...",["mengukur dan menggunakan nombor","memerhati","berkomunikasi"],1],
+   ["Sisa pepejal di bilik sains perlu dibuang ke dalam ...",["pasu bunga","laci meja","tong sampah"],2],
+   ["Manusia membiak dengan cara ...",["bertelur","melahirkan anak","bercambah"],1],
+   ["Haiwan yang manakah bertelur?",["Buaya","Kucing","Gajah"],0],
+   ["Biji benih memerlukan air, udara dan ... yang sesuai untuk bercambah.",["baja","pasu","suhu"],2],
+   ["Sumber cahaya utama bagi Bumi ialah ...",["cermin","matahari","bulan"],1],
+   ["Komponen yang membekalkan tenaga elektrik dalam litar ialah ...",["sel kering","suis","mentol"],0],
+   ["Kacang dan maruku boleh diasingkan dengan cara ...",["menuras","menyisih","mengapungkan"],1],
+   ["Udara yang bergerak dipanggil ...",["angin","awan","wap air"],0],
+   ["Kita memasang komponen set binaan berpandukan ...",["peta","manual bergambar","buku cerita"],1]
+  ],
+  bank:["rendah","mewarisi","mengelas","dihalang","sinki"],
+  B:[
+   ["Kemahiran {_} ialah mengumpulkan objek yang mempunyai ciri yang sama.","mengelas"],
+   ["Sisa cecair perlu dibuang ke dalam {_}.","sinki"],
+   ["Anak akan {_} ciri daripada ibu, bapa atau keturunannya.","mewarisi"],
+   ["Bayang-bayang terhasil apabila cahaya {_} oleh objek.","dihalang"],
+   ["Air mengalir dari tempat tinggi ke tempat yang {_}.","rendah"]
+  ],
+  right:["mengukur panjang","memerhati objek yang kecil","mengasingkan tepung daripada kismis","mengukur berat","mengasingkan klip kertas daripada pasir"],
+  C:[["Pembaris",0],["Kanta pembesar",1],["Penimbang",3],["Magnet",4],["Ayak",2]],
+  D:[
+   ["Bulan ialah sumber cahaya.",false],
+   ["Tumbesaran setiap murid berbeza walaupun umur mereka sama.",true],
+   ["Suis yang terbuka menyebabkan mentol tidak menyala.",true],
+   ["Gula tidak boleh larut di dalam air.",false],
+   ["Kita boleh membawa makanan ke dalam bilik sains.",false]
+  ],
+  E:[
+   ["Namakan dua sumber air semula jadi.","Hujan, sungai, tasik, laut, mata air (mana-mana dua)"],
+   ["Nyatakan tiga perubahan pada diri kita sejak dilahirkan.","Saiz bertambah, tinggi bertambah, berat bertambah"],
+   ["Nyatakan satu kepentingan tumbuhan kepada manusia.","Sumber makanan / membekalkan oksigen / ubat-ubatan (jawapan munasabah)"],
+   ["Apakah yang perlu dilakukan jika ada murid tercedera di bilik sains?","Laporkan kepada guru dengan segera"],
+   ["Namakan dua gas yang terdapat di dalam udara.","Oksigen dan karbon dioksida"]
+  ]
+},
+{ id:2, place:"Taman Rama-Rama", bab:"Semua bab", sticker:{"e":"🦋","n":"Rama-Rama Riang"},
+  A:[
+   ["Mengukur panjang pensel dengan pembaris ialah kemahiran ...",["mengukur dan menggunakan nombor","memerhati","mengelas"],0],
+   ["Selepas digunakan, peralatan sains perlu ...",["dibawa pulang ke rumah","dibiarkan di atas meja","dibersihkan dan disimpan di tempat asal"],2],
+   ["Peringkat tumbesaran manusia selepas bayi ialah ...",["remaja","kanak-kanak","dewasa"],1],
+   ["Anak rama-rama dipanggil ...",["jentik-jentik","berudu","beluncas"],2],
+   ["Peringkat pertama tumbesaran tumbuhan bermula daripada ...",["anak benih","biji benih","bunga"],1],
+   ["Antara berikut, yang manakah sumber cahaya buatan?",["Lampu suluh","Bulan","Cermin"],0],
+   ["Mentol tidak akan menyala jika ...",["wayar bersambung dengan baik","suis ditutup","sel kering telah habis"],2],
+   ["Tepung dan kismis boleh diasingkan dengan cara ...",["menuras","menggunakan magnet","mengayak"],2],
+   ["Titisan air di dalam awan yang berat akan turun sebagai ...",["hujan","wap air","angin"],0],
+   ["Setelah selesai, komponen set binaan perlu disimpan di dalam ...",["beg sekolah","tong sampah","bekas penyimpanan"],2]
+  ],
+  bank:["berkomunikasi","melahirkan","sekeliling","penebat","matahari"],
+  B:[
+   ["Kemahiran {_} ialah menyampaikan maklumat dalam bentuk lukisan, jadual atau lisan.","berkomunikasi"],
+   ["Tumbesaran tumbuhan memerlukan air, udara dan cahaya {_}.","matahari"],
+   ["Kucing membiak dengan cara {_} anak.","melahirkan"],
+   ["Objek yang tidak dapat menyalakan mentol dalam litar dipanggil {_}.","penebat"],
+   ["Udara berada di {_} kita walaupun tidak dapat dilihat.","sekeliling"]
+  ],
+  right:["membekalkan tenaga elektrik","menyambung dan memutuskan litar","membesarkan objek kecil untuk diperhatikan","menghasilkan cahaya","menyambungkan komponen dalam litar"],
+  C:[["Sel kering",0],["Mentol",3],["Suis",1],["Wayar penyambung",4],["Kanta pembesar",2]],
+  D:[
+   ["Semua haiwan bertelur.",false],
+   ["Anak belalang menyerupai induknya.",true],
+   ["Biji benih memerlukan cahaya matahari untuk bercambah.",false],
+   ["Air terjun menunjukkan air mengalir dari tempat tinggi ke tempat rendah.",true],
+   ["Kita perlu melaporkan alat yang pecah kepada guru.",true]
+  ],
+  E:[
+   ["Nyatakan dua ciri yang diwarisi oleh anak daripada ibu bapa.","Warna kulit, warna mata, jenis rambut (mana-mana dua)"],
+   ["Beri dua contoh haiwan yang melahirkan anak.","Kucing, arnab, gajah, lumba-lumba, kanggaru, tenggiling, landak (mana-mana dua / jawapan munasabah)"],
+   ["Bagaimanakah bayang-bayang terhasil?","Apabila cahaya dihalang oleh objek"],
+   ["Nyatakan dua cara untuk melarutkan gula dengan lebih cepat.","Kacau/aduk, guna air panas, hancurkan gula menjadi kecil (mana-mana dua)"],
+   ["Mengapakah pakaian basah cepat kering pada hari berangin?","Udara yang bergerak (angin) membantu mengeringkan pakaian (jawapan munasabah)"]
+  ]
+},
+{ id:3, place:"Kebun Biji Benih", bab:"Semua bab", sticker:{"e":"🌱","n":"Tunas Hijau"},
+  A:[
+   ["Mengasingkan haiwan kepada kumpulan bertelur dan melahirkan anak ialah kemahiran ...",["berkomunikasi","mengukur dan menggunakan nombor","mengelas"],2],
+   ["Kita perlu memberitahu guru jika ...",["kerja sudah siap awal","ada alat sains yang rosak","kita sudah duduk"],1],
+   ["Contoh ciri yang diwarisi daripada ibu bapa ialah ...",["baju yang dipakai","jenis rambut","nama sekolah"],1],
+   ["Haiwan yang bertelur banyak ialah ...",["penguin","burung","ikan"],2],
+   ["Selepas biji benih bercambah, ia akan menjadi ...",["bunga","anak benih","buah"],1],
+   ["Aktiviti yang sukar dilakukan dalam keadaan gelap ialah ...",["membaca buku","mendengar muzik","tidur"],0],
+   ["Fungsi suis dalam litar elektrik ialah ...",["membekalkan tenaga elektrik","menyambung dan memutuskan litar","menghasilkan cahaya"],1],
+   ["Bahan yang manakah larut di dalam air?",["Biji jagung","Pasir","Garam"],2],
+   ["Air laut tersejat menjadi ... dan naik ke udara.",["wap air","awan","hujan"],0],
+   ["Apakah yang perlu dikenal pasti dahulu sebelum memasang binaan?",["Nama kawan","Warna meja","Komponen binaan"],2]
+  ],
+  bank:["dewasa","larut","pembaris","kering","oksigen"],
+  B:[
+   ["Kita menggunakan {_} untuk mengukur panjang meja.","pembaris"],
+   ["Bayi akan membesar menjadi kanak-kanak, remaja dan akhirnya {_}.","dewasa"],
+   ["Tumbuhan membekalkan gas {_} kepada manusia dan haiwan.","oksigen"],
+   ["Gula yang dikacau di dalam air akan {_} dengan lebih cepat.","larut"],
+   ["Apabila angin bertiup, pakaian yang dijemur cepat {_}.","kering"]
+  ],
+  right:["mengapungkan","mengayak","menggunakan magnet","menuras","menyisih"],
+  C:[["Kacang dan maruku",4],["Tepung dan kismis",1],["Air teh dan daun teh",3],["Serbuk kayu dan pasir",0],["Klip kertas dan manik plastik",2]],
+  D:[
+   ["Tenggiling melahirkan anak yang sedikit.",true],
+   ["Kertas surih menghasilkan bayang-bayang yang lebih jelas daripada kadbod tebal.",false],
+   ["Mentol tidak akan menyala jika wayar penyambung tidak bersambung.",true],
+   ["Angin boleh menggerakkan kapal layar.",true],
+   ["Kita boleh membuka hasil binaan sesuka hati dan membiarkan komponen bersepah.",false]
+  ],
+  E:[
+   ["Nyatakan dua keperluan asas untuk tumbesaran tumbuhan.","Air, udara, cahaya matahari (mana-mana dua)"],
+   ["Beri dua contoh haiwan yang bertelur.","Burung, ikan, katak, buaya, ular, cicak, nyamuk, semut, belalang, ketam (mana-mana dua)"],
+   ["Nyatakan dua peraturan bilik sains.","Jaga kebersihan dan keselamatan, bersihkan alat selepas digunakan, simpan alat di tempat asal, buang sisa pepejal ke dalam tong sampah, laporkan kecederaan kepada guru (mana-mana dua / jawapan munasabah)"],
+   ["Namakan sumber cahaya semula jadi yang utama.","Matahari"],
+   ["Mengapakah kita perlu mengikut manual bergambar semasa memasang set binaan?","Supaya binaan dipasang dengan betul mengikut langkah (jawapan munasabah)"]
+  ]
+},
+{ id:4, place:"Gua Bayang-Bayang", bab:"Semua bab", sticker:{"e":"🔦","n":"Lampu Suluh Cilik"},
+  A:[
+   ["Kita menggunakan deria ... untuk mendengar kicauan burung.",["sentuhan","penglihatan","pendengaran"],2],
+   ["Barang yang boleh dibawa masuk ke bilik sains ialah ...",["buku dan alat tulis","alat permainan","makanan ringan"],0],
+   ["Tumbesaran manusia berbeza antara individu walaupun ... mereka sama.",["umur","baju","nama"],0],
+   ["Haiwan yang manakah anaknya menyerupai induk?",["Katak","Harimau","Rama-rama"],1],
+   ["Pokok besar menjadi ... kepada haiwan seperti burung dan tupai.",["sumber elektrik","tempat tinggal","alat permainan"],1],
+   ["Objek yang manakah menghasilkan bayang-bayang paling jelas?",["Kertas surih","Kadbod tebal","Plastik jernih"],1],
+   ["Komponen yang menyala apabila litar lengkap ialah ...",["mentol","suis","sel kering"],0],
+   ["Serbuk kayu yang bercampur dengan pasir boleh diasingkan dengan cara ...",["mengapungkan di dalam air","menuras","menggunakan magnet"],0],
+   ["Oksigen diperlukan oleh benda hidup untuk ...",["berlari","bernafas","minum"],1],
+   ["Binaan baharu yang tiada dalam manual bergambar boleh ... sendiri.",["dibuang","dijual","dicipta"],2]
+  ],
+  bank:["menyerupai","bercambah","lengkap","tersejat","memerhati"],
+  B:[
+   ["Kemahiran {_} dilakukan menggunakan deria penglihatan, pendengaran, sentuhan, bau dan rasa.","memerhati"],
+   ["Anak kumbang tidak {_} induknya.","menyerupai"],
+   ["Biji benih yang telah {_} akan mengeluarkan akar dan pucuk.","bercambah"],
+   ["Sel kering, mentol, suis dan wayar disambung untuk membina litar elektrik yang {_}.","lengkap"],
+   ["Air {_} dari laut, sungai dan tasik menjadi wap air.","tersejat"]
+  ],
+  right:["jentik-jentik","beluncas","berudu","larva","anak kucing"],
+  C:[["Katak",2],["Rama-rama",1],["Kumbang",3],["Nyamuk",0],["Kucing",4]],
+  D:[
+   ["Harimau dan belalang melahirkan anak.",false],
+   ["Kita perlu menjaga kebersihan dan keselamatan di bilik sains setiap masa.",true],
+   ["Bayang-bayang boleh terhasil tanpa cahaya.",false],
+   ["Getah pemadam ialah penebat elektrik.",true],
+   ["Gula kiub lebih cepat larut jika dihancurkan dahulu.",true]
+  ],
+  E:[
+   ["Susun peringkat tumbesaran manusia bermula daripada bayi.","Bayi → kanak-kanak → remaja → dewasa"],
+   ["Nyatakan satu kesan baik angin kepada manusia.","Mengeringkan pakaian / menggerakkan kapal layar / memutarkan kincir angin / menerbangkan layang-layang"],
+   ["Nyatakan dua sebab mentol tidak menyala dalam litar.","Suis terbuka, sel kering habis/lemah, mentol rosak, wayar tidak bersambung (mana-mana dua)"],
+   ["Mengapakah burung membina sarang?","Untuk melindungi telur dan anaknya daripada musuh/pemangsa"],
+   ["Beri dua contoh bahan yang tidak larut di dalam air.","Pasir, batu kecil, biji jagung, kacang hijau, serbuk kayu (mana-mana dua / jawapan munasabah)"]
+  ]
+},
+{ id:5, place:"Stesen Litar Kilat", bab:"Checkpoint · Semua bab", big:true, sticker:{"e":"⚡","n":"Bintang Kilat"},
+  A:[
+   ["Antara berikut, yang manakah kemahiran manipulatif?",["Berlari di dalam bilik sains","Menyanyi lagu sains","Membersihkan peralatan sains dengan cara yang betul"],2],
+   ["Mengapakah kita perlu menyimpan alat sains di tempat asal?",["Supaya alat cepat rosak","Supaya mudah dicari dan selamat","Supaya bilik sains bersepah"],1],
+   ["Ali dan Abu berumur 8 tahun tetapi tinggi mereka berbeza. Ini menunjukkan ...",["tumbesaran berbeza antara individu","mereka tidak pernah makan","manusia tidak membesar"],0],
+   ["Mengapakah ikan bertelur banyak?",["Supaya ada anak yang dapat terus hidup","Kerana ikan tinggal di darat","Kerana ikan suka berenang"],0],
+   ["Antara berikut, yang manakah BUKAN kepentingan tumbuhan?",["Sumber makanan","Menghasilkan cahaya","Tempat tinggal haiwan"],1],
+   ["Objek yang manakah menghasilkan bayang-bayang yang kurang jelas?",["Papan kayu","Kertas surih","Buku tebal"],1],
+   ["Mentol dalam litar Danial tidak menyala walaupun suis ditutup. Sebab yang mungkin ialah ...",["wayar bersambung dengan baik","mentol baharu dan elok","sel kering telah habis"],2],
+   ["Maria mahu mengasingkan hampas bunga raya daripada jusnya. Kaedah yang sesuai ialah ...",["mengapungkan","menggunakan magnet","menuras"],2],
+   ["Air sungai sentiasa mengalir dari ...",["kawasan rendah ke kawasan tinggi","kawasan tinggi ke kawasan rendah","laut ke puncak gunung"],1],
+   ["Cara yang betul untuk membuka hasil binaan ialah ...",["menarik semua komponen serentak dengan kuat","menghempas binaan ke lantai","membuka mengikut urutan dengan berhati-hati"],2]
+  ],
+  bank:["diwarisi","konduktor","sesuai","kincir","sarang"],
+  B:[
+   ["Rambut kerinting atau lurus ialah ciri yang {_} daripada ibu bapa.","diwarisi"],
+   ["Burung membina {_} untuk melindungi telurnya.","sarang"],
+   ["Biji benih memerlukan air, udara dan suhu yang {_} untuk bercambah.","sesuai"],
+   ["Objek yang boleh menyalakan mentol dalam litar dipanggil {_}.","konduktor"],
+   ["Udara yang bergerak dapat memutarkan {_} angin.","kincir"]
+  ],
+  right:["menggunakan alat dan unit piawai","menyampaikan maklumat dalam bentuk jadual atau lukisan","menggunakan deria untuk mengumpul maklumat","alat untuk melihat semut dengan jelas","mengumpul objek mengikut ciri yang sama"],
+  C:[["Memerhati",2],["Mengelas",4],["Mengukur dan menggunakan nombor",0],["Berkomunikasi",1],["Kanta pembesar",3]],
+  D:[
+   ["Semua haiwan yang bertelur menghasilkan telur yang banyak.",false],
+   ["Tumbuhan memerlukan air, udara dan cahaya matahari untuk tumbesaran.",true],
+   ["Pembaris kayu boleh menyalakan mentol dalam litar.",false],
+   ["Udara terdiri daripada beberapa jenis gas seperti oksigen dan karbon dioksida.",true],
+   ["Manual bergambar membantu kita mengenal pasti komponen binaan.",true]
+  ],
+  E:[
+   ["Terangkan kitar air semula jadi.","Air di laut/sungai tersejat menjadi wap air → wap air naik dan membentuk awan → titisan air dalam awan menjadi berat lalu turun sebagai hujan → air hujan mengalir semula ke sungai dan laut"],
+   ["Nyatakan perbezaan antara anak kucing dengan anak rama-rama dari segi rupa.","Anak kucing menyerupai induknya; anak rama-rama (beluncas) tidak menyerupai induknya"],
+   ["Siti mahu melarutkan gula batu dengan cepat. Cadangkan dua cara.","Hancurkan gula batu, guna air panas, kacau (mana-mana dua)"],
+   ["Nyatakan dua kesan buruk angin yang terlalu kuat.","Ombak besar, pokok tumbang, rumah/harta benda rosak, membahayakan nyawa (mana-mana dua)"],
+   ["Rizal berumur 8 tahun. Nyatakan dua perubahan pada dirinya sejak dia bayi.","Tinggi bertambah, berat bertambah, saiz badan bertambah (mana-mana dua)"]
+  ]
+},
+{ id:6, place:"Dapur Sains", bab:"Semua bab", sticker:{"e":"🧪","n":"Tabung Uji Ceria"},
+  A:[
+   ["Alat yang digunakan untuk mengukur berat ialah ...",["penimbang","pembaris","jam"],0],
+   ["Sisa cecair di bilik sains perlu dibuang ke dalam ...",["pasu bunga","sinki","tong sampah"],1],
+   ["Anak mungkin mempunyai warna mata yang sama dengan ...",["ibu atau bapa","guru","kawan sekelas"],0],
+   ["Haiwan yang manakah melahirkan anak?",["Cicak","Ayam","Arnab"],2],
+   ["Tumbuhan membekalkan ... kepada manusia.",["makanan dan ubat-ubatan","besi dan batu","elektrik dan plastik"],0],
+   ["Haiwan yang aktif dalam keadaan gelap pada waktu malam ialah ...",["rama-rama","ayam","burung hantu"],2],
+   ["Wayar penyambung digunakan untuk ...",["membekalkan tenaga","menyambungkan komponen dalam litar","menyalakan api"],1],
+   ["Apakah yang berlaku apabila gula dimasukkan ke dalam air dan dikacau?",["Gula menjadi pasir","Gula terapung","Gula larut"],2],
+   ["Air hujan yang turun di bukit akan mengalir ke ...",["sungai","puncak bukit","awan"],0],
+   ["Langkah pertama menggunakan set binaan ialah ...",["membuka hasil binaan","menyimpan komponen","memilih binaan yang hendak dibina"],2]
+  ],
+  bank:["bayang-bayang","nyamuk","berat","membersihkan","mengayak"],
+  B:[
+   ["Kita perlu {_} peralatan sains selepas digunakan.","membersihkan"],
+   ["Tumbesaran manusia dapat dilihat daripada perubahan saiz, tinggi dan {_}.","berat"],
+   ["Anak {_} dipanggil jentik-jentik.","nyamuk"],
+   ["Kita boleh mencipta permainan {_} menggunakan tangan dan lampu suluh.","bayang-bayang"],
+   ["Kaedah {_} digunakan untuk mengasingkan bahan halus daripada bahan kasar.","mengayak"]
+  ],
+  right:["air masin yang sangat luas","air yang bertakung di kawasan tanah rendah","air yang keluar dari dalam tanah","air yang turun dari awan","air yang mengalir menuju ke laut"],
+  C:[["Laut",0],["Sungai",4],["Mata air",2],["Hujan",3],["Tasik",1]],
+  D:[
+   ["Kucing melahirkan anak yang banyak.",true],
+   ["Pasir larut di dalam air.",false],
+   ["Suis berfungsi untuk menyambung dan memutuskan litar.",true],
+   ["Semua anak haiwan menyerupai induknya.",false],
+   ["Udara tidak dapat dilihat tetapi dapat dirasa.",true]
+  ],
+  E:[
+   ["Susun peringkat tumbesaran tumbuhan.","Biji benih → biji benih bercambah → anak benih → tumbuhan berbunga → tumbuhan berbuah"],
+   ["Nyatakan dua kaedah mengasingkan campuran.","Menyisih, mengayak, menggunakan magnet, mengapungkan, menuras (mana-mana dua)"],
+   ["Nyatakan satu kegunaan udara yang bergerak.","Mengeringkan pakaian, menerbangkan layang-layang, menggerakkan kapal layar, memutarkan kincir angin (mana-mana satu)"],
+   ["Apakah yang perlu dilakukan sebelum memasang komponen binaan?","Kenal pasti komponen berpandukan manual bergambar (jawapan munasabah)"],
+   ["Mengapakah ibu haiwan menyembunyikan anaknya di tempat terlindung?","Supaya anaknya selamat daripada musuh/pemangsa"]
+  ]
+},
+{ id:7, place:"Air Terjun Pelangi", bab:"Semua bab", sticker:{"e":"💧","n":"Titisan Hujan"},
+  A:[
+   ["Unit yang digunakan untuk mengukur panjang ialah ...",["kilogram (kg)","sentimeter (cm)","liter (l)"],1],
+   ["Jika ada murid tercedera di bilik sains, kita perlu ...",["melaporkan kepada guru dengan segera","meneruskan kerja","membiarkan sahaja"],0],
+   ["Peringkat tumbesaran manusia sejurus sebelum dewasa ialah ...",["remaja","bayi","kanak-kanak"],0],
+   ["Haiwan yang bertelur sedikit ialah ...",["ikan","katak","angsa"],2],
+   ["Keperluan asas untuk tumbesaran tumbuhan ialah air, udara dan ...",["garam","cahaya matahari","gula"],1],
+   ["Bayang-bayang terhasil apabila cahaya ... oleh objek.",["dipanaskan","dibekalkan","dihalang"],2],
+   ["Antara berikut, yang manakah penebat elektrik?",["Duit syiling","Klip kertas","Kain"],2],
+   ["Gula lebih cepat larut di dalam ...",["air sejuk","air panas","air ais"],1],
+   ["Air terjun menunjukkan air mengalir dari tempat ...",["kiri ke kanan","tinggi ke rendah","rendah ke tinggi"],1],
+   ["Mengapakah komponen binaan perlu disimpan dengan betul?",["Supaya cepat rosak","Supaya bilik bersepah","Supaya tidak hilang dan boleh digunakan lagi"],2]
+  ],
+  bank:["menyimpan","makanan","awan","larva","gelap"],
+  B:[
+   ["Kita perlu {_} peralatan sains di tempat asal selepas digunakan.","menyimpan"],
+   ["Anak kumbang dipanggil {_}.","larva"],
+   ["Tumbuhan ialah sumber {_} untuk manusia dan haiwan.","makanan"],
+   ["Kita tidak dapat melihat dengan jelas dalam keadaan {_}.","gelap"],
+   ["Wap air yang naik ke udara akan membentuk {_}.","awan"]
+  ],
+  right:["membekalkan tenaga elektrik","menghasilkan cahaya","mentol menyala","menyambung dan memutuskan litar","menyambungkan komponen"],
+  C:[["Sel kering",0],["Mentol",1],["Suis",3],["Wayar penyambung",4],["Litar lengkap",2]],
+  D:[
+   ["Manusia membiak dengan cara bertelur.",false],
+   ["Warna kulit ialah ciri yang boleh diwarisi.",true],
+   ["Kita boleh membiarkan alat yang pecah tanpa memberitahu guru.",false],
+   ["Laut ialah sumber air semula jadi.",true],
+   ["Layang-layang boleh terbang kerana udara yang bergerak.",true]
+  ],
+  E:[
+   ["Beri dua contoh haiwan yang anaknya menyerupai induk.","Kucing, harimau, beruang, belalang, arnab (mana-mana dua / jawapan munasabah)"],
+   ["Nyatakan kitar hidup rama-rama.","Telur → beluncas (larva) → pupa → rama-rama dewasa"],
+   ["Namakan dua sumber cahaya buatan.","Lampu suluh, mentol, lilin, lampu jalan (mana-mana dua)"],
+   ["Bagaimanakah kita boleh mengasingkan pasir daripada air?","Dengan cara menuras (menapis)"],
+   ["Mengapakah kita memerlukan oksigen?","Untuk bernafas"]
+  ]
+},
+{ id:8, place:"Bukit Kincir Angin", bab:"Semua bab", sticker:{"e":"🪁","n":"Layang-Layang Gembira"},
+  A:[
+   ["Aiman menyentuh kain dan berkata kain itu lembut. Deria yang digunakan ialah ...",["bau","penglihatan","sentuhan"],2],
+   ["Mengapakah kita perlu menjaga kebersihan bilik sains?",["Supaya bilik sains selamat dan selesa","Supaya alat mudah hilang","Supaya bilik sains berbau busuk"],0],
+   ["Ciri yang TIDAK diwarisi daripada ibu bapa ialah ...",["pakaian yang dipakai","warna mata","jenis rambut"],0],
+   ["Haiwan yang melahirkan anak yang sedikit ialah ...",["arnab","kucing","lumba-lumba"],2],
+   ["Mengapakah biji benih yang disimpan di dalam bekas kering tidak bercambah?",["Tiada cahaya","Terlalu banyak air","Tiada air"],2],
+   ["Antara berikut, yang manakah BUKAN sumber cahaya?",["Cermin","Lilin","Matahari"],0],
+   ["Apakah yang berlaku kepada mentol jika suis dibuka?",["Mentol menyala lebih terang","Mentol tidak menyala","Mentol bertukar warna"],1],
+   ["Bahan yang manakah tertarik kepada magnet?",["Pasir","Paku besi","Kacang"],1],
+   ["Contoh sumber air semula jadi ialah ...",["mata air","paip","tangki"],0],
+   ["Hasil binaan yang tidak terdapat dalam manual bergambar ialah binaan ...",["baharu ciptaan sendiri","yang hilang","yang rosak"],0]
+  ],
+  bank:["mengukur","subur","membiak","konduktor","dioksida"],
+  B:[
+   ["Kemahiran {_} dan menggunakan nombor memerlukan alat seperti pembaris.","mengukur"],
+   ["Manusia {_} dengan cara melahirkan anak.","membiak"],
+   ["Tumbuhan yang cukup air, udara dan cahaya matahari akan tumbuh dengan {_}.","subur"],
+   ["Duit syiling boleh menyalakan mentol kerana ia ialah {_}.","konduktor"],
+   ["Semasa bernafas, benda hidup membebaskan gas karbon {_}.","dioksida"]
+  ],
+  right:["dijadikan ubat","kayu untuk membuat perabot","menghasilkan beras untuk manusia","tempat burung membina sarang","makanan lembu dan kambing"],
+  C:[["Padi",2],["Rumput",4],["Pokok besar",3],["Misai kucing",0],["Pokok jati",1]],
+  D:[
+   ["Rama-rama ialah contoh haiwan yang bertelur.",true],
+   ["Tumbesaran semua kanak-kanak berumur 8 tahun adalah sama.",false],
+   ["Bentuk bayang-bayang boleh berubah jika objek digerakkan.",true],
+   ["Garam boleh dilarutkan dengan lebih cepat jika dikacau.",true],
+   ["Air hujan yang turun akan mengalir ke tempat yang lebih tinggi.",false]
+  ],
+  E:[
+   ["Nyatakan dua kemahiran manipulatif.","Mengendalikan alat sains dengan betul, mengendalikan spesimen dengan cermat, melakar spesimen, membersihkan alat, menyimpan alat dengan selamat (mana-mana dua)"],
+   ["Namakan dua bahan penebat elektrik.","Getah, plastik, kain, kayu, kertas (mana-mana dua)"],
+   ["Nyatakan kitar hidup katak.","Telur → berudu → katak muda → katak dewasa"],
+   ["Mengapakah kita perlu membuka hasil binaan mengikut urutan?","Supaya komponen tidak rosak / tidak hilang / mudah disimpan (jawapan munasabah)"],
+   ["Cadangkan satu alat mainan yang bergerak menggunakan angin.","Layang-layang, kincir angin kertas, kapal layar mainan (jawapan munasabah)"]
+  ]
+},
+{ id:9, place:"Bengkel Binaan", bab:"Semua bab", sticker:{"e":"🧱","n":"Jurutera Cilik"},
+  A:[
+   ["Kita menggunakan deria ... untuk melihat warna bunga.",["rasa","pendengaran","penglihatan"],2],
+   ["Alat sains yang pecah perlu ...",["disorokkan","dibuang ke dalam sinki","dilaporkan kepada guru"],2],
+   ["Semasa membesar, badan bayi akan bertambah ...",["tinggi dan berat","umur ibunya","bilangan jarinya"],0],
+   ["Anak haiwan yang manakah TIDAK menyerupai induknya?",["Harimau","Kucing","Rama-rama"],2],
+   ["Dalam satu penyiasatan, anak benih yang tidak disiram air akan ...",["tumbuh subur","layu dan mati","berbuah banyak"],1],
+   ["Apakah yang diperlukan untuk menghasilkan bayang-bayang?",["Angin dan hujan","Air dan tanah","Cahaya dan objek"],2],
+   ["Litar elektrik yang lengkap akan menyebabkan mentol ...",["padam","pecah","menyala"],2],
+   ["Kaedah menyisih sesuai untuk campuran bahan yang berbeza ...",["bau","saiz dan bentuk","rasa"],1],
+   ["Titisan air yang turun dari awan dipanggil ...",["angin","wap air","hujan"],2],
+   ["Manakah contoh komponen dalam set binaan?",["Pensel warna","Buku latihan","Roda"],2]
+  ],
+  bank:["larut","bernafas","keturunan","manipulatif","membesar"],
+  B:[
+   ["Kemahiran {_} melibatkan cara mengendalikan dan menyimpan alat sains dengan betul.","manipulatif"],
+   ["Anak mewarisi ciri daripada ibu, bapa atau {_}.","keturunan"],
+   ["Anak benih memerlukan air, udara dan cahaya matahari untuk {_}.","membesar"],
+   ["Pasir tidak {_} di dalam air.","larut"],
+   ["Oksigen diperlukan oleh benda hidup untuk {_}.","bernafas"]
+  ],
+  right:["aktif pada waktu malam","bayang-bayang kurang jelas","matahari","lampu suluh","bermain bola di padang"],
+  C:[["Sumber cahaya semula jadi",2],["Sumber cahaya buatan",3],["Aktiviti ketika terang",4],["Burung hantu",0],["Kertas surih",1]],
+  D:[
+   ["Litar elektrik tidak lengkap jika suis dibuka.",true],
+   ["Klip kertas ialah penebat elektrik.",false],
+   ["Katak dan buaya bertelur.",true],
+   ["Remaja ialah peringkat tumbesaran selepas dewasa.",false],
+   ["Tepung dan kismis boleh diasingkan dengan menggunakan magnet.",false]
+  ],
+  E:[
+   ["Namakan dua haiwan yang bertelur banyak.","Ikan, katak, semut (mana-mana dua)"],
+   ["Nyatakan tiga keperluan asas biji benih untuk bercambah.","Air, udara, suhu yang sesuai"],
+   ["Terangkan cara membina litar elektrik yang lengkap.","Sambungkan sel kering, suis dan mentol dengan wayar penyambung sehingga litar bersambung; tutup suis dan mentol akan menyala (jawapan munasabah)"],
+   ["Nyatakan satu kesan buruk angin yang terlalu kuat.","Pokok tumbang / rumah rosak / ombak besar / membahayakan nyawa (mana-mana satu)"],
+   ["Senaraikan dua langkah menggunakan set binaan.","Pilih binaan, kenal pasti komponen, pasang mengikut manual bergambar, buka dan simpan komponen dalam bekas (mana-mana dua)"]
+  ]
+},
+{ id:10, place:"Balai Cerap Bintang", bab:"Checkpoint · Semua bab", big:true, sticker:{"e":"🔭","n":"Teleskop Emas"},
+  A:[
+   ["Kemahiran menggunakan alat sains dengan cara yang betul dan selamat ialah kemahiran ...",["mengelas","manipulatif","memerhati"],1],
+   ["Antara berikut, yang manakah tingkah laku BETUL di bilik sains?",["Membuang sisa pepejal ke dalam tong sampah","Membuang kertas ke dalam sinki","Membawa makanan ke dalam bilik sains"],0],
+   ["Adik berambut kerinting seperti datuknya. Ini menunjukkan ciri boleh diwarisi daripada ...",["jiran","kawan","keturunan"],2],
+   ["Haiwan X bertelur dan anaknya tidak menyerupai induk. Haiwan X mungkin ...",["buaya","katak","ayam"],1],
+   ["Satu pasu anak benih diletakkan di tempat terang dan satu lagi di dalam kotak gelap. Selepas seminggu, anak benih di dalam kotak gelap akan ...",["tumbuh lebih subur","mengeluarkan bunga","menjadi lemah dan pucat"],2],
+   ["Semakin banyak cahaya dihalang oleh objek, bayang-bayang menjadi semakin ...",["jelas","hilang","kabur"],0],
+   ["Faiz menggantikan suis dengan pembaris plastik. Mentol tidak menyala kerana pembaris plastik ialah ...",["sel kering","penebat","konduktor"],1],
+   ["Campuran pasir, klip kertas dan air. Kaedah yang perlu digunakan untuk mengasingkan semua bahan ialah ...",["menggunakan magnet dan menuras","menyisih sahaja","mengayak sahaja"],0],
+   ["Kitar air semula jadi penting kerana ...",["membekalkan air secara berterusan","menghasilkan pasir","menyebabkan kemarau"],0],
+   ["Nurul membina kereta mainan yang tiada dalam manual bergambar. Nurul telah ...",["membuka binaan","mencipta binaan baharu","menyimpan komponen"],1]
+  ],
+  bank:["mengalir","remaja","habis","oksigen","pupa"],
+  B:[
+   ["Kanak-kanak akan membesar menjadi {_} sebelum menjadi dewasa.","remaja"],
+   ["Beluncas akan menjadi {_} sebelum menjadi rama-rama dewasa.","pupa"],
+   ["Tumbuhan membekalkan gas {_} yang kita perlukan untuk bernafas.","oksigen"],
+   ["Sel kering yang telah {_} menyebabkan mentol tidak menyala.","habis"],
+   ["Air dari tempat tinggi akan {_} ke tempat yang rendah.","mengalir"]
+  ],
+  right:["menyambung dan memutuskan litar","mengasingkan haiwan bertelur dan haiwan melahirkan anak","menimbang berat buah dengan penimbang","melihat warna bunga dengan mata","melukis carta tumbesaran anak benih"],
+  C:[["Memerhati",3],["Mengelas",1],["Mengukur dan menggunakan nombor",2],["Berkomunikasi",4],["Suis",0]],
+  D:[
+   ["Kucing dan arnab melahirkan anak yang banyak.",true],
+   ["Udara hanya ada di luar rumah.",false],
+   ["Plastik jernih menghasilkan bayang-bayang yang jelas.",false],
+   ["Gula yang dihancurkan larut lebih cepat daripada gula kiub.",true],
+   ["Warna mata ialah ciri yang boleh diwarisi.",true]
+  ],
+  E:[
+   ["Nyatakan tiga kepentingan tumbuhan kepada manusia dan haiwan.","Sumber makanan, tempat tinggal, membekalkan oksigen, ubat-ubatan (mana-mana tiga)"],
+   ["Mentol tidak menyala walaupun suis ditutup. Ramalkan dua sebabnya.","Sel kering habis/lemah, mentol rosak, sambungan wayar longgar/terputus (mana-mana dua)"],
+   ["Terangkan bagaimana hujan terbentuk.","Air tersejat menjadi wap air, wap air naik dan membentuk awan, titisan air dalam awan menjadi berat lalu turun sebagai hujan"],
+   ["Bandingkan cara ayam dan kucing membiak.","Ayam bertelur, kucing melahirkan anak"],
+   ["Mengapakah kita perlu mematuhi peraturan bilik sains?","Supaya selamat / mengelakkan kemalangan / bilik sains bersih dan teratur (jawapan munasabah)"]
+  ]
+}
+];
+const SAINS_FIX = {
+ 1:{"D1":"Bulan bukan sumber cahaya kerana bulan tidak mengeluarkan cahaya sendiri.","D4":"Gula boleh larut di dalam air.","D5":"Kita hanya boleh membawa buku dan alat tulis ke dalam bilik sains."},
+ 2:{"D1":"Ada haiwan yang bertelur dan ada haiwan yang melahirkan anak.","D3":"Biji benih memerlukan air, udara dan suhu yang sesuai untuk bercambah."},
+ 3:{"D2":"Kadbod tebal menghasilkan bayang-bayang yang lebih jelas daripada kertas surih.","D5":"Kita perlu membuka hasil binaan mengikut urutan dan menyimpan komponen di dalam bekas penyimpanan."},
+ 4:{"D1":"Harimau melahirkan anak, tetapi belalang bertelur.","D3":"Bayang-bayang hanya terhasil apabila cahaya dihalang oleh objek."},
+ 5:{"D1":"Ada haiwan yang bertelur banyak seperti katak dan ada yang bertelur sedikit seperti penguin.","D3":"Pembaris kayu tidak boleh menyalakan mentol kerana kayu ialah penebat."},
+ 6:{"D2":"Pasir tidak larut di dalam air.","D4":"Ada anak haiwan yang tidak menyerupai induknya seperti anak rama-rama dan anak katak."},
+ 7:{"D1":"Manusia membiak dengan cara melahirkan anak.","D3":"Kita perlu melaporkan alat yang pecah atau rosak kepada guru."},
+ 8:{"D2":"Tumbesaran berbeza antara individu walaupun umurnya sama.","D5":"Air hujan mengalir ke tempat yang lebih rendah seperti sungai dan laut."},
+ 9:{"D2":"Klip kertas ialah konduktor elektrik.","D4":"Remaja ialah peringkat tumbesaran sebelum dewasa.","D5":"Tepung dan kismis boleh diasingkan dengan cara mengayak."},
+ 10:{"D2":"Udara ada di sekeliling kita, termasuk di dalam rumah.","D3":"Plastik jernih tidak menghasilkan bayang-bayang yang jelas kerana cahaya dapat melaluinya."}
+};
 function hp(x){let h=2166136261;for(const c of "jejak:"+x){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return (h>>>0).toString(36)}
 function prepSets(sets){sets.forEach(s=>{
   s.name="Set "+s.id;
@@ -1636,10 +3216,10 @@ const SUBJECTS=[
  {k:"feqah",n:"Feqah",j:"فقه",e:"🕌",day:"Khamis",date:"1 Okt",ymd:"2026-10-01",rtl:true,sets:FEQAH_SETS,fix:FEQAH_FIX,deco:["💧","🕌","⏰","🌙"]},
  {k:"akhlak",n:"Akhlak",j:"اخلاق",e:"🤝",day:"Jumaat",date:"2 Okt",ymd:"2026-10-02",rtl:true,sets:AKHLAK_SETS,fix:AKHLAK_FIX,deco:["🏡","⏰","🌾","🌙"]},
  {k:"arab",n:"Bahasa Arab",j:"العربية",e:"📗",day:"Jumaat",date:"2 Okt",ymd:"2026-10-02",rtl:true},
- {k:"bm",n:"Bahasa Melayu",e:"📘",day:"Isnin",date:"5 Okt",ymd:"2026-10-05"},
- {k:"bi",n:"Bahasa Inggeris",e:"📕",day:"Isnin",date:"5 Okt",ymd:"2026-10-05"},
- {k:"mat",n:"Matematik",e:"🔢",day:"Selasa",date:"6 Okt",ymd:"2026-10-06"},
- {k:"sains",n:"Sains",e:"🔬",day:"Selasa",date:"6 Okt",ymd:"2026-10-06"},
+ {k:"bm",n:"Bahasa Melayu",e:"📘",day:"Isnin",date:"5 Okt",ymd:"2026-10-05",sets:BM_SETS,fix:BM_FIX,deco:["📘","📜","✏️","🌙"]},
+ {k:"bi",n:"Bahasa Inggeris",e:"📕",day:"Isnin",date:"5 Okt",ymd:"2026-10-05",sets:BI_SETS,fix:BI_FIX,deco:["⚽","🏚️","👕","🌙"]},
+ {k:"mat",n:"Matematik",e:"🔢",day:"Selasa",date:"6 Okt",ymd:"2026-10-06",sets:MAT_SETS,fix:MAT_FIX,deco:["🔢","💰","⏰","🌙"]},
+ {k:"sains",n:"Sains",e:"🔬",day:"Selasa",date:"6 Okt",ymd:"2026-10-06",sets:SAINS_SETS,fix:SAINS_FIX,deco:["🦋","🌱","⚡","🌙"]},
  {k:"aqidah",n:"Aqidah",j:"عقيدة",e:"🌙",day:"Rabu",date:"7 Okt",ymd:"2026-10-07",rtl:true},
  {k:"jawi",n:"Jawi",j:"جاوي",e:"✍️",day:"Rabu",date:"7 Okt",ymd:"2026-10-07",rtl:true}
 ];
