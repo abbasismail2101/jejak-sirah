@@ -3988,7 +3988,7 @@ function vParent(){
 function render(){
   const v={login:vLogin,welcome:vWelcome,subjects:vSubjects,map:vMap,quiz:vQuiz,confirm:vConfirm,submitted:vSubmitted,pin:vPin,check:vCheck,result:vResult,book:vBook,parent:vParent,review:vReview,other:vOther,board:vBoard,kidcode:vKidCode,kidreset:vKidReset}[UI.screen];
   app.classList.toggle("ltr",!!(USER&&SUB&&!SUB.rtl));
-  app.innerHTML=v()+(["quiz","check","review","pin"].includes(UI.screen)?"":`<footer class="credit">Dibangunkan oleh Abbas Ismail</footer>`)+(UI.installHelp?installModal():"")+(UI.notice?noticeModal():(UI.guide?guideModal():""));
+  app.innerHTML=v()+(["quiz","check","review","pin"].includes(UI.screen)?"":`<footer class="credit">Dibangunkan oleh Abah Hassan</footer>`)+(UI.installHelp?installModal():"")+(UI.notice?noticeModal():(UI.guide?guideModal():""));
   if(UI.screen==="parent"||UI.screen==="check")ppMark();SND.setTheme(themeFor(UI.screen));paintSnd();saveSess();
   if(UI.screen==="welcome")SND.play("jingle",0,.35);
   if(UI.screen==="welcome")setTimeout(()=>confetti(90),500);
