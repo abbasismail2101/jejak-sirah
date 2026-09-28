@@ -413,6 +413,18 @@ textarea{width:100%;min-height:120px;margin-top:14px;font:600 1.25rem/1.5 var(--
 .notice .row-btns{justify-content:center}
 .nlink{text-align:center;margin:14px 0 0}
 .nlink .linkbtn{color:var(--muted);font-size:.92rem}
+.nlink{color:var(--muted)}
+.guide{text-align:center}
+.modal.guide.still{animation:none}
+.gtop{display:flex;justify-content:space-between;align-items:center}
+.gstep{font-size:.85rem;font-weight:800;color:var(--ink-muted)}
+.gskip{margin-top:0;font-size:.9rem}
+.gemoji{font-size:3.4rem;line-height:1.2;margin:6px 0 2px}
+.gbody{text-align:left;line-height:1.6;font-size:1rem;margin:6px 0 12px;min-height:7.5em}
+.gdots{display:flex;gap:6px;justify-content:center;margin-bottom:12px}
+.gdot{width:8px;height:8px;border-radius:50%;background:#D9CDB6}
+.gdot.on{background:var(--gold-deep);width:20px;border-radius:99px}
+.guide .row-btns{justify-content:center}
 .isteps{padding-left:22px;margin:8px 0 12px;display:grid;gap:8px;font-weight:700;line-height:1.5}
 .kbd{display:inline-block;background:#fff;border:2px solid #D9CDB6;border-radius:8px;padding:0 6px;font-size:.9em}
 .linkbox{display:flex;gap:8px;margin-bottom:10px}
@@ -3535,6 +3547,23 @@ function noticeModal(){
     <p class="nfoot">Dengan meneruskan, anda bersetuju menggunakan app ini dengan pengawasan ibu bapa.</p>
     <div class="row-btns"><button class="btn mint" data-act="noticeOk">${first?"Saya faham 👍":"Tutup"}</button></div></div>`;
 }
+const GUIDE_KEY="kembaraIlmu_guide_v1";
+function guideSeen(){try{return !!localStorage.getItem(GUIDE_KEY)}catch(e){return false}}
+const GUIDE=[
+ ["📲","Pasang app","Buka link dalam <b>Chrome</b> (Android) atau <b>Safari</b> (iPhone), kemudian pilih <b>Install</b> / <b>Add to Home Screen</b>. Selepas itu buka dari ikon di skrin utama, macam app biasa."],
+ ["👧","Daftar anak","Tekan <b>➕ Tambah</b>. Isi nama panggilan dan pilih kelas. Cipta <b>kod anak</b> (4 digit) dan <b>kod Ibu/Ayah</b> (4 digit, <b>jangan beritahu anak</b>). Tanda setuju untuk Papan Kelas, kemudian simpan."],
+ ["✏️","Anak menjawab","Anak tekan gambarnya → <b>pilih subjek</b> → pilih <b>set</b> di peta → jawab <b>30 soalan</b> → <b>Hantar</b>. Setiap set campur semua topik. Set seterusnya terbuka selepas set dihantar."],
+ ["🔒","Ibu/Ayah menyemak","Selepas anak hantar, tekan <b>Semak Jawapan</b> dan masukkan kod Ibu/Ayah. Bahagian A–D ditanda automatik. Ibu/Ayah hanya perlu <b>tanda 5 soalan pendek</b>, kemudian tunjuk keputusan. Bintang dan sticker keluar selepas semakan."],
+ ["📚","Ulang kaji bersama","Selepas keputusan, tekan <b>Mula Sesi Ulang Kaji</b>. Anak cuba semula soalan yang salah, dan Ibu/Ayah terangkan jawapan yang betul. Semak juga dengan buku teks jika ragu."],
+ ["🏆","Lain-lain","<b>Papan Kelas</b>: lihat kemajuan kawan (ikut set siap, bukan markah).<br><b>Ruang Ibu/Ayah</b>: semak set, buat semula set, tukar kod.<br><b>Phone lain?</b> Tekan <i>Masuk profil dari phone lain</i> dan masukkan kod anak."]
+];
+function guideModal(){
+  const i=UI.guideI||0,g=GUIDE[i],last=i===GUIDE.length-1;
+  const dots=GUIDE.map((_,j)=>`<span class="gdot ${j===i?"on":""}"></span>`).join("");
+  return `<div class="modalbg" data-act="guideClose"></div><div class="modal guide ${UI.guideStill?"still":""}" role="dialog" aria-label="Cara guna"><div class="gtop"><span class="gstep">Cara guna · ${i+1}/${GUIDE.length}</span><button class="linkbtn gskip" data-act="guideClose">Langkau</button></div>
+    <div class="gemoji">${g[0]}</div><h3>${g[1]}</h3><p class="gbody">${g[2]}</p><div class="gdots">${dots}</div>
+    <div class="row-btns">${i>0?`<button class="btn ghost small dark" data-act="guidePrev">← Sebelum</button>`:""}<button class="btn ${last?"mint":""} small" data-act="${last?"guideClose":"guideNext"}">${last?"Mula! 🚀":"Seterusnya →"}</button></div></div>`;
+}
 function installModal(){
   const link=location.href.split("#")[0];
   let steps,title="Pasang di skrin utama";
@@ -3581,7 +3610,7 @@ function vLogin(){
     <div class="profiles">${cards}${add}</div>
     <div class="hint">${ST.users.length?"Tekan gambar kamu untuk masuk":"Ibu/Ayah: tekan Tambah untuk daftar anak"}</div>
     ${cOk&&!UI.adding?`<div class="row-btns"><button class="btn ghost small" data-act="other">🔑 Masuk profil dari phone lain</button><button class="btn ghost small" data-act="board">🏆 Papan Kelas</button></div>`:""}
-    ${UI.adding?"":`<p class="nlink"><button class="linkbtn" data-act="showNotice">ℹ️ Notis untuk ibu bapa</button></p>`}
+    ${UI.adding?"":`<p class="nlink"><button class="linkbtn" data-act="showGuide">❓ Cara guna</button> · <button class="linkbtn" data-act="showNotice">ℹ️ Notis untuk ibu bapa</button></p>`}
   </section>`;
 }
 function vKidCode(){
@@ -3922,7 +3951,7 @@ function vParent(){
     ${psub}
     <div class="pp">${items}<div class="it"><div><b>Mula semula ${esc(SUB.n)} dari awal</b><span class="st2">Padam semua jawapan, markah dan sticker ${esc(SUB.n)} ${esc(USER.name)}</span></div><button class="btn small ${confAll?"warn":"ghost"}" data-act="pReset" data-set="all">${confAll?"Tekan lagi untuk sahkan":"Padam semua"}</button></div></div>
     <h3 class="listh">Pengguna</h3><div class="pp">${users}</div>
-    <p class="nlink"><button class="linkbtn" data-act="showNotice">ℹ️ Notis penggunaan (soalan dijana AI)</button></p>
+    <p class="nlink"><button class="linkbtn" data-act="showGuide">❓ Cara guna</button> · <button class="linkbtn" data-act="showNotice">ℹ️ Notis penggunaan (soalan dijana AI)</button></p>
     <h3 class="listh">Kod Ibu/Ayah</h3><div class="pp"><div class="it"><div><b>🔒 Kod 4 digit</b><span class="st2">Satu kod untuk semua pengguna di peranti ini</span></div><button class="btn small ghost" data-act="changePin">Tukar kod</button></div></div>`;
 }
 
@@ -3930,7 +3959,7 @@ function vParent(){
 function render(){
   const v={login:vLogin,welcome:vWelcome,subjects:vSubjects,map:vMap,quiz:vQuiz,confirm:vConfirm,submitted:vSubmitted,pin:vPin,check:vCheck,result:vResult,book:vBook,parent:vParent,review:vReview,other:vOther,board:vBoard,kidcode:vKidCode,kidreset:vKidReset}[UI.screen];
   app.classList.toggle("ltr",!!(USER&&SUB&&!SUB.rtl));
-  app.innerHTML=v()+(UI.installHelp?installModal():"")+(UI.notice?noticeModal():"");
+  app.innerHTML=v()+(UI.installHelp?installModal():"")+(UI.notice?noticeModal():(UI.guide?guideModal():""));
   if(UI.screen==="parent"||UI.screen==="check")ppMark();SND.setTheme(themeFor(UI.screen));paintSnd();saveSess();
   if(UI.screen==="welcome")SND.play("jingle",0,.35);
   if(UI.screen==="welcome")setTimeout(()=>confetti(90),500);
@@ -4032,7 +4061,11 @@ app.addEventListener("click",e=>{
     case "krCancel":go(UI.kr&&UI.kr.back||"login");break;
     case "toggleLock":{const u=ST.users.find(x=>x.id===b.dataset.u);if(!u)break;if(!u.pinH){toast("Lengkapkan profil dulu");break}u.lock=!u.lock;save();toast(u.lock?u.name+": kod diminta setiap kali buka":u.name+": terus masuk tanpa kod di phone ini");render();break}
     case "install":if(deferredPrompt){const dp=deferredPrompt;dp.prompt();dp.userChoice.then(c=>{deferredPrompt=null;if(c&&c.outcome==="accepted")toast("Sedang dipasang… 🎉");render()}).catch(()=>{})}else{UI.installHelp=true;render()}break;
-    case "noticeOk":try{localStorage.setItem(NOTICE_KEY,String(Date.now()))}catch(e){}UI.notice=false;render();break;
+    case "noticeOk":{const first=!noticeSeen();try{localStorage.setItem(NOTICE_KEY,String(Date.now()))}catch(e){}UI.notice=false;if(first&&!guideSeen()){UI.guide=true;UI.guideI=0;UI.guideStill=false}render();break}
+    case "showGuide":UI.guide=true;UI.guideI=0;UI.guideStill=false;render();break;
+    case "guideNext":UI.guideStill=true;UI.guideI=Math.min((UI.guideI||0)+1,GUIDE.length-1);render();break;
+    case "guidePrev":UI.guideStill=true;UI.guideI=Math.max((UI.guideI||0)-1,0);render();break;
+    case "guideClose":try{localStorage.setItem(GUIDE_KEY,"1")}catch(e){}UI.guide=false;render();break;
     case "showNotice":UI.notice=true;render();break;
     case "closeInstall":UI.installHelp=false;render();break;
     case "copyLink":{const l=location.href.split("#")[0];const done=()=>toast("Link disalin ✅");try{navigator.clipboard.writeText(l).then(done).catch(()=>{const i=document.getElementById("instLink");i.select();document.execCommand("copy");done()})}catch(e){const i=document.getElementById("instLink");i.select();try{document.execCommand("copy");done()}catch(_){}}break}
