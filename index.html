@@ -280,6 +280,18 @@ textarea{width:100%;min-height:120px;margin-top:14px;font:600 1.25rem/1.5 var(--
 .sel select{-webkit-appearance:none;appearance:none;width:100%;background:rgba(255,255,255,.06);border:2px solid var(--line);color:var(--text);border-radius:14px;padding:10px 32px 10px 12px;font:800 1rem var(--f-body);cursor:pointer;text-overflow:ellipsis}
 .sel select:focus{outline:none;border-color:var(--sky-blue)}
 .sel option{color:#1b1b2f;background:#fff}
+.dd{position:relative}
+.ddbtn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;background:rgba(255,255,255,.06);border:2px solid var(--line);color:var(--text);border-radius:999px;padding:10px 16px;font:800 1rem var(--f-body);cursor:pointer;text-align:left}
+.ddbtn span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ddbtn svg{flex:none;color:var(--muted);transition:transform .15s}
+.dd.open .ddbtn{border-color:var(--sky-blue)}
+.dd.open .ddbtn svg{transform:rotate(180deg)}
+.ddbg{position:fixed;inset:0;z-index:40}
+.ddlist{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:41;background:#232A5C;border:2px solid var(--line);border-radius:20px;padding:6px;box-shadow:0 14px 30px rgba(0,0,0,.45);display:grid;gap:2px;max-height:60vh;overflow:auto;animation:fadein .12s}
+.ddopt{display:flex;align-items:center;justify-content:space-between;gap:8px;background:transparent;border:0;border-radius:14px;padding:11px 14px;color:var(--text);font:800 1rem var(--f-body);text-align:left;cursor:pointer}
+.ddopt:hover,.ddopt:focus-visible{background:rgba(255,255,255,.08);outline:none}
+.ddopt.on{background:rgba(140,196,240,.16);color:#fff}
+.ddtick{color:var(--gold);font-weight:900}
 .subjs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:10px}
 .subj{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;background:rgba(255,255,255,.06);border:2px solid var(--line);border-radius:20px;padding:14px;color:var(--text);cursor:pointer;font:inherit}
 .subj .se{font-size:2rem;line-height:1}
@@ -3564,6 +3576,10 @@ function guideModal(){
     <div class="gemoji">${g[0]}</div><h3>${g[1]}</h3><p class="gbody">${g[2]}</p><div class="gdots">${dots}</div>
     <div class="row-btns">${i>0?`<button class="btn ghost small dark" data-act="guidePrev">← Sebelum</button>`:""}<button class="btn ${last?"mint":""} small" data-act="${last?"guideClose":"guideNext"}">${last?"Mula! 🚀":"Seterusnya →"}</button></div></div>`;
 }
+function dd(key,opts,cur){
+  const c=opts.find(o=>o.v===cur)||opts[0],open=UI.ddOpen===key;
+  return `<div class="dd ${open?"open":""}"><button type="button" class="ddbtn" data-act="ddOpen" data-k="${key}" aria-haspopup="listbox" aria-expanded="${open}"><span>${esc(c?c.l:"")}</span><svg viewBox="0 0 12 8" width="12" height="8" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>${open?`<div class="ddbg" data-act="ddClose"></div><div class="ddlist" role="listbox">${opts.map(o=>`<button type="button" role="option" aria-selected="${o.v===c.v}" class="ddopt ${o.v===c.v?"on":""}" data-act="ddPick" data-k="${key}" data-v="${esc(o.v)}">${esc(o.l)}${o.v===c.v?'<span class="ddtick">✓</span>':""}</button>`).join("")}</div>`:""}</div>`;
+}
 function installModal(){
   const link=location.href.split("#")[0];
   let steps,title="Pasang di skrin utama";
@@ -3669,7 +3685,7 @@ function vBoard(){
   const mapSubj=SUBJ_BY[B.subj]&&SUBJ_BY[B.subj].ready?B.subj:SUBJ;
   const sk=B.tab==="map"?mapSubj:(SUBJ_BY[B.subj]&&SUBJ_BY[B.subj].ready?B.subj:"all"),SS=sk==="all"?null:SUBJ_BY[sk],sn=SS?SS.sets.length:TOTAL_SETS;
   const arrow='<svg viewBox="0 0 12 8" width="12" height="8" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
-  const filt=`<div class="bfilt"><label class="sel"><span>Subjek</span><span class="selw"><select data-sel="bSubj">${B.tab==="map"?"":`<option value="all" ${sk==="all"?"selected":""}>📚 Semua</option>`}${READY.map(x=>`<option value="${x.k}" ${sk===x.k?"selected":""}>${x.e} ${esc(x.n)}</option>`).join("")}</select>${arrow}</span></label></div>`;
+  const filt=`<div class="bfilt"><div class="sel"><span>Subjek</span>${dd("bSubj",(B.tab==="map"?[]:[{v:"all",l:"📚 Semua"}]).concat(READY.map(x=>({v:x.k,l:x.e+" "+x.n}))),sk)}</div></div>`;
   const list=all;
   const chip=s=>`<span class="kid ${s.id===me?"me":""}">${sAvatar(s,"xs")}${esc(s.name)}<small>${esc(s.cls.replace("2 ",""))}</small></span>`;
   const dOf=x=>SS?subDone(x,sk):x.done,sOf=x=>SS?((x.sub&&x.sub[sk]&&x.sub[sk].s)||0):x.stars;
@@ -3946,7 +3962,7 @@ function vParent(){
   }).join("");
   const confAll=UI.confirmReset==="all";
   const users=ST.users.map(u=>{const c=UI.confirmDel===u.id;return `<div class="it"><div class="me" style="font-size:1.1rem">${avatar(u)}<div><b>${esc(u.name)}</b><span class="st2">${u.cls?esc(u.cls):""}${u.pin?" · Kod pelajar: "+esc(u.pin):""}${u.cloud?(u.hidden?" · disorok dari Papan":" · dalam Papan Kelas"):" · phone ini sahaja"}</span></div></div><div class="row-btns">${u.pinH?`<button class="btn small ghost" data-act="kidReset" data-u="${esc(u.id)}">🔑 Tukar kod</button>`:""}${u.pinH?`<button class="btn small ghost" data-act="toggleLock" data-u="${esc(u.id)}">${u.lock?"🔒 Kod: diminta":"🔓 Kod: tidak diminta"}</button>`:""}${u.cloud?`<button class="btn small ghost" data-act="hideUser" data-u="${esc(u.id)}">${u.hidden?"Papar di Papan":"Sorok dari Papan"}</button>`:""}<button class="btn small ${c?"warn":"ghost"}" data-act="delUser" data-u="${esc(u.id)}">${c?"Tekan lagi untuk buang":"Buang dari phone ini"}</button></div></div>`}).join("");
-  const psub=`<div class="bfilt"><label class="sel"><span>Subjek</span><span class="selw"><select data-sel="pSubj">${READY.map(x=>`<option value="${x.k}" ${x.k===SUBJ?"selected":""}>${x.e} ${esc(x.n)}</option>`).join("")}</select><svg viewBox="0 0 12 8" width="12" height="8" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/></svg></span></label></div>`;
+  const psub=`<div class="bfilt"><div class="sel"><span>Subjek</span>${dd("pSubj",READY.map(x=>({v:x.k,l:x.e+" "+x.n})),SUBJ)}</div></div>`;
   return `<div class="qhead phead"><div><h2>Ruang Ibu &amp; Ayah · ${esc(USER.name)}</h2><p>Semak jawapan, lihat keputusan, atau buka semula set untuk latihan ulangan. Markah terbaik dan sticker kekal walaupun set dibuat semula.</p></div><button class="btn ghost small" data-act="pClose">Tutup</button></div>
     ${psub}
     <div class="pp">${items}<div class="it"><div><b>Mula semula ${esc(SUB.n)} dari awal</b><span class="st2">Padam semua jawapan, markah dan sticker ${esc(SUB.n)} ${esc(USER.name)}</span></div><button class="btn small ${confAll?"warn":"ghost"}" data-act="pReset" data-set="all">${confAll?"Tekan lagi untuk sahkan":"Padam semua"}</button></div></div>
@@ -4061,6 +4077,9 @@ app.addEventListener("click",e=>{
     case "krCancel":go(UI.kr&&UI.kr.back||"login");break;
     case "toggleLock":{const u=ST.users.find(x=>x.id===b.dataset.u);if(!u)break;if(!u.pinH){toast("Lengkapkan profil dulu");break}u.lock=!u.lock;save();toast(u.lock?u.name+": kod diminta setiap kali buka":u.name+": terus masuk tanpa kod di phone ini");render();break}
     case "install":if(deferredPrompt){const dp=deferredPrompt;dp.prompt();dp.userChoice.then(c=>{deferredPrompt=null;if(c&&c.outcome==="accepted")toast("Sedang dipasang… 🎉");render()}).catch(()=>{})}else{UI.installHelp=true;render()}break;
+    case "ddOpen":UI.ddOpen=UI.ddOpen===b.dataset.k?null:b.dataset.k;render();break;
+    case "ddClose":UI.ddOpen=null;render();break;
+    case "ddPick":{const k=b.dataset.k;UI.ddOpen=null;if(k==="bSubj"&&UI.board)UI.board.subj=v;if(k==="pSubj"){setSubject(v);UI.confirmReset=null}render();break}
     case "noticeOk":{const first=!noticeSeen();try{localStorage.setItem(NOTICE_KEY,String(Date.now()))}catch(e){}UI.notice=false;if(first&&!guideSeen()){UI.guide=true;UI.guideI=0;UI.guideStill=false}render();break}
     case "showGuide":UI.guide=true;UI.guideI=0;UI.guideStill=false;render();break;
     case "guideNext":UI.guideStill=true;UI.guideI=Math.min((UI.guideI||0)+1,GUIDE.length-1);render();break;
@@ -4147,6 +4166,7 @@ app.addEventListener("click",e=>{
       if(USER&&USER.id===id){USER=null;D=null;P=null;go("login")}else render();break}
   }
 });
+document.addEventListener("click",e=>{if(UI.ddOpen&&!(e.target.closest&&e.target.closest(".dd"))){UI.ddOpen=null;render()}});
 app.addEventListener("change",e=>{const k=e.target.dataset&&e.target.dataset.sel;if(k==="pSubj"){setSubject(e.target.value);UI.confirmReset=null;SND.play("tap");render();return}if(!k||!UI.board)return;if(k==="bSubj")UI.board.subj=e.target.value;if(k==="bCls")UI.board.cls=e.target.value;SND.play("tap");render()});
 app.addEventListener("input",e=>{
   const k=e.target.dataset.input;
