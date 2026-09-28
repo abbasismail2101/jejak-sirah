@@ -3895,9 +3895,9 @@ function vParent(){
   }).join("");
   const confAll=UI.confirmReset==="all";
   const users=ST.users.map(u=>{const c=UI.confirmDel===u.id;return `<div class="it"><div class="me" style="font-size:1.1rem">${avatar(u)}<div><b>${esc(u.name)}</b><span class="st2">${u.cls?esc(u.cls):""}${u.pin?" · Kod pelajar: "+esc(u.pin):""}${u.cloud?(u.hidden?" · disorok dari Papan":" · dalam Papan Kelas"):" · phone ini sahaja"}</span></div></div><div class="row-btns">${u.pinH?`<button class="btn small ghost" data-act="kidReset" data-u="${esc(u.id)}">🔑 Tukar kod</button>`:""}${u.pinH?`<button class="btn small ghost" data-act="toggleLock" data-u="${esc(u.id)}">${u.lock?"🔒 Kod: diminta":"🔓 Kod: tidak diminta"}</button>`:""}${u.cloud?`<button class="btn small ghost" data-act="hideUser" data-u="${esc(u.id)}">${u.hidden?"Papar di Papan":"Sorok dari Papan"}</button>`:""}<button class="btn small ${c?"warn":"ghost"}" data-act="delUser" data-u="${esc(u.id)}">${c?"Tekan lagi untuk buang":"Buang dari phone ini"}</button></div></div>`}).join("");
-  const psub=`<div class="chips wrap">${READY.map(x=>`<button class="chipc ${x.k===SUBJ?"on":""}" data-act="pSubj" data-v="${x.k}">${x.e} ${esc(x.n)}</button>`).join("")}</div>`;
+  const psub=`<div class="bfilt"><label class="sel"><span>Subjek</span><span class="selw"><select data-sel="pSubj">${READY.map(x=>`<option value="${x.k}" ${x.k===SUBJ?"selected":""}>${x.e} ${esc(x.n)}</option>`).join("")}</select><svg viewBox="0 0 12 8" width="12" height="8" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/></svg></span></label></div>`;
   return `<div class="qhead phead"><div><h2>Ruang Ibu &amp; Ayah · ${esc(USER.name)}</h2><p>Semak jawapan, lihat keputusan, atau buka semula set untuk latihan ulangan. Markah terbaik dan sticker kekal walaupun set dibuat semula.</p></div><button class="btn ghost small" data-act="pClose">Tutup</button></div>
-    ${psub}<h3 class="listh" style="margin-top:8px">${SUB.e} ${esc(SUB.n)}</h3>
+    ${psub}
     <div class="pp">${items}<div class="it"><div><b>Mula semula ${esc(SUB.n)} dari awal</b><span class="st2">Padam semua jawapan, markah dan sticker ${esc(SUB.n)} ${esc(USER.name)}</span></div><button class="btn small ${confAll?"warn":"ghost"}" data-act="pReset" data-set="all">${confAll?"Tekan lagi untuk sahkan":"Padam semua"}</button></div></div>
     <h3 class="listh">Pengguna</h3><div class="pp">${users}</div>
     <h3 class="listh">Kod Ibu/Ayah</h3><div class="pp"><div class="it"><div><b>🔒 Kod 4 digit</b><span class="st2">Satu kod untuk semua pengguna di peranti ini</span></div><button class="btn small ghost" data-act="changePin">Tukar kod</button></div></div>`;
@@ -4089,7 +4089,7 @@ app.addEventListener("click",e=>{
       if(USER&&USER.id===id){USER=null;D=null;P=null;go("login")}else render();break}
   }
 });
-app.addEventListener("change",e=>{const k=e.target.dataset&&e.target.dataset.sel;if(!k||!UI.board)return;if(k==="bSubj")UI.board.subj=e.target.value;if(k==="bCls")UI.board.cls=e.target.value;SND.play("tap");render()});
+app.addEventListener("change",e=>{const k=e.target.dataset&&e.target.dataset.sel;if(k==="pSubj"){setSubject(e.target.value);UI.confirmReset=null;SND.play("tap");render();return}if(!k||!UI.board)return;if(k==="bSubj")UI.board.subj=e.target.value;if(k==="bCls")UI.board.cls=e.target.value;SND.play("tap");render()});
 app.addEventListener("input",e=>{
   const k=e.target.dataset.input;
   if(k==="newName"){UI.newName=e.target.value;return}
