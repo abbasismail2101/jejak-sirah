@@ -424,6 +424,7 @@ textarea{width:100%;min-height:120px;margin-top:14px;font:600 1.25rem/1.5 var(--
 .nfoot{font-size:.85rem;color:var(--ink-muted);margin:0 0 12px}
 .notice .row-btns{justify-content:center}
 .nlink{text-align:center;margin:14px 0 0}
+.credit{text-align:center;color:var(--muted);opacity:.75;font-size:.8rem;font-weight:700;margin:28px 0 70px;letter-spacing:.3px}
 .nlink .linkbtn{color:var(--muted);font-size:.92rem}
 .nlink{color:var(--muted)}
 .guide{text-align:center}
@@ -3975,7 +3976,7 @@ function vParent(){
 function render(){
   const v={login:vLogin,welcome:vWelcome,subjects:vSubjects,map:vMap,quiz:vQuiz,confirm:vConfirm,submitted:vSubmitted,pin:vPin,check:vCheck,result:vResult,book:vBook,parent:vParent,review:vReview,other:vOther,board:vBoard,kidcode:vKidCode,kidreset:vKidReset}[UI.screen];
   app.classList.toggle("ltr",!!(USER&&SUB&&!SUB.rtl));
-  app.innerHTML=v()+(UI.installHelp?installModal():"")+(UI.notice?noticeModal():(UI.guide?guideModal():""));
+  app.innerHTML=v()+(["quiz","check","review","pin"].includes(UI.screen)?"":`<footer class="credit">Dibangunkan oleh Abbas Ismail</footer>`)+(UI.installHelp?installModal():"")+(UI.notice?noticeModal():(UI.guide?guideModal():""));
   if(UI.screen==="parent"||UI.screen==="check")ppMark();SND.setTheme(themeFor(UI.screen));paintSnd();saveSess();
   if(UI.screen==="welcome")SND.play("jingle",0,.35);
   if(UI.screen==="welcome")setTimeout(()=>confetti(90),500);
