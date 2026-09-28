@@ -278,6 +278,33 @@ textarea{width:100%;min-height:120px;margin-top:14px;font:600 1.25rem/1.5 var(--
 .sw.on{box-shadow:0 0 0 4px var(--ink)}
 .btn.dark{color:var(--ink);box-shadow:inset 0 0 0 2px #D9CDB6;background:#fff}
 .listh{font-size:1.3rem;color:var(--sand);margin:26px 0 4px}
+.tchav{display:grid;place-items:center;font-size:2.4rem;background:radial-gradient(circle at 35% 30%,#FFE8A3,#E9B949)}
+.tchp .pclass{font-weight:800}
+.tchips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.tchip{font-size:.78rem;font-weight:800;background:rgba(255,255,255,.08);border:1px solid var(--line);border-radius:999px;padding:1px 7px;white-space:nowrap}
+.tctl{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;background:rgba(255,255,255,.06);border:2px solid var(--line);border-radius:16px;padding:10px 12px;margin:6px 0 4px;font-weight:700}
+.tgate{background:var(--paper);color:var(--ink);border-radius:18px;padding:14px;margin:6px 0;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.tgate>span{font-family:var(--f-display);font-size:1.7rem;font-weight:800}
+.tgate input{width:140px;text-align:center;font-size:1.4rem;padding:8px;border-radius:12px;border:2px solid #D9CDB6}
+.tsec{color:var(--sand);font-size:1.15rem;margin:20px 0 8px}
+.tsec .jawi{font-size:1.35rem}
+.tqs{display:grid;gap:10px}
+.tq{position:relative;background:var(--paper);color:var(--ink);border-radius:18px;padding:12px 14px 12px 50px;text-align:left}
+.tq.rtl{padding:12px 50px 12px 14px;text-align:right;direction:rtl}
+.tq .tn{position:absolute;left:12px;top:12px;font:800 .8rem var(--f-body);background:#EADFCB;border-radius:8px;padding:2px 6px;direction:ltr}
+.tq.rtl .tn{left:auto;right:12px}
+.tq .qt{font-size:1.05rem;line-height:1.6;font-weight:700}
+.tq .qt.jawi{font-size:1.3rem;line-height:1.9;font-weight:400}
+.tq .o{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:5px}
+.tq .o li{background:#fff;border:2px solid #EADFCB;border-radius:12px;padding:5px 10px}
+.tq .o li .jawi{font-size:1.2rem}
+.tq .o li.ok{border-color:var(--mint-deep);background:#E3F8EE;font-weight:800}
+.tq .ans{margin-top:8px;background:#E3F8EE;border-radius:12px;padding:6px 10px;font-weight:800;color:#0B5A3D}
+.tq .ans.no{background:#FFE9E5;color:#A8332A}
+.tq .hl{background:#FFF1C7;border-radius:6px;padding:0 4px}
+.tbank{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px}
+.tbank>span{background:rgba(255,255,255,.08);border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-weight:700}
+.tbank .jawi{font-size:1.15rem}
 .chips.wrap{flex-wrap:wrap}
 .bfilt{display:flex;gap:8px;margin:0 0 10px}
 .sel{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:3px}
@@ -3331,7 +3358,7 @@ function loadStore(){
 let P=null, ST=loadStore(), USER=null, D=null;
 const SESS="jejakSirah_sess";
 const PPK="jejakSirah_pp";function ppOk(){try{return +(sessionStorage.getItem(PPK)||0)>Date.now()}catch(e){return false}}function ppMark(){try{sessionStorage.setItem(PPK,String(Date.now()+30*60*1000))}catch(e){}}function ppClear(){try{sessionStorage.removeItem(PPK)}catch(e){}}
-function saveSess(){try{if(USER)localStorage.setItem(SESS,JSON.stringify({u:USER.id,k:SUBJ,s:UI.screen,pb:UI.parentBack,set:UI.set,q:UI.q,b:UI.board?{tab:UI.board.tab,cls:UI.board.cls,subj:UI.board.subj}:null}));else localStorage.removeItem(SESS)}catch(e){}}
+function saveSess(){try{if(USER)localStorage.setItem(SESS,JSON.stringify({u:USER.id,k:SUBJ,s:UI.screen,pb:UI.parentBack,set:UI.set,q:UI.q,b:UI.board?{tab:UI.board.tab,cls:UI.board.cls,subj:UI.board.subj}:null}));else if(UI.tch&&(UI.screen==="teacher"||(UI.screen==="board"&&UI.boardBack==="teacher")))localStorage.setItem(SESS,JSON.stringify({t:1,tab:UI.tch.tab,cls:UI.tch.cls,subj:UI.tch.subj,qs:UI.tch.qs,qset:UI.tch.qset}));else localStorage.removeItem(SESS)}catch(e){}}
 function save(){if(P){P.ts=Date.now();P.last=SUBJ}try{localStorage.setItem(KEY2,JSON.stringify(ST))}catch(e){}if(USER&&USER.cloud&&typeof scheduleSync==="function")scheduleSync()}
 let UI={screen:"login",set:1,q:0,pin:"",after:null,toastSeen:{},confirmReset:null,confirmDel:null,adding:false,newName:"",newCls:"",newC:1,addErr:""};
 /* ---------- sound (Web Audio, synthesised) ---------- */
@@ -3721,7 +3748,7 @@ function vLogin(){
       <div class="tag">Latihan UASA Tahun 2 · Sirah &amp; subjek lain</div></div>
     ${UI.adding?"":installCard()}
     <div class="ask">Siapa yang nak belajar hari ini?</div>
-    <div class="profiles">${cards}${add}</div>
+    <div class="profiles">${cards}${UI.adding?"":`<button class="profile tchp" data-act="teacher"><span class="avatar tchav">🧑‍🏫</span><span class="pname">Muallim</span><span class="pclass">&amp; Muallimah</span></button>`}${add}</div>
     <div class="hint">${ST.users.length?"Tekan gambar kamu untuk masuk":"Ibu/Ayah: tekan Tambah untuk daftar anak"}</div>
     ${cOk&&!UI.adding?`<div class="row-btns"><button class="btn ghost small" data-act="other">🔑 Masuk profil dari phone lain</button><button class="btn ghost small" data-act="board">🏆 Papan Kelas</button></div>`:""}
     ${UI.adding?"":`<p class="nlink"><button class="linkbtn" data-act="showGuide">❓ Cara guna</button> · <button class="linkbtn" data-act="showNotice">ℹ️ Notis untuk ibu bapa</button></p>`}
@@ -3776,7 +3803,7 @@ function vOther(){
 function vBoard(){
   const B=UI.board,me=USER?USER.id:null;
   const tabs=[["ind","🧒 Individu"],["cls","🏫 Antara Kelas"],["map","🗺️ Peta Kelas"]].map(([k,t])=>`<button class="tab ${B.tab===k?"on":""}" data-act="bTab" data-v="${k}">${t}</button>`).join("");
-  const head=`<div class="qhead"><button class="btn ghost small" data-act="${USER?"bBack":"toLogin"}">← Kembali</button><span class="ttl">🏆 Papan Kelas</span><button class="btn ghost small" data-act="bRetry">↻</button></div><div class="tabs">${tabs}</div>`;
+  const head=`<div class="qhead"><button class="btn ghost small" data-act="${USER||UI.boardBack==="teacher"?"bBack":"toLogin"}">← Kembali</button><span class="ttl">🏆 Papan Kelas</span><button class="btn ghost small" data-act="bRetry">↻</button></div><div class="tabs">${tabs}</div>`;
   if(B.err)return head+`<p class="bmsg">${B.err==="off"?"Papan Kelas perlukan sambungan internet.":"Tak dapat sambung ke internet."} <button class="btn ghost small" data-act="bRetry">Cuba lagi</button></p>`;
   if(!B.data)return head+`<p class="bmsg">Memuatkan papan… ⏳</p>`;
   const all=B.data;
@@ -3804,6 +3831,65 @@ function vBoard(){
   const lead=st[0].avg===st[1].avg?null:(st[0].avg>st[1].avg?st[0].c:st[1].c);
   const cards=st.map(x=>`<div class="ccard ${lead===x.c?"lead":""}">${lead===x.c?'<span class="crown">👑 Mendahului</span>':""}<h3>${x.c}</h3><div class="cbig">${x.avg.toFixed(1)}<small> / ${sn}</small></div><span class="clbl">purata set siap setiap murid</span><div class="ibar"><i style="width:${Math.min(100,x.avg/sn*100)}%"></i></div><ul><li>👧👦 ${x.n} murid</li><li>✅ ${x.tot} set siap semuanya</li><li>🏆 ${x.fin} murid tamat semua</li><li>${SS?"⭐ "+x.stk+" bintang":"🏅 "+x.stk+" sticker"} dikumpul</li></ul></div>`).join("");
   return head+filt+`<p class="bnote">${SS?SS.e+" "+esc(SS.n)+". ":""}Kelas dibandingkan ikut purata, jadi adil walaupun bilangan murid tak sama. Jom bantu kawan sekelas!</p><div class="cgrid">${cards}</div>`;
+}
+/* ---------- Muallim / Muallimah (lihat sahaja, tanpa login) ---------- */
+function openTeacher(ss){
+  ss=ss||{};USER=null;D=null;P=null;
+  const qs=SUBJ_BY[ss.qs]&&SUBJ_BY[ss.qs].ready?ss.qs:READY[0].k;
+  UI.tch={tab:["murid","soalan"].includes(ss.tab)?ss.tab:"murid",cls:ss.cls||"all",subj:ss.subj||"all",qs,qset:ss.qset||1,ans:false,gate:null,data:null,err:""};
+  go("teacher");loadTch();
+}
+function loadTch(){
+  const T=UI.tch;if(!T)return;T.err="";
+  if(!cloudOk()){if(isCloudBuild()){waitCloud(10000).then(ok=>{if(UI.screen!=="teacher")return;if(ok)loadTch();else{T.err="off";render()}});return}T.err="off";if(UI.screen==="teacher")render();return}
+  withTimeout(CLOUD.listAll(),8000).then(list=>{T.data=mergeLocal(list).filter(x=>!x.hidden);if(UI.screen==="teacher")render()}).catch(()=>{T.err="net";if(UI.screen==="teacher")render()});
+}
+function tGateOk(){
+  const g=UI.tch&&UI.tch.gate;if(!g)return;SND.ensure();
+  if(parseInt(g.val,10)===g.a*g.b){SND.play("unlock");UI.tch.ans=true;UI.tch.gate=null;toast("Jawapan dipaparkan ✅")}
+  else{SND.play("bonk");g.err="Jawapan salah. Cuba lagi.";g.val=""}
+  render();
+}
+function vTeacher(){
+  const T=UI.tch;
+  const tabs=[["murid","👩‍🎓 Murid"],["soalan","📚 Soalan"],["papan","🏆 Papan"]].map(([k,t])=>k==="papan"?`<button class="tab" data-act="board">${t}</button>`:`<button class="tab ${T.tab===k?"on":""}" data-act="tTab" data-v="${k}">${t}</button>`).join("");
+  const head=`<div class="qhead"><button class="btn ghost small" data-act="toLogin">← Kembali</button><span class="ttl">🧑‍🏫 Ruang Muallim</span><span></span></div>
+    <p class="bnote" style="text-align:center">Assalamualaikum Muallim / Muallimah! Ruang ini untuk melihat sahaja: kemajuan murid, soalan latihan dan Papan Kelas.</p><div class="tabs">${tabs}</div>`;
+  return head+(T.tab==="soalan"?tSoalan():tMurid());
+}
+function tMurid(){
+  const T=UI.tch;
+  const filt=`<div class="bfilt"><div class="sel"><span>Kelas</span>${dd("tCls",[{v:"all",l:"🏫 Semua kelas"}].concat(CLS.map(c=>({v:c,l:c}))),T.cls)}</div><div class="sel"><span>Subjek</span>${dd("tSubj",[{v:"all",l:"📚 Semua"}].concat(READY.map(x=>({v:x.k,l:x.e+" "+x.n}))),T.subj)}</div></div>`;
+  if(T.err)return filt+`<p class="bmsg">${T.err==="off"?"Senarai murid perlukan sambungan internet.":"Tak dapat sambung ke internet."} <button class="btn ghost small" data-act="tRetry">Cuba lagi</button></p>`;
+  if(!T.data)return filt+`<p class="bmsg">Memuatkan senarai murid… ⏳</p>`;
+  const SS=T.subj!=="all"&&SUBJ_BY[T.subj]&&SUBJ_BY[T.subj].ready?SUBJ_BY[T.subj]:null,sn=SS?SS.sets.length:TOTAL_SETS;
+  const l=T.data.filter(x=>T.cls==="all"||x.cls===T.cls).sort((a,b)=>(a.cls||"").localeCompare(b.cls||"")||a.name.localeCompare(b.name));
+  const dOf=x=>SS?subDone(x,SS.k):x.done,sOf=x=>SS?((x.sub&&x.sub[SS.k]&&x.sub[SS.k].s)||0):x.stars;
+  const avg=l.length?(l.reduce((a,x)=>a+dOf(x),0)/l.length).toFixed(1):"0";
+  const chips=x=>`<div class="tchips">${READY.map(r=>`<span class="tchip" title="${esc(r.n)}">${r.e} ${subDone(x,r.k)}/${r.sets.length}</span>`).join("")}</div>`;
+  const rows=l.map(x=>`<div class="irow">${sAvatar(x)}<div class="iinfo"><b>${esc(x.name)}</b><span class="icls">${esc(x.cls||"")}</span><div class="ibar"><i style="width:${Math.min(100,dOf(x)/sn*100)}%"></i></div><span class="istat">${SS?SS.e+" "+dOf(x)+"/"+sn+" set siap · ⭐ "+sOf(x)+" · sedang di Set "+Math.min(subCur(x,SS.k),sn):dOf(x)+" set siap · ⭐ "+sOf(x)+" · 🏅 "+x.stk+" sticker"}</span>${SS?"":chips(x)}</div></div>`).join("");
+  return filt+`<p class="bnote">${l.length} murid · purata ${avg} set siap${SS?" ("+esc(SS.n)+")":" (semua subjek)"}. Set dikira siap selepas Ibu/Ayah semak.</p><div class="ilist">${rows||'<p class="bmsg">Belum ada murid dalam kelas ini.</p>'}</div>`;
+}
+function tSoalan(){
+  const T=UI.tch,S=SUBJ_BY[T.qs],set=S.sets[T.qset-1]||S.sets[0],rtl=!!S.rtl,L=rtl?LET_J:LET_R,SC=rtl?SEC_J:SEC_R,fx=S.fix||{},A=T.ans;
+  const filt=`<div class="bfilt"><div class="sel"><span>Subjek</span>${dd("tqSubj",READY.map(x=>({v:x.k,l:x.e+" "+x.n})),T.qs)}</div><div class="sel"><span>Set</span>${dd("tqSet",S.sets.map(x=>({v:String(x.id),l:(x.big?"🚩 ":"")+x.name+" · "+x.place})),String(set.id))}</div></div>`;
+  let ctl;
+  if(A)ctl=`<div class="tctl"><span>✅ Jawapan dipaparkan</span><button class="btn ghost small" data-act="tAnsOff">🙈 Sorok jawapan</button></div>`;
+  else if(T.gate)ctl=`<form class="tgate" id="tGate" autocomplete="off"><b>Soalan untuk dewasa sahaja</b><span>${T.gate.a} × ${T.gate.b} = ?</span><input id="tGateIn" data-input="tGate" inputmode="numeric" maxlength="4" value="${esc(T.gate.val)}" aria-label="Jawapan"><p class="err">${esc(T.gate.err)}</p><div class="row-btns"><button type="button" class="btn ghost small dark" data-act="tGateX">Batal</button><button type="submit" class="btn mint small">Sahkan</button></div></form>`;
+  else ctl=`<div class="tctl"><span>Jawapan tersorok supaya murid tak terintai.</span><button class="btn small" data-act="tAnsOn">👁️ Tunjuk jawapan</button></div>`;
+  const tx=t=>`<div class="qt ${rtl?"jawi":""}">${esc(t)}</div>`;
+  const byS=k=>set.items.filter(it=>it.sec===k);
+  const sec=(k,body,extra)=>`<h3 class="tsec"><span class="${rtl?"jawi":""}">${SC[k].j}</span></h3>${extra||""}<div class="tqs">${body}</div>`;
+  const card=(it,i,inner)=>`<div class="tq ${rtl?"rtl":""}"><span class="tn">${it.id}</span>${inner}</div>`;
+  const Ab=byS("A").map((it,i)=>card(it,i,tx(it.q)+`<ol class="o">${it.opts.map((o,j)=>`<li class="${A&&j===it.ans?"ok":""}"><b>${L[j]}.</b> <span class="${rtl?"jawi":""}">${esc(o)}</span>${A&&j===it.ans?" ✓":""}</li>`).join("")}</ol>`)).join("");
+  const Bb=byS("B").map((it,i)=>card(it,i,`<div class="qt ${rtl?"jawi":""}">${esc(it.q).replace("{_}",A?`<b class="hl">${esc(it.ans)}</b>`:"______")}</div>`)).join("");
+  const Cb=byS("C").map((it,i)=>card(it,i,tx(it.q)+(A?`<div class="ans">→ ${L[it.ans]}. <span class="${rtl?"jawi":""}">${esc(it.opts[it.ans])}</span></div>`:""))).join("");
+  const Db=byS("D").map((it,i)=>card(it,i,tx(it.q)+(A?`<div class="ans ${it.ans?"":"no"}">${it.ans?"✓ Betul":"✗ Salah"}${!it.ans&&fx[set.id]&&fx[set.id][it.id]?`<div style="margin-top:4px">Pembetulan:</div><div class="${rtl?"jawi":""}" style="font-weight:700">${esc(fx[set.id][it.id])}</div>`:""}</div>`:""))).join("");
+  const Eb=byS("E").map((it,i)=>card(it,i,tx(it.q)+(A?`<div class="ans">Skema: ${esc(it.model)}</div>`:""))).join("");
+  const bank=`<div class="tbank">${set.bank.map(w=>`<span class="${rtl?"jawi":""}">${esc(w)}</span>`).join("")}</div>`;
+  const right=`<div class="tbank">${set.right.map((w,j)=>`<span><b>${L[j]}.</b> <span class="${rtl?"jawi":""}">${esc(w)}</span></span>`).join("")}</div>`;
+  return filt+ctl+`<p class="bnote">${S.e} ${esc(S.n)} · ${esc(set.name)} · ${esc(set.place)}${set.big?" · 🚩 Checkpoint":""} · 30 soalan</p>`
+    +sec("A",Ab)+sec("B",Bb,bank)+sec("C",Cb,right)+sec("D",Db)+sec("E",Eb);
 }
 function vWelcome(){
   const q=QUOTES[Math.floor(Math.random()*QUOTES.length)],t="Selamat datang, "+USER.name+"!";
@@ -4078,7 +4164,7 @@ function vParent(){
 
 /* ---------- render ---------- */
 function render(){
-  const v={login:vLogin,welcome:vWelcome,subjects:vSubjects,map:vMap,quiz:vQuiz,confirm:vConfirm,submitted:vSubmitted,pin:vPin,check:vCheck,result:vResult,book:vBook,parent:vParent,review:vReview,other:vOther,board:vBoard,kidcode:vKidCode,kidreset:vKidReset}[UI.screen];
+  const v={login:vLogin,welcome:vWelcome,subjects:vSubjects,map:vMap,quiz:vQuiz,confirm:vConfirm,submitted:vSubmitted,pin:vPin,check:vCheck,result:vResult,book:vBook,parent:vParent,review:vReview,other:vOther,board:vBoard,teacher:vTeacher,kidcode:vKidCode,kidreset:vKidReset}[UI.screen];
   app.classList.toggle("ltr",!!(USER&&SUB&&!SUB.rtl));
   app.innerHTML=v()+(["quiz","check","review","pin"].includes(UI.screen)?"":`<footer class="credit">Dibangunkan oleh Abah Hassan</footer>`)+(UI.installHelp?installModal():"")+(UI.notice?noticeModal():(UI.guide?guideModal():""))+(UI.avFor?avModal():"")+(UI.share?shareModal():"");
   if(UI.screen==="parent"||UI.screen==="check")ppMark();SND.setTheme(themeFor(UI.screen));paintSnd();saveSess();
@@ -4161,7 +4247,7 @@ async function saveUser(){
   Object.assign(UI,{adding:false,upgradeId:null,newName:"",newCls:"",newP1:"",newP2:"",consent:false,addErr:""});render();toast("Selamat datang, "+name+"! Tekan gambar untuk masuk.");
 }
 
-app.addEventListener("submit",e=>{e.preventDefault();if(e.target.id==="addForm")saveUser();if(e.target.id==="mathForm")mathOk();if(e.target.id==="krForm")saveKidReset()});
+app.addEventListener("submit",e=>{e.preventDefault();if(e.target.id==="addForm")saveUser();if(e.target.id==="mathForm")mathOk();if(e.target.id==="krForm")saveKidReset();if(e.target.id==="tGate")tGateOk()});
 app.addEventListener("click",e=>{
   const b=e.target.closest("[data-act]");if(!b||b.disabled)return;
   const a=b.dataset.act,v=b.dataset.v;
@@ -4184,10 +4270,16 @@ app.addEventListener("click",e=>{
     case "install":if(deferredPrompt){const dp=deferredPrompt;dp.prompt();dp.userChoice.then(c=>{deferredPrompt=null;if(c&&c.outcome==="accepted")toast("Sedang dipasang… 🎉");render()}).catch(()=>{})}else{UI.installHelp=true;render()}break;
     case "ddOpen":UI.ddOpen=UI.ddOpen===b.dataset.k?null:b.dataset.k;render();break;
     case "ddClose":UI.ddOpen=null;render();break;
-    case "ddPick":{const k=b.dataset.k;UI.ddOpen=null;if(k==="bSubj"&&UI.board)UI.board.subj=v;if(k==="pSubj"){setSubject(v);UI.confirmReset=null}if(k==="bookSubj")UI.bookSubj=v;render();break}
+    case "ddPick":{const k=b.dataset.k;UI.ddOpen=null;if(k==="bSubj"&&UI.board)UI.board.subj=v;if(k==="pSubj"){setSubject(v);UI.confirmReset=null}if(k==="bookSubj")UI.bookSubj=v;if(k==="tCls")UI.tch.cls=v;if(k==="tSubj")UI.tch.subj=v;if(k==="tqSubj"){UI.tch.qs=v;UI.tch.qset=1}if(k==="tqSet")UI.tch.qset=+v;render();break}
     case "avOpen":UI.avFor=b.dataset.u;render();break;
     case "avClose":UI.avFor=null;render();break;
     case "shareOpen":UI.share=true;render();break;
+    case "teacher":openTeacher();break;
+    case "tTab":UI.tch.tab=v;UI.tch.gate=null;render();break;
+    case "tAnsOn":UI.tch.gate={a:13+Math.floor(Math.random()*17),b:12+Math.floor(Math.random()*8),val:"",err:""};render();setTimeout(()=>{const i=document.getElementById("tGateIn");if(i)i.focus()},50);break;
+    case "tAnsOff":UI.tch.ans=false;UI.tch.gate=null;render();break;
+    case "tGateX":UI.tch.gate=null;render();break;
+    case "tRetry":loadTch();render();break;
     case "shareClose":UI.share=false;render();break;
     case "shareNative":{navigator.share({title:"Kembara Ilmu",text:shareText(),url:SHARE_URL}).then(()=>{UI.share=false;render()}).catch(()=>{});break}
     case "copyShare":{const done=()=>toast("Link disalin ✅");const fb=()=>{const i=document.getElementById("shareLink");i.select();try{document.execCommand("copy");done()}catch(_){}};try{navigator.clipboard.writeText(SHARE_URL).then(done).catch(fb)}catch(e){fb()}break}
@@ -4203,7 +4295,7 @@ app.addEventListener("click",e=>{
     case "other":UI.other={cls:CLS[0],list:null,err:""};go("other");if(cloudOk())withTimeout(CLOUD.listAll(),8000).then(l=>{UI.other.list=l;if(UI.screen==="other")render()}).catch(()=>{UI.other.err="net";if(UI.screen==="other")render()});else{UI.other.err="off";render()}break;
     case "oCls":UI.other.cls=v;render();break;
     case "otherPick":{const st=(UI.other.list||[]).find(x=>x.id===b.dataset.u);if(!st)break;UI.remote=st;UI.pin="";UI.pinErr="";UI.pinMode="remote";go("pin");break}
-    case "board":UI.boardBack=["subjects","map","book"].includes(UI.screen)?UI.screen:"map";UI.board={tab:"ind",cls:USER&&USER.cls?USER.cls:CLS[0],subj:"all",data:null,err:""};go("board");loadBoard();break;
+    case "board":UI.boardBack=UI.screen==="teacher"?"teacher":(["subjects","map","book"].includes(UI.screen)?UI.screen:"map");UI.board={tab:"ind",cls:USER&&USER.cls?USER.cls:CLS[0],subj:"all",data:null,err:""};go("board");loadBoard();break;
     case "bBack":if((UI.boardBack||"map")==="map")UI.scrollMap=true;go(UI.boardBack||"map");break;
     case "bSubj":UI.board.subj=v;render();break;
     case "subjects":UI.confirmReset=null;UI.confirmDel=null;go("subjects");break;
@@ -4283,6 +4375,7 @@ app.addEventListener("change",e=>{const k=e.target.dataset&&e.target.dataset.sel
 app.addEventListener("input",e=>{
   const k=e.target.dataset.input;
   if(k==="newName"){UI.newName=e.target.value;return}
+  if(k==="tGate"&&UI.tch&&UI.tch.gate){UI.tch.gate.val=e.target.value.replace(/\D/g,"").slice(0,4);return}
   if(k==="newP1"){UI.newP1=e.target.value.replace(/\D/g,"").slice(0,4);return}
   if(k==="newP2"){UI.newP2=e.target.value.replace(/\D/g,"").slice(0,4);return}
   if(k==="consent"){UI.consent=e.target.checked;return}
@@ -4304,7 +4397,7 @@ app.addEventListener("input",e=>{
 });
 app.addEventListener("keydown",e=>{const g=e.target.closest&&e.target.closest("g[data-act]");if(g&&(e.key==="Enter"||e.key===" ")){e.preventDefault();g.dispatchEvent(new MouseEvent("click",{bubbles:true}))}});
 
-window.addEventListener("cloud-ready",()=>{if(UI.screen==="board"&&UI.board&&UI.board.err){loadBoard();render()}else if(["login","welcome","subjects","map","book","parent","result"].includes(UI.screen))render();if(USER&&USER.cloud)pullNewer()});
+window.addEventListener("cloud-ready",()=>{if(UI.screen==="teacher"&&UI.tch&&!UI.tch.data){loadTch();return}if(UI.screen==="board"&&UI.board&&UI.board.err){loadBoard();render()}else if(["login","welcome","subjects","map","book","parent","result"].includes(UI.screen))render();if(USER&&USER.cloud)pullNewer()});
 async function pullNewer(){
   if(!USER||!USER.cloud||!cloudOk())return;
   const id=USER.id;
@@ -4313,6 +4406,7 @@ async function pullNewer(){
 (function restore(){
   if(!noticeSeen())UI.notice=true;
   let ss=null;try{ss=JSON.parse(localStorage.getItem(SESS)||"null")}catch(e){}
+  if(ss&&ss.t){openTeacher(ss);return}
   if(!ss||!ST.users.some(u=>u.id===ss.u)){render();return}
   login(ss.u);if(ss.k)setSubject(ss.k);UI.set=ss.set||1;UI.q=ss.q||0;UI.fresh=false;
   let sc=ss.s;const st=UI.set>=1&&UI.set<=N?status(UI.set):"locked";
