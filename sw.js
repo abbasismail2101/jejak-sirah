@@ -1,5 +1,5 @@
 /* Kembara Ilmu – offline cache */
-const CACHE = "kembara-ilmu-v41";
+const CACHE = "kembara-ilmu-v42";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png"];
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));

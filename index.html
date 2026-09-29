@@ -278,6 +278,8 @@ textarea{width:100%;min-height:120px;margin-top:14px;font:600 1.25rem/1.5 var(--
 .sw.on{box-shadow:0 0 0 4px var(--ink)}
 .btn.dark{color:var(--ink);box-shadow:inset 0 0 0 2px #D9CDB6;background:#fff}
 .listh{font-size:1.3rem;color:var(--sand);margin:26px 0 4px}
+.subnote{color:var(--muted);font-size:.95rem;font-weight:700;margin-top:-8px}
+.sp.pend{color:#8CC4F0;font-weight:800}
 .tchav{display:grid;place-items:center;font-size:2.4rem;background:radial-gradient(circle at 35% 30%,#FFE8A3,#E9B949)}
 .tlink{margin-top:-14px;opacity:.7;font-size:.85rem}
 .tchips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
@@ -4730,6 +4732,8 @@ function starsFor(sc){return sc>=27?3:sc>=21?2:sc>=15?1:0}
 function totalStars(){return P?summary(P).stars:0}
 function allDone(){for(let s=1;s<=N;s++)if(!D.best[s])return false;return true}
 function anyPerfect(){for(let s=1;s<=N;s++)if(D.best[s]&&D.best[s].score===30)return true;return false}
+function pendCount(d){if(!d||!d.submitted)return 0;return Object.keys(d.submitted).filter(s=>d.submitted[s]&&!(d.results&&d.results[s])).length}
+function pendAll(){return P?READY.reduce((a,x)=>a+pendCount(P.subj[x.k]),0):0}
 function status(s){
   if(D.results[s])return "done";
   if(D.submitted[s])return "wait";
@@ -5089,7 +5093,7 @@ function vSubjects(){
   const nx=nextExam();
   const cards=SUBJECTS.map(x=>{
     const sm=x.ready?subjSummary(x.k,P.subj[x.k]):null,soon=x.ymd===nx,n=x.ready?x.sets.length:10;
-    const prog=x.ready?`<span class="sbar"><i style="width:${sm.done/n*100}%"></i></span><span class="sp">${sm.done}/${n} set · ⭐ ${sm.stars}</span>`:`<span class="sp soon">⏳ Soalan akan datang</span>`;
+    const prog=x.ready?`<span class="sbar"><i style="width:${sm.done/n*100}%"></i></span><span class="sp">${sm.done}/${n} set · ⭐ ${sm.stars}</span>${pendCount(P.subj[x.k])?`<span class="sp pend">⏳ ${pendCount(P.subj[x.k])} menunggu semakan</span>`:""}`:`<span class="sp soon">⏳ Soalan akan datang</span>`;
     return `<button class="subj ${x.ready?"":"off"} ${soon?"next":""}" ${x.ready?`data-act="pickSubj" data-v="${x.k}"`:"disabled"}>${soon?'<span class="nexttag">Exam seterusnya</span>':""}<span class="se">${x.e}</span><span class="sn">${esc(x.n)}</span>${x.j?`<span class="sjn jawi">${x.j}</span>`:""}<span class="sd">📅 ${x.day}, ${x.date}</span>${prog}</button>`}).join("");
   return topbar()+`<p class="banner">${esc(NM("Pilih subjek, {n}! Setiap subjek ada 10 set dan 2 checkpoint besar."))}</p><div class="subjs">${cards}</div>`;
 }
@@ -5187,10 +5191,11 @@ function vConfirm(){
     <div class="row-btns"><button class="btn ghost" data-act="backQuiz">← Semak semula</button><button class="btn mint" data-act="submit">${un.length?"Hantar juga":"Hantar Jawapan"} ✓</button></div></section>`;
 }
 function vSubmitted(){
-  const set=SETS[UI.set-1];
+  const set=SETS[UI.set-1],nx=UI.set<N&&["open","progress","redo"].includes(status(UI.set+1))?UI.set+1:null;
   return `<section class="panel"><div class="big-emoji">${set.big?"🚩":"🏁"}</div><h2>Syabas, ${esc(USER.name)}!</h2>
-    <p>Kamu dah sampai ke hujung ${esc(SUB.n)} ${set.name}${set.big?", CHECKPOINT BESAR":""}. Sekarang panggil Ibu atau Ayah untuk semak jawapan dan buka hadiah kamu!</p>
-    <div class="row-btns"><button class="btn" data-act="toCheck">🔒 Ibu/Ayah: Semak Jawapan</button><button class="btn ghost" data-act="map">Kembali ke Peta</button></div></section>`;
+    <p>Kamu dah sampai ke hujung ${esc(SUB.n)} ${set.name}${set.big?", CHECKPOINT BESAR":""}. Jawapan kamu dah disimpan. ${nx?"Ibu atau Ayah boleh semak bila-bila masa, sementara itu jom teruskan ke "+SETS[nx-1].name+"!":"Panggil Ibu atau Ayah untuk semak jawapan dan buka hadiah kamu!"}</p>
+    <p class="subnote">⏳ Bintang dan sticker akan keluar selepas Ibu/Ayah semak.</p>
+    <div class="row-btns">${nx?`<button class="btn" data-act="station" data-set="${nx}">Teruskan ke ${SETS[nx-1].name} →</button>`:""}<button class="btn ${nx?"ghost":""}" data-act="toCheck">🔒 Ibu/Ayah: Semak Sekarang</button><button class="btn ghost" data-act="map">Kembali ke Peta</button></div></section>`;
 }
 function vPin(){
   const m=UI.pinMode,af=UI.after||{};
@@ -5334,8 +5339,8 @@ function vParent(){
   }).join("");
   const confAll=UI.confirmReset==="all";
   const users=ST.users.map(u=>{const c=UI.confirmDel===u.id;return `<div class="it"><div class="me" style="font-size:1.1rem">${avatar(u)}<div><b>${esc(u.name)}</b><span class="st2">${u.cls?esc(u.cls):""}${u.pin?" · Kod pelajar: "+esc(u.pin):""}${u.cloud?(u.hidden?" · disorok dari Papan":" · dalam Papan Kelas"):" · phone ini sahaja"}</span></div></div><div class="row-btns"><button class="btn small ghost" data-act="avOpen" data-u="${esc(u.id)}">🤖 Tukar robot</button>${u.pinH?`<button class="btn small ghost" data-act="kidReset" data-u="${esc(u.id)}">🔑 Tukar kod</button>`:""}${u.pinH?`<button class="btn small ghost" data-act="toggleLock" data-u="${esc(u.id)}">${u.lock?"🔒 Kod: diminta":"🔓 Kod: tidak diminta"}</button>`:""}${u.cloud?`<button class="btn small ghost" data-act="hideUser" data-u="${esc(u.id)}">${u.hidden?"Papar di Papan":"Sorok dari Papan"}</button>`:""}<button class="btn small ${c?"warn":"ghost"}" data-act="delUser" data-u="${esc(u.id)}">${c?"Tekan lagi untuk buang":"Buang dari phone ini"}</button></div></div>`}).join("");
-  const psub=`<div class="bfilt"><div class="sel"><span>Subjek</span>${dd("pSubj",READY.map(x=>({v:x.k,l:x.e+" "+x.n})),SUBJ)}</div></div>`;
-  return `<div class="qhead phead"><div><h2>Ruang Ibu &amp; Ayah · ${esc(USER.name)}</h2><p>Semak jawapan, lihat keputusan, atau buka semula set untuk latihan ulangan. Markah terbaik dan sticker kekal walaupun set dibuat semula.</p></div><button class="btn ghost small" data-act="pClose">Tutup</button></div>
+  const psub=`<div class="bfilt"><div class="sel"><span>Subjek</span>${dd("pSubj",READY.map(x=>{const w=pendCount(P.subj[x.k]);return {v:x.k,l:x.e+" "+x.n+(w?" · ⏳ "+w:"")}}),SUBJ)}</div></div>`;
+  return `<div class="qhead phead"><div><h2>Ruang Ibu &amp; Ayah · ${esc(USER.name)}</h2><p>Semak jawapan, lihat keputusan, atau buka semula set untuk latihan ulangan. Markah terbaik dan sticker kekal walaupun set dibuat semula.</p></div><button class="btn ghost small" data-act="pClose">Tutup</button></div>${pendAll()?`<p class="banner pendb">⏳ ${pendAll()} set menunggu semakan: ${READY.filter(x=>pendCount(P.subj[x.k])).map(x=>x.e+" "+esc(x.n)+" ("+pendCount(P.subj[x.k])+")").join(", ")}. Pilih subjek di bawah dan tekan <b>Semak sekarang</b>.</p>`:""}
     ${psub}
     <div class="pp">${items}<div class="it"><div><b>Mula semula ${esc(SUB.n)} dari awal</b><span class="st2">Padam semua jawapan, markah dan sticker ${esc(SUB.n)} ${esc(USER.name)}</span></div><button class="btn small ${confAll?"warn":"ghost"}" data-act="pReset" data-set="all">${confAll?"Tekan lagi untuk sahkan":"Padam semua"}</button></div></div>
     <h3 class="listh">Pengguna</h3><div class="pp">${users}</div>
