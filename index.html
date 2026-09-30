@@ -278,6 +278,7 @@ textarea{width:100%;min-height:120px;margin-top:14px;font:600 1.25rem/1.5 var(--
 .sw.on{box-shadow:0 0 0 4px var(--ink)}
 .btn.dark{color:var(--ink);box-shadow:inset 0 0 0 2px #D9CDB6;background:#fff}
 .listh{font-size:1.3rem;color:var(--sand);margin:26px 0 4px}
+.prevb{background:#FFE9C7;color:#6B4300;border-radius:14px;padding:10px 12px;font-weight:700;font-size:.9rem;max-width:420px}
 .subnote{color:var(--muted);font-size:.95rem;font-weight:700;margin-top:-8px}
 .sp.pend{color:#8CC4F0;font-weight:800}
 .tchav{display:grid;place-items:center;font-size:2.4rem;background:radial-gradient(circle at 35% 30%,#FFE8A3,#E9B949)}
@@ -4791,13 +4792,15 @@ let syncT=null;
 function scheduleSync(){clearTimeout(syncT);const u=USER,p=P;syncT=setTimeout(()=>pushUser(u,p),1500)}
 async function pushUser(u,p){
   if(!cloudOk()||!u||!u.cloud||!p)return;
-  try{await CLOUD.putStudent(u.id,studentDoc(u,p));await CLOUD.putState(u.id,JSON.stringify(p));if(UI.syncErr){UI.syncErr=false;if(UI.screen==="map")render()}}catch(e){console.warn("sync",e);UI.syncErr=true;if(UI.screen==="map")render()}
+  try{p.av=u.c||0;await CLOUD.putStudent(u.id,studentDoc(u,p));await CLOUD.putState(u.id,JSON.stringify(p));if(UI.syncErr){UI.syncErr=false;if(UI.screen==="map")render()}}catch(e){console.warn("sync",e);UI.syncErr=true;if(UI.screen==="map")render()}
 }
+function adoptCloud(id,c){const u=ST.users.find(x=>x.id===id);P=ST.prog[id]=normProg(c);if(u&&typeof c.av==="number"&&c.av>=0&&c.av<ROBOTS.length)u.c=c.av;setSubject(SUBJ);try{localStorage.setItem(KEY2,JSON.stringify(ST))}catch(e){}}
 async function doLogin(id){
   login(id);
   if(USER.cloud&&cloudOk()){
-    try{const st=await withTimeout(CLOUD.getState(id),5000);if(st){const c=JSON.parse(st);if(c.v===2&&(c.ts||0)>(P.ts||0)){P=ST.prog[id]=normProg(c);setSubject(SUBJ);save()}}}catch(e){}
-    pushUser(USER,P);
+    let ok=false;
+    try{const st=await withTimeout(CLOUD.getState(id),8000);ok=true;if(st){const c=JSON.parse(st);if(c.v===2&&(c.ts||0)>(P.ts||0))adoptCloud(id,c)}}catch(e){}
+    if(ok)pushUser(USER,P);
   }
   go("welcome");
 }
@@ -4932,6 +4935,7 @@ function vLogin(){
     <div class="brand"><div class="moon" aria-hidden="true"></div>
       <h1>Kembara Ilmu</h1><div class="bj jawi">کمبارا علمو</div>
       <div class="tag">Latihan UASA Tahun 2 · Sirah &amp; subjek lain</div></div>
+    ${!isCloudBuild()?`<p class="banner prevb">⚠️ Ini versi pratonton: tiada Papan Kelas dan kemajuan tidak sync antara phone. Guna link rasmi <b>abbasismail2101.github.io/kembara-ilmu</b></p>`:""}
     ${UI.adding?"":installCard()}
     <div class="ask">Siapa yang nak belajar hari ini?</div>
     <div class="profiles">${cards}${add}</div>
@@ -5420,7 +5424,7 @@ async function saveUser(){
     UI.saving=true;UI.addErr="";render();
     try{
       const list=await withTimeout(CLOUD.listAll(),8000);
-      if(list.some(x=>x.id!==id&&!x.hidden&&x.cls===u.cls&&x.name.toLowerCase()===name.toLowerCase())){UI.saving=false;return err("Nama ini sudah ada dalam "+u.cls+". Tambah huruf atau nama lain, contoh: "+name+" A.")}
+      if(list.some(x=>x.id!==id&&!x.hidden&&x.cls===u.cls&&x.name.toLowerCase()===name.toLowerCase())){UI.saving=false;return err(name+" sudah ada dalam "+u.cls+". Kalau ini anak yang sama dari phone lain, tekan Batal dan guna \"🔑 Masuk profil dari phone lain\" dengan kod anak. Kalau murid lain, tambah huruf, contoh: "+name+" A.")}
       await withTimeout(CLOUD.putStudent(id,studentDoc(u,prog)),8000);
       await withTimeout(CLOUD.putState(id,JSON.stringify(prog)),8000);
     }catch(e){UI.saving=false;return err("Tak dapat simpan ke internet. Semak sambungan dan cuba lagi.")}
@@ -5585,10 +5589,11 @@ app.addEventListener("input",e=>{
 app.addEventListener("keydown",e=>{const g=e.target.closest&&e.target.closest("g[data-act]");if(g&&(e.key==="Enter"||e.key===" ")){e.preventDefault();g.dispatchEvent(new MouseEvent("click",{bubbles:true}))}});
 
 window.addEventListener("cloud-ready",()=>{if(UI.screen==="teacher"&&UI.tch&&!UI.tch.data){loadTch();return}if(UI.screen==="board"&&UI.board&&UI.board.err){loadBoard();render()}else if(["login","welcome","subjects","map","book","parent","result"].includes(UI.screen))render();if(USER&&USER.cloud)pullNewer()});
+let lastPull=0;document.addEventListener("visibilitychange",()=>{if(!document.hidden&&USER&&Date.now()-lastPull>15000){lastPull=Date.now();pullNewer();RANK.t=0;refreshRank()}});
 async function pullNewer(){
   if(!USER||!USER.cloud||!cloudOk())return;
   const id=USER.id;
-  try{const st=await withTimeout(CLOUD.getState(id),5000);if(st&&USER&&USER.id===id){const c=JSON.parse(st);if(c.v===2&&(c.ts||0)>(P.ts||0)){P=ST.prog[id]=normProg(c);setSubject(SUBJ);try{localStorage.setItem(KEY2,JSON.stringify(ST))}catch(e){}if(!["quiz","check","review","pin"].includes(UI.screen))render()}}}catch(e){}
+  try{const st=await withTimeout(CLOUD.getState(id),5000);if(st&&USER&&USER.id===id){const c=JSON.parse(st);if(c.v===2&&(c.ts||0)>(P.ts||0)){adoptCloud(id,c);if(!["quiz","check","review","pin"].includes(UI.screen))render()}}}catch(e){}
 }
 (function restore(){
   if(!noticeSeen())UI.notice=true;
